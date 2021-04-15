@@ -1,29 +1,31 @@
+from . import db
 import os
 
 from flask import Flask
 from flask_cors import CORS
-
-from . import auth
-
-# database
-from . import db
 
 
 # configuration
 DEBUG = True
 cors = CORS()
 
-# app init
+
+from . import auth  # noqa: E731
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'mgflask.sqlite')
+        DATABASE=os.path.join(app.instance_path, 'mgflask.sqlite'),
+        SESSION_COOKIE_HTTPONLY=True,
+        REMEMBER_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
     )
 
-    cors.init_app(app, resources={r'/*': {'origins': '*'}})
+    cors.init_app(app, resources={r'/*': {'origins': '*'}},
+                  expose_headers=["Content-Type", "X-CSRFToken"],
+                  supports_credentials=True)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
