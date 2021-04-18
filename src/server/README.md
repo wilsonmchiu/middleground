@@ -20,3 +20,25 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
 
 > flask run
 
+### Register new modulle
+ 
+ 1. Within the 
+ > __init__.py 
+  in the def create_app() import the module and call app.register_blueprint
+  For example, if you have a folder foo/ with bar.py
+  
+  __init__.py 
+  > from .foo import bar
+  > app.regiser_blueprint(foo.bp)
+  
+  2) In foo/bar.py add this line 
+  foo/bar.py
+  > bp = Blueprint('bar', __name__)
+  
+ 
+ ### Database
+ 
+ 1) To init or reset the database call within middleground/src/server/mgflask
+ 
+ > flask init-db
+ 
