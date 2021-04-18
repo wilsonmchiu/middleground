@@ -31,6 +31,7 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
   > from .foo import bar
   > 
   > def create_app():
+  > 
   > ...
   > 
   > app.regiser_blueprint(foo.bp)
