@@ -34,7 +34,7 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
   > 
   > ...
   > 
-  > app.regiser_blueprint(foo.bp)
+  > app.register_blueprint(foo.bp)
   > 
   > ...
   
