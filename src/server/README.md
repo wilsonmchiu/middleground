@@ -29,7 +29,13 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
   
   __init__.py 
   > from .foo import bar
+  > 
+  > def create_app():
+  > ...
+  > 
   > app.regiser_blueprint(foo.bp)
+  > 
+  > ...
   
   2) In foo/bar.py add this line 
 
