@@ -32,6 +32,8 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
   > app.regiser_blueprint(foo.bp)
   
   2) In foo/bar.py add this line 
+
+
   foo/bar.py
   > bp = Blueprint('bar', __name__)
   
