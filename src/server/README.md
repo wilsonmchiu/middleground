@@ -27,7 +27,7 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
   in the def create_app() import the module and call app.register_blueprint
   For example, if you have a folder foo/ with bar.py
   
-  \__init__.py 
+  \_\_init_\_.py 
   > from .foo import bar
   > 
   > def create_app():
@@ -42,7 +42,7 @@ First ensure you have 2 seperate terminals; one dedicated for the client and one
 
 
   foo/bar.py
-  > bp = Blueprint('bar', \__name__)
+  > bp = Blueprint('bar', \_\_name_\_)
   
  
  ### Database
