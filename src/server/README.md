@@ -17,7 +17,7 @@
     (env)$ pip install -r requirements.txt
     ```
 
-4. Start up flask enviornment with the following commands
+4. Start up flask environment with the following commands
 
     ```sh
     (env)$ export FLASK_APP=mgflask
