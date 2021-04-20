@@ -4,27 +4,27 @@
 
 1. First ensure you have 2 seperate terminals; one dedicated for the client and one the server.
 2. Navigate to the mgflask folder
->  cd middleground/src/server/mgflask
+
+    ```sh
+    $ cd middleground/src/server/mgflask
+    ```
 
 3. Create and activate Python Virtual Environment
 
->   python3 -m venv env
+    ```sh
+    $ python3 -m venv env
+    $ source env/bin/activate
+    (env)$ pip install -r requirements.txt
+    (env)$ python app.py
+    ```
 
->   source env/bin/activate
+4. Start up flask enviornment with the following commands
 
-4. Install the requirements
-
->   pip install -r requirements.txt
-
-5. Start up flask enviornment with the following commands
-
->   export FLASK_APP=mgflask
-
->   export FLASK_ENV=development
-
-6. Run the flask app
- 
->    flask run
+    ```sh
+    (env)$ export FLASK_APP=mgflask
+    (env)$ export FLASK_ENV=development
+    (env)$ flask run
+    ```
 
 ## Register new module
 
