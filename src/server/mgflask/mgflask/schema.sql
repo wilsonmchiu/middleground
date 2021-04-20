@@ -34,7 +34,8 @@ CREATE TABLE comment(
     right_bias INTEGER,
     left_bias INTEGER,
     content TEXT NOT NULL,
-    FOREIGN KEY(article_id) REFERENCES article(id)
+    FOREIGN KEY(article_id) REFERENCES article(id),
+    FOREIGN KEY(user) REFERENCES user(username)
 );
 
 CREATE TABLE article_rating(
