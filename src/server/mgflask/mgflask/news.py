@@ -8,7 +8,7 @@ from newsapi import NewsApiClient
 bp = Blueprint('news', __name__, url_prefix='/news')
 
 
-@bp.route('/asdf', methods=('GET', 'POST'))
+@bp.route('/asdf', methods=['GET'])
 def testNewsAPI():
     newsapi = NewsApiClient(api_key='983d4d9ce3dc4f3badda1a1171eb548d')
     top_headlines = newsapi.get_everything(q='bitcoin',
