@@ -1,3 +1,4 @@
+from . import news
 from . import db
 import os
 
@@ -44,5 +45,6 @@ def create_app(test_config=None):
     # REGISTER IN FACTORY
     # --------------------
     app.register_blueprint(auth.bp)
+    app.register_blueprint(news.bp)
 
     return app
