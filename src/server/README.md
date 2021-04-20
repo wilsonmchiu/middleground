@@ -9,6 +9,7 @@
 3. Create and activate Python Virtual Environment
 
 >   python3 -m venv env
+
 >   source env/bin/activate
 
 4. Install the requirements
