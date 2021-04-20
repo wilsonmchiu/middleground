@@ -38,6 +38,18 @@ CREATE TABLE comment(
     FOREIGN KEY(user) REFERENCES user(username)
 );
 
+CREATE TABLE reply(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    comment_id INTEGER NOT NULL,
+    date DATETIME,
+    user VARCHAR(60),
+    right_bias INTEGER,
+    left_bias INTEGER,
+    content TEXT NOT NULL,
+    FOREIGN KEY(article_id) REFERENCES article(id),
+    FOREIGN KEY(user) REFERENCES user(username)
+);
+
 CREATE TABLE article_rating(
     item_id NOT NULL,
     username VARCHAR(24) NOT NULL,
@@ -53,5 +65,14 @@ CREATE TABLE comment_rating(
     rated BOOLEAN,
     PRIMARY KEY(item_id, username),
     FOREIGN KEY(item_id) REFERENCES comment(id),
+    FOREIGN KEY(username) REFERENCES user(username)
+);
+
+CREATE TABLE reply_rating(
+    item_id NOT NULL,
+    username VARCHAR(24) NOT NULL,
+    rated BOOLEAN,
+    PRIMARY KEY(item_id, username),
+    FOREIGN KEY(item_id) REFERENCES reply(id),
     FOREIGN KEY(username) REFERENCES user(username)
 );
