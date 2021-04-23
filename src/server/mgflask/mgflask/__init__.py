@@ -1,6 +1,5 @@
 from . import news
 from . import db
-from . import newsapi
 import os
 
 from flask import Flask

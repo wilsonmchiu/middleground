@@ -58,6 +58,9 @@ def register():
     }
 
     if request.method == 'POST':
+        if not request.get_json() or not request.get_json()['username'] or not request.get_json()['password']:
+            response_object['msg'] = 'Missing username or password'
+            return jsonify(response_object)
         post_data = request.get_json()
         username = post_data['username']
         password = post_data['password']
@@ -97,6 +100,9 @@ def login():
     }
 
     if request.method == 'POST':
+        if not request.get_json() or not request.get_json()['username'] or not request.get_json()['password']:
+            response_object['msg'] = 'Missing username or password'
+            return jsonify(response_object)
         post_data = request.get_json()
         username = post_data['username']
         password = post_data['password']
