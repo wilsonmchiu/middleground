@@ -5,7 +5,6 @@ from flask import (
     request
 )
 from newsapi import NewsApiClient 
-import sys
 
 bp = Blueprint('news', __name__, url_prefix='/news')
 
@@ -59,3 +58,4 @@ def get_everything():
       topheadlines['message'] = str(e)
 
     return jsonify(topheadlines)
+    
