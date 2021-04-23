@@ -58,4 +58,3 @@ def get_everything():
       topheadlines['message'] = str(e)
 
     return jsonify(topheadlines)
-    
