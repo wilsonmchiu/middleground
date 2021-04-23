@@ -19,7 +19,7 @@ def get_headlines_from_all():
     topheadlines = {}
     try:
       api_key = get_api_key(request)
-      newsapi = NewsApiClient(api_key=api_keys[0])
+      newsapi = NewsApiClient(api_key=api_key)
       sources = ",".join(target_sources)
       topheadlines = newsapi.get_top_headlines(sources=sources)
     except (IndexError, ValueError)as e:
