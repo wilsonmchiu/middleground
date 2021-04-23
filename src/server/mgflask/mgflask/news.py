@@ -1,8 +1,7 @@
 from flask import (
     Blueprint,
     request,
-    jsonify,
-    request
+    jsonify
 )
 from newsapi import NewsApiClient 
 
