@@ -51,9 +51,10 @@ Steps to make a new page called with the url 'localhost:8080/boo'
 2) In __router.js__ :
 
 ```
-import Boo from './views/boo.vue'
+
 ...
 import Boo from './views/Register.vue'
+import Boo from './views/Boo.vue'
 
 Vue.use(Router)
 
@@ -73,17 +74,15 @@ export default new Router({
 			name: 'register',
 			component: Register
 		},
-    {
-      path: '/boo',
-      name: 'boo',
-      component: Boo
-    }
+		{
+		        path: '/boo',
+		        name: 'boo',
+		        component: Boo
+		 }
 
 	]
 
 })
-
-
 ```
 
 ## Project setup
