@@ -35,6 +35,8 @@ All your code should only be modifying the contents within client/src
 
 * __views/__ - Vue components that will act as pages in our website
 
+* __router.js__ - Home for all routes accessible from localhost
+
 ### Add a component 
 
 To make a componenet namded __foo__ you would make a foo.vue file in the src/components folder.
