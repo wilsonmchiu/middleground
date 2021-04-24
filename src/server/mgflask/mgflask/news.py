@@ -9,7 +9,8 @@ bp = Blueprint('news', __name__, url_prefix='/news')
 
 api_keys = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
 target_sources = ["bbc-news", "fox-news", "the-wall-street-journal", "national-review", "the-huffington-post", "the-hill", "cnn"]
-accepted_params= [ 'sources','qintitle','q','domains','excludeDomains', 'from', 'to', 'language', 'sortBy', 'page', 'pageSize']
+accepted_params= [ 'sources','qintitle','q','domains','excludeDomains', 'from', 'to', 'language', 'sortBy']
+accepted_params_int = ['page','pageSize']
 api_key_index_param = 'api_key_index'
 
 
@@ -53,6 +54,8 @@ def get_everything():
     for arg in request.args:
       if arg in accepted_params:
         request_params[arg] = request.args.get(arg)
+      if arg in accepted_params_int:
+         request_params[arg] = int(request.args.get(arg))
     try:
       api_key = get_api_key(request)
       newsapi = NewsApiClient(api_key=api_key)
