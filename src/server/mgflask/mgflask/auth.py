@@ -4,21 +4,12 @@ from flask import (
     jsonify
 )
 
-from flask_login import (
-    UserMixin,
-)
-
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_wtf.csrf import generate_csrf
+from uuid import uuid4
 
 from mgflask.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
-class User(UserMixin):
-    ...
-
 
 """
 @bp.route("/getcsrf", methods=["GET"])
@@ -117,7 +108,7 @@ def login():
         if not error:
             response_object['msg'] = "Login Successful"
             response_object['auth'] = "success"
-            response_object['token'] = generate_csrf()
+            response_object['token'] = uuid4()
 
     return jsonify(response_object)
 
