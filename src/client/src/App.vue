@@ -1,5 +1,4 @@
 <template>
-
   <v-app>
     <v-app-bar
       app
@@ -27,14 +26,15 @@
       </div>
 
       <v-spacer></v-spacer>
-       <v-btn
-        @click="logout"
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
       >
-        <span v-if="isAuthenticated"  class="mr-2">{{ username }}</span>
-        <span v-else class="mr-2">Login</span>
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-  
-      
     </v-app-bar>
 
     <v-main>
@@ -47,23 +47,9 @@
 
 export default {
   name: 'App',
-  data() {
-    return {
-      isAuthenticated : this.$session.exists(),
-      username: this.$session.get('username')
-    };
-  },
-  methods:{
-    logout(){
-      if(this.isAuthenticated){
-        this.$session.destroy();
-        this.isAuthenticated = false;
-      } else {
-        this.$router.push(`/login`);
-      }
-    },
-    goToLogin(){
-    }
-  },
+
+  data: () => ({
+    //
+  }),
 };
 </script>
