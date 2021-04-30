@@ -1,20 +1,29 @@
 <template>
-  <GalleryBox :title="aTitle" :imgLink="imgLink" > </GalleryBox>
+  <v-container>
+  <!---<GalleryBox :title="aTitle" :imgLink="imgLink" > </GalleryBox>-->
+  <gallery-row></gallery-row>
+  </v-container>
 </template>
 
 <script>
-  import GalleryBox from "../components/GalleryBox"
+  //import GalleryBox from "../components/GalleryBox"
+import GalleryRow from '../components/GalleryRow.vue';
+
 
   export default {
     name: 'Home',
 
     components: {
-      GalleryBox,
+      'gallery-row': GalleryRow
     },
 
     data() {
       return {
-        aTitle: "ww",
+        items: [
+          {title: "ww",},
+          {imgLink: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"}
+        ],
+        aTitle: "Title",
         imgLink: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
       };
     },
