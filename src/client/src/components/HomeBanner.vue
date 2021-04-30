@@ -14,7 +14,7 @@
             </h1>
             <br/>
             <p class="banner-text">
-               {{ content }}
+               {{ desc }}
             </p>
         </v-col>
       </v-row>
@@ -37,7 +37,7 @@
 <script>
   export default {
     name: 'HomeBanner',
-    props: ['img_src', 'title', 'content'],
+    props: ['img_src', 'title', 'desc'],
     data: () => ({
       //
     })
