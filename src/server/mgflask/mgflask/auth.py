@@ -34,19 +34,20 @@ def get_user(id):
         return None
 
 
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/register', methods=['POST'])
 def register():
     response_object = {
         "insert_status": "success",
         "msg": "registration successful",
     }
 
-    if request.method == 'POST':
+    error = False
+
+    try:
         post_data = request.get_json()
         username = post_data['username']
         password = post_data['password']
 
-        error = False
         user_found = get_user(username)
         if not username:
             response_object['insert_status'] = "fail"
@@ -60,29 +61,33 @@ def register():
             response_object['insert_status'] = "fail"
             response_object['msg'] = "User already registered"
             error = True
+    except Exception as e:
+        response_object['msg'] = "Registration Unsuccessful. Check Exceptions."
+        response_object['exception'] = str(e)
+        error = True
 
-        if not error:
-            newUser = User(username=username,
-                           password=generate_password_hash(password))
-            db_session.add(newUser)
-            db_session.commit()
+    if not error:
+        newUser = User(username=username,
+                       password=generate_password_hash(password))
+        db_session.add(newUser)
+        db_session.commit()
 
     return jsonify(response_object)
 
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=['POST'])
 def login():
     response_object = {
         "status": "success",
         "auth": "fail"
     }
 
-    if request.method == 'POST':
+    error = False
+
+    try:
         post_data = request.get_json()
         username = post_data['username']
         password = post_data['password']
-
-        error = False
         user = get_user(username)
         if user is None:
             response_object['msg'] = 'Incorrect username.'
@@ -90,11 +95,15 @@ def login():
         elif not check_password_hash(user.password, password):
             response_object['msg'] = 'Incorrect password.'
             error = True
+    except Exception as e:
+        response_object['msg'] = "Login Unsuccessful. Check Exceptions."
+        response_object['exception'] = str(e)
+        error = True
 
-        # proper auth
-        if not error:
-            response_object['msg'] = "Login Successful"
-            response_object['auth'] = "success"
-            response_object['token'] = generate_csrf()
+    # proper auth
+    if not error:
+        response_object['msg'] = "Login Successful"
+        response_object['auth'] = "success"
+        response_object['token'] = generate_csrf()
 
     return jsonify(response_object)
