@@ -4,18 +4,13 @@ from flask import (
     jsonify
 )
 
-from flask_login import (
-    UserMixin,
-)
-
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_wtf.csrf import generate_csrf
+from uuid import uuid4
 
 from mgflask.db import db_session
 from mgflask.models import User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
 
 @bp.route('/test_users', methods=('GET', 'POST'))
 def test_users():
@@ -32,7 +27,6 @@ def get_user(id):
         return user
     except:
         return None
-
 
 @bp.route('/register', methods=['POST'])
 def register():
@@ -100,7 +94,6 @@ def login():
         response_object['exception'] = str(e)
         error = True
 
-    # proper auth
     if not error:
         response_object['msg'] = "Login Successful"
         response_object['auth'] = "success"

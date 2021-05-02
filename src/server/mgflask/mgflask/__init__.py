@@ -1,4 +1,4 @@
-from . import news
+# from . import news
 from . import db
 from . import test_db
 import os
@@ -55,4 +55,5 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(news.bp)
     app.register_blueprint(test_db.bp)
+
     return app
