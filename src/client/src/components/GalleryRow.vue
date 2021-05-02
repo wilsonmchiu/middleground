@@ -1,8 +1,10 @@
 <!-- GalleryRow.vue -->
 <template>
   <v-container>
+
+    <h1 style=font-size:300%;font-family:Courier New>{{ header }}</h1>
   
-     <v-carousel hide-delimiters> 
+     <v-carousel hide-delimiters height="300px"> 
         <template v-for="(item, index) in imgLinks"> 
           <v-carousel-item v-if="(index + 1) % columns === 1 || columns === 1" 
            :key="index"
@@ -13,7 +15,7 @@
                   <v-col :key="i"> 
 
                     <gallery-box v-if="(+index + i) < imgLinks.length"
-                    :title="titles[i]" :imgLink="imgLinks[+index + i]">
+                    :title="titles[+index + i]" :imgLink="imgLinks[+index + i]" :url="urls[+index + i]">
                       <v-row class="fill-height"
                        align="center"
                        justify="center"
@@ -35,54 +37,29 @@
 <script>
   import GalleryBox from "./GalleryBox.vue"
 
+
   export default {
+    props: ["header", "imgLinks", "titles", "urls"],
     components: {
       'gallery-box': GalleryBox
     },
-    data(){
-    return {
-      imgLinks: [
-        'https://picsum.photos/id/11/500/300',
-        'https://picsum.photos/id/12/500/300',
-        'https://picsum.photos/id/13/500/300',
-        'https://picsum.photos/id/14/500/300',
-        'https://picsum.photos/id/15/500/300',
-        'https://picsum.photos/id/16/500/300',
-        'https://picsum.photos/id/17/500/300',
-        'https://picsum.photos/id/18/500/300',
-        'https://picsum.photos/id/19/500/300',
-        'https://picsum.photos/id/20/500/300',
-      ],
-      titles: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
-        ],
+
+    computed: {
+      columns() {
+        if (this.$vuetify.breakpoint.xl) {
+          return 4;
+        }
+
+        if (this.$vuetify.breakpoint.lg) {
+          return 3;
+        }
+
+        if (this.$vuetify.breakpoint.md) {
+          return 2;
+        }
+
+        return 1;
+      }
     }
-  },
-  computed: {
-    columns() {
-      if (this.$vuetify.breakpoint.xl) {
-        return 4;
-      }
-
-      if (this.$vuetify.breakpoint.lg) {
-        return 3;
-      }
-
-      if (this.$vuetify.breakpoint.md) {
-        return 2;
-      }
-
-      return 1;
-    }
-  },
   };
 </script>
