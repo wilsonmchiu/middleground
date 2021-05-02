@@ -1,5 +1,6 @@
 # from . import news
 from . import db
+from . import news
 from . import test_db
 import os
 
