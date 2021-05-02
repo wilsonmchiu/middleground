@@ -37,7 +37,6 @@
 <script>
   import GalleryBox from "./GalleryBox.vue"
 
-
   export default {
     props: ["header", "imgLinks", "titles", "urls"],
     components: {
