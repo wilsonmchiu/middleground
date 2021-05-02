@@ -9,6 +9,7 @@ Flask-Cors==3.0.7
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.11.3
+newsapi-python==0.2.6
 MarkupSafe==1.1.1
 pycparser==2.20
 PyJWT==1.7.1

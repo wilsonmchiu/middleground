@@ -24,7 +24,7 @@ def get_headlines_from_all():
     request_params = {}
     request_params['language']='en'   #Englsih by default
     request_params['page_size']= 100
-    if not request_params['sources'] and not request_params['category'] and not request_params['country']:    #country and category cannot coexist with sources
+    if 'sources' not in request_params and 'category' not in request_params and not 'country' not in request_params: #country and category cannot coexist with sources
       request_params['sources']=','.join(target_sources)   #target sources by default
     for arg in request.args:
       if arg in headlines_params:
