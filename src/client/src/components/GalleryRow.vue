@@ -11,9 +11,7 @@
               <template v-for="(n,i) in columns"> 
                 <template v-if="(+index + i) < imgLinks.length"> 
                   <v-col :key="i"> 
-                    <v-sheet v-if="(+index + i) < imgLinks.length" 
-                     :color="imgLinks[+index + i]" height="100%"
-                    >
+
                     <gallery-box v-if="(+index + i) < imgLinks.length"
                     :title="titles[i]" :imgLink="imgLinks[+index + i]">
                       <v-row class="fill-height"
@@ -23,7 +21,7 @@
                         <div class="display-3">{{+index + i + 1}}</div>
                       </v-row>
                     </gallery-box>
-                    </v-sheet>
+                    
                   </v-col> 
                 </template> 
               </template> 
@@ -35,9 +33,12 @@
 </template>
 
 <script>
-  
+  import GalleryBox from "./GalleryBox.vue"
 
   export default {
+    components: {
+      'gallery-box': GalleryBox
+    },
     data(){
     return {
       imgLinks: [
@@ -46,8 +47,18 @@
         'https://picsum.photos/id/13/500/300',
         'https://picsum.photos/id/14/500/300',
         'https://picsum.photos/id/15/500/300',
+        'https://picsum.photos/id/16/500/300',
+        'https://picsum.photos/id/17/500/300',
+        'https://picsum.photos/id/18/500/300',
+        'https://picsum.photos/id/19/500/300',
+        'https://picsum.photos/id/20/500/300',
       ],
       titles: [
+          'First',
+          'Second',
+          'Third',
+          'Fourth',
+          'Fifth',
           'First',
           'Second',
           'Third',

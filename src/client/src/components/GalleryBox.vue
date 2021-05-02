@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card
+    <v-sheet
       class="mx-auto"
       max-width="300"
       @click="onClick"
@@ -14,7 +14,7 @@
         <v-card-title>{{ title }}</v-card-title>
       </v-img>
 
-    </v-card>
+    </v-sheet>
   </v-hover>
 </template>
 
