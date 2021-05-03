@@ -1,45 +1,28 @@
-import sqlite3
-
-import click
-from flask import current_app, g
+from flask import Flask
 from flask.cli import with_appcontext
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import event
 
-# 'Database init'
-
-
-def init_app(app):
-    app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
-
-
-def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
-
-    return g.db
+engine = create_engine('sqlite:///mgflask.db', convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
 
 
-def close_db(e=None):
-    db = g.pop('db', None)
+# enables foreign key constraints for SQLite
+def _fk_pragma_on_connect(dbapi_con, con_record):
+    dbapi_con.execute('pragma foreign_keys=ON')
 
-    if db is not None:
-        db.close()
+
+event.listen(engine, 'connect', _fk_pragma_on_connect)
+
+Base = declarative_base()
+Base.query = db_session.query_property()
 
 
 def init_db():
-    db = get_db()
-
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
-
-
-@click.command('init-db')
-@with_appcontext
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
+    import mgflask.models
+    Base.metadata.create_all(bind=engine)
+    print('Created the database structure')
