@@ -10,3 +10,4 @@ include/
 lib/
 pyvenv.cfg
 var/
+src/server/mgflask/env

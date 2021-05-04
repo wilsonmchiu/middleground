@@ -1,27 +1,31 @@
 <template>
   <v-container>
+  <home-banner :img_src="banner_img_src" :title="banner_title" :desc="banner_desc"/>
    <gallery-row :header="header" :articles="articles"></gallery-row>
-   <gallery-row :header="header" :articles="articles"></gallery-row>
-   <gallery-row :header="header" :articles="articles"></gallery-row>
-   
+   <gallery-row :header="header2" :articles="articles"></gallery-row>
+
   </v-container>
 </template>
 
 <script>
- import GalleryRow from '../components/GalleryRow.vue';
+ import GalleryRow from '../components/GalleryRow';
+import HomeBanner from '../components/HomeBanner'
 
 
   export default {
     name: 'Home',
 
-    components: {
-      'gallery-row': GalleryRow
-    },
+    data:() => ({
+      /*Banner Fields*/
+      banner_img_src: "https://i0.wp.com/johnnyalucard.com/wp-content/uploads/2020/04/shrek.jpg",
+      banner_title: "Top story",
+      banner_desc: "hahahah",
 
-    data() {
-      return {
-        header: "Featured",
-        articles: [
+      /*Gallery Row Fields Start*/
+      header: "Header 1",
+      header2: "Header 2",
+      articles: [
+          //#TODO to be loaded from the database
           {imgLink:'https://picsum.photos/id/11/500/300', title: "Title 1", url: "register/" },
           {imgLink:'https://picsum.photos/id/12/500/300', title: "Title 2", url: "#" },
           {imgLink:'https://picsum.photos/id/13/500/300', title: "Title 3", url: "#" },
@@ -35,7 +39,11 @@
           {imgLink:'https://picsum.photos/id/21/500/300', title: "Title 11", url: "#" },
           {imgLink:'https://picsum.photos/id/22/500/300', title: "Title 12", url: "#" },
         ],
-      };
+    }),
+
+    components: {
+      'gallery-row': GalleryRow,
+       'home-banner':HomeBanner,
     },
     methods: {
       getLists(){
@@ -50,6 +58,9 @@
       }
     },
     beforeMount(){
+      /*#TODO 
+        1) Load lists into data "articles" field
+      */ 
     }
   }
 </script>
