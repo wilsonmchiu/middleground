@@ -29,7 +29,7 @@ class User(Base):
 class Article(Base):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
-    date_written = Column(DateTime)
+    publishedAt = Column(DateTime)
     author = Column(String(60))
     source = Column(String(24), nullable=False)
     title = Column(String(60), nullable=False)
