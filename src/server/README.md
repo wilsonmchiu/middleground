@@ -16,6 +16,7 @@
     $ source env/bin/activate
     (env)$ pip install -r requirements.txt
     ```
+    
 
 4. Start up flask environment with the following commands
 
@@ -24,7 +25,12 @@
     (env)$ export FLASK_ENV=development
     (env)$ flask run
     ```
-
+    Windows: 
+    ```
+    (env)C:\ ... \MiddleGround\middleground\src\server\mgflask > set FLASK_APP=mgflask
+    (env)C:\ ... \MiddleGround\middleground\src\server\mgflask > set FLASK_ENV=development
+    (env)C:\ ... \MiddleGround\middleground\src\server\mgflask > flask run
+    ```
 ## Register new module
 
  1.   Within the init.py in the def create_app() import the module and call app.register_blueprint. 

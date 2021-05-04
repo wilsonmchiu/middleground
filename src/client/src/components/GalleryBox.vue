@@ -1,30 +1,28 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card
+    <v-sheet
       class="mx-auto"
-      max-width="400"
-      @click="onClick"
+      @click="goArticle"
       :elevation="hover ? 24 : 0"
     >
       <v-img
         class="white--text align-end"
-        height="200px"
         :src="imgLink"
+        gradient="to bottom, rgba(255,255,255,0) 60%, rgba(0,0,0,1)"
       >
         <v-card-title>{{ title }}</v-card-title>
       </v-img>
 
-    </v-card>
+    </v-sheet>
   </v-hover>
 </template>
 
 <script>
 export default {
-  props: ["title", "imgLink"],
-
+  props: ["title", "imgLink", "url"],
   methods: {
-    onClick() {
-      this.$router.push("/register")
+    goArticle() {
+      this.$router.push(this.url)
     },
   },
 };
