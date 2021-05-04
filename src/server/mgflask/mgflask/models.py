@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from mgflask.db import Base
+from datetime import datetime
 
 
 class User(Base):
@@ -47,7 +48,7 @@ class Article(Base):
         """Return object data in easily serializeable format"""
         return {
             'id': self.id,
-            'date_written': self.date_written,
+            'publishedAt': self.publishedAt.strftime("%m/%d/%Y, %H:%M:%S"),
             'author': self.author,
             'source': self.source,
             'title': self.title,
@@ -57,8 +58,8 @@ class Article(Base):
             'description': self.description,
             'url': self.url,
             'urlToImage': self.urlToImage,
-            'comments': str(self.comments),
-            'article_ratings': str(self.article_ratings)
+            'comment_ids': [comment.id for comment in self.comments],
+            'article_rating_ids': [rating.item_id for rating in self.article_ratings],
         }
 
 

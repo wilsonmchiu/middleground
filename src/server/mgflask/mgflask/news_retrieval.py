@@ -1,6 +1,6 @@
 from newsapi import NewsApiClient 
 from mgflask.db import db_session
-from mgflask.models import User, Article, Comment, Reply, ArticleRating, CommentRating, ReplyRating
+from mgflask.models import Article
 from datetime import datetime
 
 api_keys = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
@@ -64,8 +64,9 @@ def insert_articles(newsapi_articles):
     if article['source']['id']:    #source id could be None 
       article['source'] = article['source']['id']          
     else:                           #use source name as backup
-      article['source'] = article['source']['name']        
-    article['publishedAt'] = datetime.strptime(article['publishedAt'][:19], '%Y-%m-%dT%H:%M:%S')     #remove redundant digits and convert to datetime object
+      article['source'] = article['source']['name']
+    #remove redundant digits and convert to a datetime object        
+    article['publishedAt'] = datetime.strptime(article['publishedAt'][:19], '%Y-%m-%dT%H:%M:%S')     
     db_article = Article(**article)
     db_session.add(db_article)
     count+=1

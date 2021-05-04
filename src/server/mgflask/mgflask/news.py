@@ -4,74 +4,62 @@ from flask import (
     jsonify
 )
 from newsapi import NewsApiClient 
+from datetime import datetime
+from mgflask.db import db_session
+from mgflask.models import Article
+from sqlalchemy import and_, or_
 
 bp = Blueprint('news', __name__, url_prefix='/news')
 
-api_keys = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
-target_sources = ["bbc-news", "fox-news", "the-wall-street-journal", "national-review", "the-huffington-post", "the-hill", "cnn"]
+# Query parameters should be sent in json format in request body. Accepted parameters are values are defined below.
+# Each query parameter can contain a single or a list of accepted values. 
 
-# documentation on parameters: https://newsapi.org/docs/endpoints/top-headlines
-everything_params= [ 'sources','qintitle','q','domains','exclude_domains', 'from', 'to', 'language', 'sortBy']
-headlines_params= [ 'sources','qintitle','q', 'country', 'category', 'language']
-page_params = ['page','page_size'] 
-api_key_index_param = 'api_key_index'
+# these columns are defined in model.py to match news.api parameters: https://newsapi.org/docs/endpoints/top-headlines
+# exact_columns need to match exactly
+exact_columns= [ 'id', 'author', 'source', 'url', 'urlToImage']
+# fuzzy_columns uses the LIKE operator to partically match
+fuzzy_columns = ['title', 'content', 'description']
+# for range columns the first two values will be interpreted as the lower and upper bouond and the rest discarded (if only one value then it will be the lower bound) 
+range_columns = ['leftBias', 'right-Bias', 'publishedAt']
+# query on comments and article_ratings not yet implemented
 
-
-#get headlines from all target sources
-@bp.route('/headlines', methods=['GET'])
-def get_headlines_from_all():
-    topheadlines = {}
-    request_params = {}
-    request_params['language']='en'   #English by default
-    request_params['page_size']= 100
-    if 'sources' not in request.args and 'category' not in request.args and not 'country' not in request.args: #country and category cannot coexist with sources
-      request_params['sources']=','.join(target_sources)   #target sources by default
-    for arg in request.args:
-      if arg in headlines_params:
-        request_params[arg] = request.args.get(arg)
-      if arg in page_params:
-         request_params[arg] = int(request.args.get(arg))
-    try:
-      api_key = get_api_key(request)
-      newsapi = NewsApiClient(api_key=api_key)
-      topheadlines = newsapi.get_top_headlines(**request_params)
-    except (IndexError, ValueError)as e:
-      topheadlines['status'] = 'error'
-      topheadlines['message'] = str(e)
-
-    return jsonify(topheadlines)
-
+# upper limit on the number of to return
+limit_articles_param = 'limit_articles'
 
 #search among all articles
 @bp.route('/', methods=['GET'])
-def get_everything():
-    topheadlines = {}
-    request_params = {}
-    request_params['language']='en'   #Englsih by default
-    request_params['sources']=','.join(target_sources)   #target sources by default
-    for arg in request.args:
-      if arg in everything_params:
-        request_params[arg] = request.args.get(arg)
-      if arg in page_params:
-         request_params[arg] = int(request.args.get(arg))
-    try:
-      api_key = get_api_key(request)
-      newsapi = NewsApiClient(api_key=api_key)
-      topheadlines = newsapi.get_everything(**request_params)
-    except (IndexError, ValueError) as e:
-      topheadlines['status'] = 'error'
-      topheadlines['message'] = str(e)
+def get_articles():
+    params = request.json
+    filters = []
 
-    return jsonify(topheadlines)
+    for col in Article.__table__.columns:
+      param = params.get(col.key)
+      if col.key in exact_columns and param:
+        if isinstance(param, list):
+          filters.append(col.in_(param))
+        else:
+          filters.append( col==param )
+      elif col.key in fuzzy_columns and param:
+        if isinstance(param, list):
+          fuzzy_filters = [col.ilike("%"+each+"%") for each in param]
+          filters.append(or_(*fuzzy_filters))
+        else:
+          filters.append(col.ilike("%"+param+"%"))
+      elif col.key in range_columns and param:
+        if isinstance(param, list):
+          if len(param)>=2:
+            filters.append(col.between(param[0], param[1]))
+          else:
+            filters.append(col>= param[0])
+        else:
+           filters.append(col>= param)
 
-# 0 by default, raises IndexError if out of range, raises ValueError if index cannot be converted to int
-def get_api_key(request):
-  index_str =  request.args.get(api_key_index_param)
-  if index_str:
-    index = int(index_str)
-    if index < 0 or index >= len(api_keys):
-      raise IndexError(f"{api_key_index_param} {index} is out of range");
-    else:
-      return api_keys[index]
-  else:
-      return api_keys[0]
+    articles = db_session.query(Article).filter(and_(*filters))
+
+    limit = params.get(limit_articles_param)
+    if limit:
+      articles = articles[:limit]
+
+    return jsonify({"articles":[article.serialize for article in articles]})
+
+
