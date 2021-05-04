@@ -32,33 +32,34 @@ def get_articles():
     params = request.json
     filters = []
 
-    for col in Article.__table__.columns:
-      param = params.get(col.key)
-      if col.key in exact_columns and param:
-        if isinstance(param, list):
-          filters.append(col.in_(param))
-        else:
-          filters.append( col==param )
-      elif col.key in fuzzy_columns and param:
-        if isinstance(param, list):
-          fuzzy_filters = [col.ilike("%"+each+"%") for each in param]
-          filters.append(or_(*fuzzy_filters))
-        else:
-          filters.append(col.ilike("%"+param+"%"))
-      elif col.key in range_columns and param:
-        if isinstance(param, list):
-          if len(param)>=2:
-            filters.append(col.between(param[0], param[1]))
+    if params: 
+      for col in Article.__table__.columns:
+        param = params.get(col.key)
+        if col.key in exact_columns and param:
+          if isinstance(param, list):
+            filters.append(col.in_(param))
           else:
-            filters.append(col>= param[0])
-        else:
-           filters.append(col>= param)
+            filters.append( col==param )
+        elif col.key in fuzzy_columns and param:
+          if isinstance(param, list):
+            fuzzy_filters = [col.ilike("%"+each+"%") for each in param]
+            filters.append(or_(*fuzzy_filters))
+          else:
+            filters.append(col.ilike("%"+param+"%"))
+        elif col.key in range_columns and param:
+          if isinstance(param, list):
+            if len(param)>=2:
+              filters.append(col.between(param[0], param[1]))
+            else:
+              filters.append(col>= param[0])
+          else:
+             filters.append(col>= param)
+
 
     articles = db_session.query(Article).filter(and_(*filters))
 
-    limit = params.get(limit_articles_param)
-    if limit:
-      articles = articles[:limit]
+    if params and params.get(limit_articles_param):
+      articles = articles[:params.get(limit_articles_param)]
 
     return jsonify({"articles":[article.serialize for article in articles]})
 
