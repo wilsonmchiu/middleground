@@ -38,11 +38,19 @@
   import GalleryBox from "./GalleryBox.vue"
 
   export default {
-    props: ["header", "imgLinks", "titles", "urls"],
+    props: ["header", "articles"],
     components: {
       'gallery-box': GalleryBox
     },
-
+    data() {
+      return {
+        imgLinks: [],
+        titles: [],
+        urls: [],
+      }
+    },
+    methods:{
+    },
     computed: {
       columns() {
         if (this.$vuetify.breakpoint.xl) {
@@ -59,6 +67,14 @@
 
         return 1;
       }
+    },
+     mounted(){
+      for( const article of this.articles){
+        this.imgLinks.push(article["imgLink"])
+        this.titles.push(article["title"])
+        this.urls.push(article["url"])
+      }
+    
     }
   };
 </script>
