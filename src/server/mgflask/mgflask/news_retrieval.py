@@ -4,6 +4,7 @@ from mgflask.models import Article
 from datetime import datetime
 
 API_KEYS = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
+KEY_INDEX_PARAM = "api_key_index"
 TARGET_SOURCES = ["bbc-news", "fox-news", "the-wall-street-journal", "national-review", "the-huffington-post", "the-hill", "cnn"]
 # documentation on newsapi parameters: https://newsapi.org/docs/endpoints/top-headlines 
 # newsapi-python implementation: https://github.com/mattlisiv/newsapi-python/blob/master/newsapi/newsapi_client.py
@@ -75,8 +76,8 @@ def insert_articles(newsapi_articles):
   print(str(count), " articles inserted into database")
 
 def get_api_key(args): 
-  if isinstance(args, dict) and 'api_key_index' in args:
-    index = int(args['api_key_index'])
+  if isinstance(args, dict) and KEY_INDEX_PARAM in args:
+    index = int(args[KEY_INDEX_PARAM])
     if index < 0 or index >= len(API_KEYS):
       raise IndexError(f"{api_key_index_param} {index} is out of range");
     else:
