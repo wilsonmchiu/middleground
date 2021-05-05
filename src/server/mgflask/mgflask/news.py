@@ -19,7 +19,7 @@ bp = Blueprint('news', __name__, url_prefix='/news')
 EXACT_COLUMNS= [ 'id', 'author', 'source', 'url', 'urlToImage']
 # fuzzy_columns uses the LIKE operator to partically match
 FUZZY_COLUMNS = ['title', 'content', 'description']
-# for range columns the first two values will be interpreted as the lower and upper bouond and the rest discarded (if only one value then it will be the lower bound) 
+# for range columns the first two values will be interpreted as the lower and upper bouond and the rest discarded (if only one value then it will an exact match) 
 RANGE_COLUMNS = ['leftBias', 'right-Bias', 'publishedAt']
 # query on comments and article_ratings not yet implemented
 
@@ -51,9 +51,9 @@ def get_articles():
             if len(param)>=2:
               filters.append(col.between(param[0], param[1]))
             else:
-              filters.append(col>= param[0])
+              filters.append(col== param[0])
           else:
-             filters.append(col>= param)
+             filters.append(col== param)
 
 
     articles = db_session.query(Article).filter(and_(*filters))
