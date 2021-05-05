@@ -78,6 +78,7 @@ class Article(Base):
             'url': self.url,
             'urlToImage': self.urlToImage,
             'comments': [comment.serialize_response for comment in self.comments],
+            'article_ratings': [rating.serialize_response for rating in self.article_ratings],
         }
 
 
@@ -122,6 +123,7 @@ class Comment(Base):
             'right_bias': self.right_bias,
             'left_bias': self.left_bias,
             'content': self.content,
+            'comment_ratings': [rating.serialize_response for rating in self.comment_ratings],
         }
 
 class Reply(Base):
@@ -175,6 +177,14 @@ class ArticleRating(Base):
             'article': str(self.article),
         }
 
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'username': self.username,
+            'rated': self.rated,
+        }
+
 
 class CommentRating(Base):
     __tablename__ = 'comment_rating'
@@ -185,6 +195,14 @@ class CommentRating(Base):
     user = relationship('User')
     rated = Column(Boolean, default=False)
     comment = relationship('Comment')
+
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'username': self.username,
+            'rated': self.rated,
+        }
 
     @property
     def serialize(self):
