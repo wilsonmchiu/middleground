@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from mgflask.db import db_session
 from mgflask.models import Article
 from sqlalchemy import and_, or_
+from sqlalchemy.sql import func
 
 bp = Blueprint('news', __name__, url_prefix='/news')
 
@@ -61,9 +62,9 @@ def get_articles():
             if len(param)>=2:
               filters.append(col.between(param[0], param[1]))
             else:
-              filters.append(col.between(param[0], increment_day_str(param[0])))
+              filters.append(col.between(param[0], func.date(param[0], '+1 day')))
           else:
-             filters.append(col.between(param, increment_day_str(param)))
+             filters.append(col.between(param, func.date(param, '+1 day')))
 
 
     articles = db_session.query(Article).filter(and_(*filters))
@@ -72,20 +73,4 @@ def get_articles():
       articles = articles[:params.get(LIMIT_ARTICLE_PARAM)]
 
     return jsonify({"articles":[article.serialize_response for article in articles]})
-
-
-#only supports two formats, %Y-%m-%d %H:%M:%S and %Y-%m-%d
-def increment_day_str(date_str):
-  try:
-    format = '%Y-%m-%d %H:%M:%S'
-    date_time_obj = datetime.strptime(date_str, format)
-  except ValueError:
-    try: 
-      format = '%Y-%m-%d'
-      date_time_obj = datetime.strptime(date_str, format)
-    except ValueError:
-      print("parse date failed")
-      return date_str  
-  date_time_obj += timedelta(days=1)
-  return date_time_obj.strftime(format)
 
