@@ -3,12 +3,12 @@ from mgflask.db import db_session
 from mgflask.models import Article
 from datetime import datetime
 
-api_keys = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
-target_sources = ["bbc-news", "fox-news", "the-wall-street-journal", "national-review", "the-huffington-post", "the-hill", "cnn"]
+API_KEYS = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
+TARGET_SOURCES = ["bbc-news", "fox-news", "the-wall-street-journal", "national-review", "the-huffington-post", "the-hill", "cnn"]
 # documentation on newsapi parameters: https://newsapi.org/docs/endpoints/top-headlines 
 # newsapi-python implementation: https://github.com/mattlisiv/newsapi-python/blob/master/newsapi/newsapi_client.py
-everything_params= [ 'sources','qintitle','q','domains','exclude_domains', 'from_param', 'to', 'language', 'sortBy', 'page','page_size']
-headlines_params= [ 'sources','qintitle','q', 'country', 'category', 'language', 'page','page_size']
+EVERYTHING_PARAMS= [ 'sources','qintitle','q','domains','exclude_domains', 'from_param', 'to', 'language', 'sortBy', 'page','page_size']
+HEADLINES_PARAMS= [ 'sources','qintitle','q', 'country', 'category', 'language', 'page','page_size']
 
 
 def get_headlines(**args):
@@ -16,9 +16,9 @@ def get_headlines(**args):
     request_params['language']='en'   #English by default
     request_params['page_size']= 100
     if 'sources' not in args and 'category' not in args and not 'country' not in args: #country and category cannot coexist with sources
-      request_params['sources']=','.join(target_sources)   #target sources by default
+      request_params['sources']=','.join(TARGET_SOURCES)   #target sources by default
     for key in args:
-      if key in headlines_params:
+      if key in HEADLINES_PARAMS:
         request_params[key] = args[key]
 
     try:
@@ -37,9 +37,9 @@ def get_headlines(**args):
 def get_everything(**args):
     request_params = {}
     request_params['language']='en'   #English by default
-    request_params['sources']=','.join(target_sources)   #target sources by default
+    request_params['sources']=','.join(TARGET_SOURCES)   #target sources by default
     for key in args:
-      if key in everything_params:
+      if key in EVERYTHING_PARAMS:
         request_params[key] = args[key]
 
     try:
@@ -77,9 +77,9 @@ def insert_articles(newsapi_articles):
 def get_api_key(args): 
   if isinstance(args, dict) and 'api_key_index' in args:
     index = int(args['api_key_index'])
-    if index < 0 or index >= len(api_keys):
+    if index < 0 or index >= len(API_KEYS):
       raise IndexError(f"{api_key_index_param} {index} is out of range");
     else:
-      return api_keys[index]
+      return API_KEYS[index]
   else:
-      return api_keys[0]
+      return API_KEYS[0]
