@@ -16,19 +16,19 @@ def test_endpoint():
 		print("title: ", article['title'])
 		print("publishedAt: ", article['publishedAt'])
 
-	response = requests.get(baseUrl, json={'source': "cnn", 'title': "covid", 'publishedAt': '2021-04-03', 'limit_articles':5})
+	response = requests.get(baseUrl, json={'source': "cnn", 'title': "opinion", 'publishedAt': '2021-04-25 12:04:49.000000', 'limit_articles':5})
 	print("----------------test2 single parameters----------------")
 	for article in response.json()['articles']:
 		print("source: ", article['source'])
 		print("title: ", article['title'])
 		print("publishedAt: ", article['publishedAt'])
 
-		response = requests.get(baseUrl)
+	response = requests.get(baseUrl)
 	print("----------------test3 no parameters ----------------")
 	for article in response.json()['articles'][:5]:
 		print("source: ", article['source'])
 		print("title: ", article['title'])
 		print("publishedAt: ", article['publishedAt'])
 
-
+test_endpoint()
 

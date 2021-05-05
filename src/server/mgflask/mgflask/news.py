@@ -51,9 +51,9 @@ def get_articles():
             if len(param)>=2:
               filters.append(col.between(param[0], param[1]))
             else:
-              filters.append(col== param[0])
+              filters.append(col==param[0])
           else:
-             filters.append(col== param)
+             filters.append(col==param)
 
 
     articles = db_session.query(Article).filter(and_(*filters))

@@ -67,7 +67,7 @@ class Article(Base):
         """Return object data in easily serializeable format as response to the client"""
         return {
             'id': self.id,
-            'publishedAt': self.publishedAt.strftime("%m/%d/%Y, %H:%M:%S") if self.publishedAt else None,
+            'publishedAt': self.publishedAt.strftime('%Y-%m-%d %H:%M:%S') if self.publishedAt else None,
             'author': self.author,
             'source': self.source,
             'title': self.title,
@@ -118,7 +118,7 @@ class Comment(Base):
         """Return object data as response to the client"""
         return {
             'id': self.id,
-            'date': self.date.strftime("%m/%d/%Y, %H:%M:%S") if self.date else None,
+            'date': self.date.strftime('%Y-%m-%d %H:%M:%S') if self.date else None,
             'username': self.username,
             'right_bias': self.right_bias,
             'left_bias': self.left_bias,
