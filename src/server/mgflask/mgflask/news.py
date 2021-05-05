@@ -4,7 +4,7 @@ from flask import (
     jsonify
 )
 from newsapi import NewsApiClient 
-from datetime import datetime
+from datetime import datetime, timedelta
 from mgflask.db import db_session
 from mgflask.models import Article
 from sqlalchemy import and_, or_
@@ -20,7 +20,9 @@ EXACT_COLUMNS= [ 'id', 'author', 'source', 'url', 'urlToImage']
 # fuzzy_columns uses the LIKE operator to partically match
 FUZZY_COLUMNS = ['title', 'content', 'description']
 # for range columns the first two values will be interpreted as the lower and upper bouond and the rest discarded (if only one value then it will an exact match) 
-RANGE_COLUMNS = ['leftBias', 'right-Bias', 'publishedAt']
+RANGE_COLUMNS = ['leftBias', 'right-Bias']
+#same as range columns except when given only one time string the range will be one day from that time
+DATE_COLUMNS = ['publishedAt']
 # query on comments and article_ratings not yet implemented
 
 # upper limit on the number of to return
@@ -54,6 +56,14 @@ def get_articles():
               filters.append(col==param[0])
           else:
              filters.append(col==param)
+        elif col.key in DATE_COLUMNS and param:
+          if isinstance(param, list):
+            if len(param)>=2:
+              filters.append(col.between(param[0], param[1]))
+            else:
+              filters.append(col.between(param[0], increment_day_str(param[0])))
+          else:
+             filters.append(col.between(param, increment_day_str(param)))
 
 
     articles = db_session.query(Article).filter(and_(*filters))
@@ -63,4 +73,19 @@ def get_articles():
 
     return jsonify({"articles":[article.serialize_response for article in articles]})
 
+
+#only supports two formats, %Y-%m-%d %H:%M:%S and %Y-%m-%d
+def increment_day_str(date_str):
+  try:
+    format = '%Y-%m-%d %H:%M:%S'
+    date_time_obj = datetime.strptime(date_str, format)
+  except ValueError:
+    try: 
+      format = '%Y-%m-%d'
+      date_time_obj = datetime.strptime(date_str, format)
+    except ValueError:
+      print("parse date failed")
+      return date_str  
+  date_time_obj += timedelta(days=1)
+  return date_time_obj.strftime(format)
 

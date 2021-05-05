@@ -16,7 +16,7 @@ def test_endpoint():
 		print("title: ", article['title'])
 		print("publishedAt: ", article['publishedAt'])
 
-	response = requests.get(baseUrl, json={'source': "cnn", 'title': "opinion", 'publishedAt': '2021-04-25 12:04:49.000000', 'limit_articles':5})
+	response = requests.get(baseUrl, json={'source': "cnn", 'title': "opinion", 'publishedAt': '2021-04-25', 'limit_articles':5})
 	print("----------------test2 single parameters----------------")
 	for article in response.json()['articles']:
 		print("source: ", article['source'])
