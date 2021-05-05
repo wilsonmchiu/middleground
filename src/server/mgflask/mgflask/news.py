@@ -61,6 +61,6 @@ def get_articles():
     if params and params.get(limit_articles_param):
       articles = articles[:params.get(limit_articles_param)]
 
-    return jsonify({"articles":[article.serialize for article in articles]})
+    return jsonify({"articles":[article.serialize_response for article in articles]})
 
 

@@ -48,7 +48,7 @@ class Article(Base):
         """Return object data in easily serializeable format"""
         return {
             'id': self.id,
-            'publishedAt': self.publishedAt.strftime("%m/%d/%Y, %H:%M:%S"),
+            'publishedAt': self.publishedAt,
             'author': self.author,
             'source': self.source,
             'title': self.title,
@@ -58,8 +58,26 @@ class Article(Base):
             'description': self.description,
             'url': self.url,
             'urlToImage': self.urlToImage,
-            'comment_ids': [comment.id for comment in self.comments],
-            'article_rating_ids': [rating.item_id for rating in self.article_ratings],
+            'comments': str(self.comments),
+            'article_ratings': str(self.article_ratings),
+        }
+
+    @property
+    def serialize_response(self):
+        """Return object data in easily serializeable format as response to the client"""
+        return {
+            'id': self.id,
+            'publishedAt': self.publishedAt.strftime("%m/%d/%Y, %H:%M:%S") if self.publishedAt else None,
+            'author': self.author,
+            'source': self.source,
+            'title': self.title,
+            'right_bias': self.right_bias,
+            'left_bias': self.left_bias,
+            'content': self.content,
+            'description': self.description,
+            'url': self.url,
+            'urlToImage': self.urlToImage,
+            'comments': [comment.serialize_response for comment in self.comments],
         }
 
 
@@ -94,6 +112,17 @@ class Comment(Base):
             'comment_ratings': str(self.comment_ratings)
         }
 
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'id': self.id,
+            'date': self.date.strftime("%m/%d/%Y, %H:%M:%S") if self.date else None,
+            'username': self.username,
+            'right_bias': self.right_bias,
+            'left_bias': self.left_bias,
+            'content': self.content,
+        }
 
 class Reply(Base):
     __tablename__ = 'reply'

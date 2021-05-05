@@ -16,4 +16,11 @@ for article in response.json()['articles']:
 	print("title: ", article['title'])
 	print("publishedAt: ", article['publishedAt'])
 
+	response = requests.get(baseUrl)
+print("----------------test3 no parameters ----------------")
+for article in response.json()['articles'][:5]:
+	print("source: ", article['source'])
+	print("title: ", article['title'])
+	print("publishedAt: ", article['publishedAt'])
+
 
