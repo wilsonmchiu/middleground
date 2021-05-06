@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from mgflask.db import Base
+from datetime import datetime
 
 
 class User(Base):
@@ -29,7 +30,7 @@ class User(Base):
 class Article(Base):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
-    date_written = Column(DateTime)
+    publishedAt = Column(DateTime)
     author = Column(String(60))
     source = Column(String(24), nullable=False)
     title = Column(String(60), nullable=False)
@@ -47,7 +48,7 @@ class Article(Base):
         """Return object data in easily serializeable format"""
         return {
             'id': self.id,
-            'date_written': self.date_written,
+            'publishedAt': self.publishedAt,
             'author': self.author,
             'source': self.source,
             'title': self.title,
@@ -58,7 +59,26 @@ class Article(Base):
             'url': self.url,
             'urlToImage': self.urlToImage,
             'comments': str(self.comments),
-            'article_ratings': str(self.article_ratings)
+            'article_ratings': str(self.article_ratings),
+        }
+
+    @property
+    def serialize_response(self):
+        """Return object data in easily serializeable format as response to the client"""
+        return {
+            'id': self.id,
+            'publishedAt': self.publishedAt.strftime('%Y-%m-%d %H:%M:%S') if self.publishedAt else None,
+            'author': self.author,
+            'source': self.source,
+            'title': self.title,
+            'right_bias': self.right_bias,
+            'left_bias': self.left_bias,
+            'content': self.content,
+            'description': self.description,
+            'url': self.url,
+            'urlToImage': self.urlToImage,
+            'comments': [comment.serialize_response for comment in self.comments],
+            'article_ratings': [rating.serialize_response for rating in self.article_ratings],
         }
 
 
@@ -93,6 +113,18 @@ class Comment(Base):
             'comment_ratings': str(self.comment_ratings)
         }
 
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'id': self.id,
+            'date': self.date.strftime('%Y-%m-%d %H:%M:%S') if self.date else None,
+            'username': self.username,
+            'right_bias': self.right_bias,
+            'left_bias': self.left_bias,
+            'content': self.content,
+            'comment_ratings': [rating.serialize_response for rating in self.comment_ratings],
+        }
 
 class Reply(Base):
     __tablename__ = 'reply'
@@ -145,6 +177,14 @@ class ArticleRating(Base):
             'article': str(self.article),
         }
 
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'username': self.username,
+            'rated': self.rated,
+        }
+
 
 class CommentRating(Base):
     __tablename__ = 'comment_rating'
@@ -155,6 +195,14 @@ class CommentRating(Base):
     user = relationship('User')
     rated = Column(Boolean, default=False)
     comment = relationship('Comment')
+
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'username': self.username,
+            'rated': self.rated,
+        }
 
     @property
     def serialize(self):
