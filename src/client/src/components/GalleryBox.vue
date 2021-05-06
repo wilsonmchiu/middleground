@@ -1,20 +1,22 @@
 <template>
+  <v-container>
   <v-hover v-slot:default="{ hover }">
     <v-sheet
       class="mx-auto"
+      height="100%"
       @click="goArticle"
       :elevation="hover ? 24 : 0"
     >
       <v-img
-        class="white--text align-end"
         :src="imgLink"
-        gradient="to bottom, rgba(255,255,255,0) 60%, rgba(0,0,0,1)"
+        :aspect-ratio="6/5"
       >
-        <v-card-title>{{ title }}</v-card-title>
       </v-img>
-
     </v-sheet>
+    
   </v-hover>
+  <h6 style=color:black;font-size:100%;font-family:Courier>{{title}}</h6>
+  </v-container>
 </template>
 
 <script>
@@ -27,3 +29,4 @@ export default {
   },
 };
 </script>
+

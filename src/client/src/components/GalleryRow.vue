@@ -1,41 +1,37 @@
 <!-- GalleryRow.vue -->
 <template>
-  <v-container>
-
-    <h1 style=font-size:300%;font-family:Courier New>{{ header }}</h1>
-  
-     <v-carousel hide-delimiters height="300px"> 
-        <template v-for="(item, index) in imgLinks"> 
+      <v-container>
+       <h1 style=font-size:200%;font-family:Courier New>{{ header }}</h1>
+      <v-carousel hide-delimiters height="auto" width="auto"> 
+        <template v-for="(item, index) in titles"> 
           <v-carousel-item v-if="(index + 1) % columns === 1 || columns === 1" 
-           :key="index"
+                           :key="index"
           > 
             <v-row class="flex-nowrap" style="height:100%"> 
               <template v-for="(n,i) in columns"> 
                 <template v-if="(+index + i) < imgLinks.length"> 
                   <v-col :key="i"> 
-
                     <gallery-box v-if="(+index + i) < imgLinks.length"
                     :title="titles[+index + i]" :imgLink="imgLinks[+index + i]" :url="urls[+index + i]">
                       <v-row class="fill-height"
-                       align="center"
-                       justify="center"
+                             align="center"
+                             justify="center"
                       >
                         <div class="display-3">{{+index + i + 1}}</div>
                       </v-row>
                     </gallery-box>
-                    
                   </v-col> 
-                </template> 
-              </template> 
-            </v-row> 
-          </v-carousel-item> 
-        </template> 
-      </v-carousel>  
-  </v-container>
+                </template>
+              </template>
+            </v-row>
+          </v-carousel-item>
+        </template>
+      </v-carousel>
+      </v-container>
 </template>
 
 <script>
-  import GalleryBox from "./GalleryBox.vue"
+ import GalleryBox from "./GalleryBox.vue"
 
   export default {
     props: ["header", "articles"],
@@ -50,6 +46,11 @@
       }
     },
     methods:{
+      refreshOnResize(){
+        this.$(window).resize(function(){
+          this.$forceUpdate();
+        });
+      }
     },
     computed: {
       columns() {
