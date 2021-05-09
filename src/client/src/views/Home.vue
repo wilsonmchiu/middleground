@@ -8,7 +8,7 @@
 </template>
 
 <script>
- import GalleryRow from '../components/GalleryRow';
+import GalleryRow from '../components/GalleryRow';
 import HomeBanner from '../components/HomeBanner'
 
 
@@ -43,7 +43,7 @@ import HomeBanner from '../components/HomeBanner'
 
     components: {
       'gallery-row': GalleryRow,
-       'home-banner':HomeBanner,
+      'home-banner':HomeBanner,
     },
     methods: {
       getLists(){
@@ -61,6 +61,6 @@ import HomeBanner from '../components/HomeBanner'
       /*#TODO 
         1) Load lists into data "articles" field
       */ 
-    }
+    },
   }
 </script>

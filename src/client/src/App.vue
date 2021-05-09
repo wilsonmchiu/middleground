@@ -2,7 +2,6 @@
   <v-app>
 
     <navBar></navBar>
-
     <v-main>
       <router-view/>
     </v-main>
@@ -12,6 +11,7 @@
 
 <script>
 import NavBar from "./components/NavBar"
+import store from "./store.js"
 
 export default {
   name: 'App',
@@ -19,11 +19,16 @@ export default {
     return {
       isAuthenticated : this.$session.exists(),
       username: this.$session.get('username'),
-      logo: require('./assets/static/logo.png')
+      logo: require('./assets/static/logo.png'),
+      numbers: store.state.numbers.join()
     };
   },
   components: {
     navBar: NavBar,
+  },
+  created(){
+   console.log("app created");
+   console.log("state: ", store.state.numbers);
   }
 };
 </script>
