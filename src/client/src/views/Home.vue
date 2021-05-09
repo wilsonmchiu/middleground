@@ -3,14 +3,18 @@
   <home-banner :img_src="banner_img_src" :title="banner_title" :desc="banner_desc"/>
    <gallery-row :header="header" :articles="articles"></gallery-row>
    <gallery-row :header="header2" :articles="articles"></gallery-row>
-
+   <!-- <div v-if="computedArticles">
+        This is Default child component
+        {{computedArticles}}
+    </div> -->
+    <p> {{computedArticles}} </p>
   </v-container>
 </template>
 
 <script>
 import GalleryRow from '../components/GalleryRow';
 import HomeBanner from '../components/HomeBanner'
-
+import { store }from "../store.js"
 
   export default {
     name: 'Home',
@@ -39,8 +43,8 @@ import HomeBanner from '../components/HomeBanner'
           {imgLink:'https://picsum.photos/id/21/500/300', title: "Title 11", url: "#" },
           {imgLink:'https://picsum.photos/id/22/500/300', title: "Title 12", url: "#" },
         ],
+        computedArticles: JSON.parse(store.state.articles[0])
     }),
-
     components: {
       'gallery-row': GalleryRow,
       'home-banner':HomeBanner,
@@ -61,6 +65,7 @@ import HomeBanner from '../components/HomeBanner'
       /*#TODO 
         1) Load lists into data "articles" field
       */ 
+      console.log("HOME HOME HOME", store.state.articles)
     },
   }
 </script>
