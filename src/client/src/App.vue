@@ -11,7 +11,7 @@
 <script>
 import NavBar from "./components/NavBar"
 import axios from "axios";
-import { store }from "./store.js"
+import {store} from "./store.js"
 
 export default {
   name: 'App',
@@ -25,13 +25,15 @@ export default {
     };
   },
   methods: {
+    
     async getArticles() {
-      axios
+      await axios
         .get(`http://${this.apiRoot}/news`)
         .then((response) => {
-          console.log(response);
+          console.log("in App methods", response);
+          console.log("in App methods", response.data.articles)
+          console.log("in App methods", response.data.articles[0])
           store.setArticles(response.data.articles)
-          this.articlesRetrieved = true
         })
         .catch((error) => {
           console.log(error);
@@ -41,10 +43,10 @@ export default {
   components: {
     navBar: NavBar,
   },
+  
   async created(){
-   console.log("app created");
    await this.getArticles();
-   console.log("article: ", store.state.articles);
+   console.log("app created: ", store.state.articles);
   }
 };
 </script>
