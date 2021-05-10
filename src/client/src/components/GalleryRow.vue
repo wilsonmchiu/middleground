@@ -3,16 +3,16 @@
       <v-container>
        <h1 style=font-size:200%;font-family:Courier New>{{ header }}</h1>
       <v-carousel hide-delimiters height="auto" width="auto"> 
-        <template v-for="(item, index) in titles"> 
+        <template v-for="(item, index) in computedArticles"> 
           <v-carousel-item v-if="(index + 1) % columns === 1 || columns === 1" 
                            :key="index"
           > 
             <v-row class="flex-nowrap" style="height:100%"> 
               <template v-for="(n,i) in columns"> 
-                <template v-if="(+index + i) < imgLinks.length"> 
+                <template v-if="(+index + i) < computedArticles.length"> 
                   <v-col :key="i"> 
-                    <gallery-box v-if="(+index + i) < imgLinks.length"
-                    :title="titles[+index + i]" :imgLink="imgLinks[+index + i]" :url="urls[+index + i]">
+                    <gallery-box v-if="(+index + i) < computedArticles.length"
+                    :title="computedArticles[+index + i].title" :imgLink="computedArticles[+index + i].urlToImage" :url="computedArticles[+index + i].url">
                       <v-row class="fill-height"
                              align="center"
                              justify="center"
@@ -32,18 +32,12 @@
 
 <script>
  import GalleryBox from "./GalleryBox.vue"
+  import {store} from "../store.js";
 
   export default {
-    props: ["header", "articles"],
+    props: ["header"],
     components: {
       'gallery-box': GalleryBox
-    },
-    data() {
-      return {
-        imgLinks: [],
-        titles: [],
-        urls: [],
-      }
     },
     methods:{
       refreshOnResize(){
@@ -67,15 +61,13 @@
         }
 
         return 1;
+      },
+      computedArticles: function(){
+        console.log("in Gallery Row computed:", store.state.articles)
+        if (store.state.articles && store.state.articles.length>0)
+          return store.state.articles
+        return "loading..."
       }
     },
-     mounted(){
-      for( const article of this.articles){
-        this.imgLinks.push(article["imgLink"])
-        this.titles.push(article["title"])
-        this.urls.push(article["url"])
-      }
-    
-    }
   };
 </script>
