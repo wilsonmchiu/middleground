@@ -1,5 +1,6 @@
 <template>
   <v-container>
+   <!-- <form-card></form-card>--->>
       <form action = "/user/checkout" method="POST">
       </form>
     <v-card-text>
@@ -17,13 +18,15 @@
 <script>
 import axios from "axios";
 import Alert from "../components/Alert.vue";
+import FormCard from "../components/FormCard.vue"
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
 
 export default {
   components: {
-    alert: Alert,
+    "alert": Alert,
+    "form-card": FormCard,
   },
   data() {
     return {
