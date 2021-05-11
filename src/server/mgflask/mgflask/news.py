@@ -29,6 +29,10 @@ DATE_COLUMNS = ['publishedAt']
 # upper limit on the number of to return
 LIMIT_ARTICLE_PARAM = 'limit_articles'
 
+# if this param is givemn, the results will be partitioned into subarrays according to its value
+# must be a column name
+PARTITION_BY_PARAM = 'partition_by'
+
 # search among all articles
 
 
@@ -37,42 +41,90 @@ def get_articles():
     params = request.json
     filters = []
     statusCode = 200
-    if params:
-        for col in Article.__table__.columns:
-            param = params.get(col.key)
-            if col.key in EXACT_COLUMNS and param:
-                if isinstance(param, list):
-                    filters.append(col.in_(param))
+
+    if not params:
+        articles = db_session.query(Article)
+        return jsonify({"articles": [article.serialize_response for article in articles], "statusCode": statusCode})
+
+    for col in Article.__table__.columns:
+        param = params.get(col.key)
+        if col.key in EXACT_COLUMNS and param:
+            if isinstance(param, list):
+                filters.append(col.in_(param))
+            else:
+                filters.append(col == param)
+        elif col.key in FUZZY_COLUMNS and param:
+            if isinstance(param, list):
+                fuzzy_filters = [col.ilike("%"+each+"%") for each in param]
+                filters.append(or_(*fuzzy_filters))
+            else:
+                filters.append(col.ilike("%"+param+"%"))
+        elif col.key in RANGE_COLUMNS and param:
+            if isinstance(param, list):
+                if len(param) >= 2:
+                    filters.append(col.between(param[0], param[1]))
                 else:
-                    filters.append(col == param)
-            elif col.key in FUZZY_COLUMNS and param:
-                if isinstance(param, list):
-                    fuzzy_filters = [col.ilike("%"+each+"%") for each in param]
-                    filters.append(or_(*fuzzy_filters))
-                else:
-                    filters.append(col.ilike("%"+param+"%"))
-            elif col.key in RANGE_COLUMNS and param:
-                if isinstance(param, list):
-                    if len(param) >= 2:
-                        filters.append(col.between(param[0], param[1]))
-                    else:
-                        filters.append(col == param[0])
-                else:
-                    filters.append(col == param)
-            elif col.key in DATE_COLUMNS and param:
-                if isinstance(param, list):
-                    if len(param) >= 2:
-                        filters.append(col.between(param[0], param[1]))
-                    else:
-                        filters.append(col.between(
-                            param[0], func.date(param[0], '+1 day')))
+                    filters.append(col == param[0])
+            else:
+                filters.append(col == param)
+        elif col.key in DATE_COLUMNS and param:
+            if isinstance(param, list):
+                if len(param) >= 2:
+                    filters.append(col.between(param[0], param[1]))
                 else:
                     filters.append(col.between(
-                        param, func.date(param, '+1 day')))
+                        param[0], func.date(param[0], '+1 day')))
+            else:
+                filters.append(col.between(
+                    param, func.date(param, '+1 day')))
 
     articles = db_session.query(Article).filter(and_(*filters))
 
-    if params and params.get(LIMIT_ARTICLE_PARAM):
-        articles = articles[:params.get(LIMIT_ARTICLE_PARAM)]
+    partition_by = params.get(PARTITION_BY_PARAM)
+    if partition_by:
+        articles = articles.order_by(params.get(PARTITION_BY_PARAM))
+    if params.get(LIMIT_ARTICLE_PARAM):
+        articles = articles.limit(params.get(LIMIT_ARTICLE_PARAM))
+    if partition_by:
+        formatted = partition_ordered(articles, partition_by)
+    else:
+        formatted = [article.serialize_response for article in articles]
 
-    return jsonify({"articles": [article.serialize_response for article in articles], "statusCode": statusCode})
+    return jsonify({"articles": formatted, "statusCode": statusCode})
+
+
+def partition_ordered(articles, partition_by):
+
+    print("partition_by:", partition_by)
+
+    partition_key = getattr(articles[0], partition_by)
+    partitions = {}
+    subpartition = []
+    for article in articles:
+        current_key = getattr(article, partition_by)
+        print("current partition_key", partition_key)
+        if partition_key == current_key:
+            subpartition.append(article.serialize_response)
+        else:
+            partitions[partition_key] = subpartition
+            subpartition = [article.serialize_response]
+            partition_key = current_key
+
+    partitions[partition_key] = subpartition
+    return partitions
+
+
+''' not completed
+@bp.route('/by_sources', methods=['GET'])
+def get_articles_by_sources():
+    from  mgflask.news_retrieval import TARGET_SOURCES
+    params = request.json
+    filters = []
+    statusCode = 200
+    for source in target sources:
+        articles = db_session.query(Article).filter
+    articles = db_session.query(Article).filter(and_(*filters))
+
+    return jsonify({"articles": formatted, "statusCode": statusCode})
+'''
+
