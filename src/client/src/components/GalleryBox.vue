@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pa-0">
   <v-hover v-slot:default="{ hover }">
     <v-sheet
       class="mx-auto"

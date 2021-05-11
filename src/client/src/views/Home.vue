@@ -3,7 +3,6 @@
     <home-banner/>
     <gallery-row :header="header"></gallery-row>
     <gallery-row :header="header2"></gallery-row>
-    <p>{{ computedArticles }}</p> 
   </v-container>
 </template>
 

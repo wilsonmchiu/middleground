@@ -5,7 +5,7 @@
         <v-col lg="8" md="8" sm="8" class="pa-0">
           <v-parallax
           :src="computedArticles.urlToImage"
-          height=300
+          height=500
           >
           </v-parallax>
         </v-col>

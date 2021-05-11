@@ -1,6 +1,6 @@
 <!-- GalleryRow.vue -->
 <template>
-      <v-container>
+      <v-container class="px-0">
        <h1 style=font-size:200%;font-family:Courier New>{{ header }}</h1>
       <v-carousel hide-delimiters height="auto" width="auto"> 
         <template v-for="(item, index) in computedArticles"> 
@@ -10,7 +10,7 @@
             <v-row class="flex-nowrap" style="height:100%"> 
               <template v-for="(n,i) in columns"> 
                 <template v-if="(+index + i) < computedArticles.length"> 
-                  <v-col :key="i"> 
+                  <v-col :key="i" class="pr-0"> 
                     <gallery-box v-if="(+index + i) < computedArticles.length"
                     :title="computedArticles[+index + i].title" :urlToImage="computedArticles[+index + i].urlToImage" :url="computedArticles[+index + i].url"
                     :id="computedArticles[+index + i].id">
