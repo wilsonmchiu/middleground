@@ -1,10 +1,6 @@
 <template>
   <v-container>
-    <home-banner
-      :img_src="banner_img_src"
-      :title="banner_title"
-      :desc="banner_desc"
-    />
+    <home-banner/>
     <gallery-row :header="header"></gallery-row>
     <gallery-row :header="header2"></gallery-row>
     <p>{{ computedArticles }}</p> 
@@ -21,12 +17,6 @@ export default {
 
   data() { 
     return {
-      /*Banner Fields*/
-      banner_img_src:
-        "https://i0.wp.com/johnnyalucard.com/wp-content/uploads/2020/04/shrek.jpg",
-      banner_title: "Top story",
-      banner_desc: "hahahah",
-
       /*Gallery Row Fields Start*/
       header: "Header 1",
       header2: "Header 2",

@@ -8,7 +8,7 @@
       :elevation="hover ? 24 : 0"
     >
       <v-img
-        :src="imgLink"
+        :src="urlToImage"
         :aspect-ratio="6/5"
       >
       </v-img>
@@ -21,10 +21,11 @@
 
 <script>
 export default {
-  props: ["title", "imgLink", "url"],
+  props: ["title", "urlToImage", "id"],
   methods: {
     goArticle() {
-      this.$router.push(this.url)
+      // this.$router.push("/article/" + (this.id-1))
+      this.$router.push({ path: `/article/${this.id-1}` }) 
     },
   },
 };

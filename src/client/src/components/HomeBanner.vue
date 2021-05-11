@@ -1,20 +1,21 @@
 <template>
   <v-container>
-      <v-row class="banner-container" >
+      <v-row class="banner-container" 
+      @click="goArticle">
         <v-col lg="8" md="8" sm="8" class="pa-0">
           <v-parallax
-          :src="img_src"
+          :src="computedArticles.urlToImage"
           height=300
           >
           </v-parallax>
         </v-col>
         <v-col lg="4" md="4" sm="4">
             <h1 class="banner-text">
-               {{ title }}
+               {{ computedArticles.title }}
             </h1>
             <br/>
             <p class="banner-text">
-               {{ desc }}
+               {{ computedArticles.description }}
             </p>
         </v-col>
       </v-row>
@@ -35,12 +36,25 @@
 </style>
 
 <script>
+import {store} from "../store.js";
+
   export default {
     name: 'HomeBanner',
-    props: ['img_src', 'title', 'desc'],
     data: () => ({
-      //
-    })
+    }),
+    computed: {
+      computedArticles: function(){
+        console.log("in Home Banner computed:", store.state.articles)
+        if (store.state.articles && store.state.articles.length>0)
+          return store.state.articles[Math.floor(Math.random() * store.state.articles.length)];
+        return "loading..."
+      }
+    },
+    methods: {
+      goArticle() {
+        this.$router.push({ path: `/article/${this.computedArticles.id-1}` }) 
+      },
+    },
   }
 </script>
 

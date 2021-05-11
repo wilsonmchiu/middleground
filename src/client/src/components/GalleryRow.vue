@@ -12,7 +12,8 @@
                 <template v-if="(+index + i) < computedArticles.length"> 
                   <v-col :key="i"> 
                     <gallery-box v-if="(+index + i) < computedArticles.length"
-                    :title="computedArticles[+index + i].title" :imgLink="computedArticles[+index + i].urlToImage" :url="computedArticles[+index + i].url">
+                    :title="computedArticles[+index + i].title" :urlToImage="computedArticles[+index + i].urlToImage" :url="computedArticles[+index + i].url"
+                    :id="computedArticles[+index + i].id">
                       <v-row class="fill-height"
                              align="center"
                              justify="center"
