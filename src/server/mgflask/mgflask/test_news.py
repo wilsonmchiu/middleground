@@ -46,6 +46,6 @@ def test_endpoint():
             print("source: ", article['source'])
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
+            
 
-
-test_endpoint()
+test_retrieval()
