@@ -1,6 +1,5 @@
 <template>
   <v-container>
-   <!-- <form-card></form-card>--->>
       <form action = "/user/checkout" method="POST">
       </form>
     <v-card-text>
@@ -9,7 +8,7 @@
 
     <alert v-if="showError" :msg="alertMessage"> </alert>
     <v-text-field v-model="username" label="username" required> </v-text-field>
-    <v-text-field v-model="password" label="password" required></v-text-field>
+    <v-text-field v-model="password" label="password" required type="password"></v-text-field>
 
     <v-btn color="success" class="mr-4" @click="onSubmit"> Register </v-btn>
   </v-container>
@@ -18,7 +17,7 @@
 <script>
 import axios from "axios";
 import Alert from "../components/Alert.vue";
-import FormCard from "../components/FormCard.vue"
+
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
@@ -26,7 +25,6 @@ axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
 export default {
   components: {
     "alert": Alert,
-    "form-card": FormCard,
   },
   data() {
     return {
