@@ -47,7 +47,7 @@ import {store} from "../store.js";
         if (store.state.articles) {
           let random = Object.keys(store.state.articles)[Math.floor(Math.random() * Object.keys(store.state.articles).length)]
           console.log("random outlet", random)
-          return temp
+          return random
         } else {
           return "loading..."
         }
