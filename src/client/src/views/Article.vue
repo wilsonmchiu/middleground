@@ -12,7 +12,7 @@
           <v-card-text>
             <h1>{{articleData.title}}</h1>
             <br>
-            <subtitle-1>By {{articleData.author}}</subtitle-1>      <br>
+            <subtitle-1>By {{articleData.author}}</subtitle-1><br>
             <subtitle-1>{{articleData.timestamp}}</subtitle-1>
           </v-card-text>
           
@@ -24,19 +24,18 @@
             {{articleData.body}}
           </v-card-text>
         </v-row>
+        <v-row>
           <v-card-text>
             <h1>Middle Ground </h1>
             <subtitle-1>{{comments.length}} comments</subtitle-1>
-            <div v-for ="comment in comments" :key="comment" class="mb-5">
-              <v-list-item three-line>
-                <v-list-item-avatar size ="40" class = "mt-0"><v-img :src = "comments.avatar"></v-img></v-list-item-avatar>
-                <v-list-item-title>{{comments.author}}</v-list-item-title>
-                <v-list-item-subtitle>{{comments.content}}</v-list-item-subtitle>
-              </v-list-item>
-            </div>
           </v-card-text>
-        <v-row>
-
+        </v-row>
+        <v-row class="justify-space-between">
+          <v-col >
+            <div v-for="comment in comments" :key="comment">
+              <comment :author="comment.author" :contents="comment.contents" :avatar="comment.avatar"></comment>
+            </div>
+          </v-col>
         </v-row>
       </v-col>
 
@@ -62,7 +61,7 @@
                   <!-- <v-responsive max-height="100%"> -->
                   <v-img
                     class="align-center"
-                    :src="card.image"
+                    :src="card.avatar"
                   >
                   </v-img>
                   <!-- </v-responsive> -->
@@ -96,8 +95,13 @@
 
 <script>
   // import axios from 'axios';
+import Comment from "../components/Comment.vue"
 
   export default {
+    name: 'Article',
+    components: {
+      'comment': Comment
+    },
     data() {
       return {
         articleData: [],
@@ -117,14 +121,14 @@
 
       this.comments = [
         {
-        "author": "John Doe",
-        "content": "i like apples",
-        "avatar": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
+        "author": "Adam Smith",
+        "contents": "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest. All money is a matter of belief",
+        "avatar": "https://i.cbc.ca/1.5303387.1583953990!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/adam-smith-the-muir-portrait-circa-1800.jpg"
         },
         {
-        "author": "John Doe",
-        "content": "i like pears",
-        "avatar": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
+        "author": "George Washington",
+        "contents": "It is better to offer no excuse than a bad one. It is better to be alone than in bad company. If freedom of speech is taken away, then dumb and silent we may be led, like sheep to the slaughter.",
+        "avatar": "https://www.history.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_620/MTcwNDY1NDEzNzMyNDQzOTMy/wshington_timeline.jpg"
         }
       ]
 
@@ -155,36 +159,6 @@
         },
         {
         "title": "Local Green Man Rides Donkey Through London pt 5",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 6",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 7",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 8",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 9",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 10",
         "author": "John Doe",
         "timestamp": "1:32 PM PST, Sun June 13, 2001",
         "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp"
