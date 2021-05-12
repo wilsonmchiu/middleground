@@ -38,7 +38,7 @@ PARTITION_BY_PARAM = 'partition_by'
 
 @bp.route('/', methods=['GET'])
 def get_articles():
-    params = request.json
+    params = request.args
     filters = []
     statusCode = 200
 
