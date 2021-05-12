@@ -28,7 +28,13 @@ export default {
     
     async getArticles() {
       await axios
-        .get(`http://${this.apiRoot}/news`)
+        .get(`http://${this.apiRoot}/news`, {
+          params: {
+            partition_by: 'source', 
+            limit_articles: 50, 
+            publishedAt: '2021-05-11'
+          }
+        })
         .then((response) => {
           console.log("in App methods", response);
           console.log("in App methods", response.data.articles)

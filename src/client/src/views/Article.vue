@@ -8,16 +8,16 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" sm = "12" md="8" lg="8">
-        <v-card-text>
-          <h1>{{computedArticles[currentArticleID].title}}</h1>
+        <v-card-text v-if="computedArticles">
+          <h1>{{computedArticles[currentOutlet][currentArticleID].title}}</h1>
           <br>
-          <v-list-item-subtitle>By {{computedArticles[currentArticleID].author}}</v-list-item-subtitle>      
-          <v-list-item-subtitle>{{computedArticles[currentArticleID].publishedAt}}</v-list-item-subtitle>
+          <v-list-item-subtitle>By {{computedArticles[currentOutlet][currentArticleID].author}}</v-list-item-subtitle>      
+          <v-list-item-subtitle>{{computedArticles[currentOutlet][currentArticleID].publishedAt}}</v-list-item-subtitle>
         </v-card-text>
         
         <v-img 
           :aspect-ratio="5/1"
-          :src="computedArticles[currentArticleID].urlToImage">
+          :src="computedArticles[currentOutlet][currentArticleID].urlToImage">
         </v-img>
         <v-card-text>
           {{tempContent}}
@@ -96,11 +96,16 @@
       currentArticleID() {
         return this.$route.params.id;
       },
+      currentOutlet() {
+        return this.$route.params.outlet;
+      },
       computedArticles: function(){
         console.log("in Article computed:", store.state.articles)
-        if (store.state.articles && store.state.articles.length>0)
+        if (store.state.articles) {
           return store.state.articles
-        return "loading..."
+        } else {
+          return "loading..."
+        }
       }
     },
     created(){
