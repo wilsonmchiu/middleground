@@ -101,7 +101,6 @@ def partition_ordered(articles, partition_by):
     subpartition = []
     for article in articles:
         current_key = getattr(article, partition_by)
-        print("current partition_key", partition_key)
         if partition_key == current_key:
             subpartition.append(article.serialize_response)
         else:
