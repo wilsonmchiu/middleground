@@ -20,8 +20,7 @@ export default {
       isAuthenticated : this.$session.exists(),
       username: this.$session.get('username'),
       logo: require('./assets/static/logo.png'),
-      apiRoot: process.env.VUE_APP_API_ROOT,
-      articlesRetrieved: false
+      apiRoot: process.env.VUE_APP_API_ROOT
     };
   },
   methods: {
