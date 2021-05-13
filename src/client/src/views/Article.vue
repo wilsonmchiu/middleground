@@ -90,7 +90,6 @@
     },
     computed: {
       currentArticle: function(){
-        console.log("in Article computed:", store.state.articles)
         if (store.state.articles && Object.keys(store.state.articles).length > 0) {
           return store.state.articles[this.currentArticleOutlet][this.currentArticleId]
         } else {
