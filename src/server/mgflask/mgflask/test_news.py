@@ -38,7 +38,7 @@ def test_endpoint():
         print("title: ", article['title'])
         print("publishedAt: ", article['publishedAt'])
 
-    response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 50, 'publishedAt': '2021-05-11'})
+    response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 50, 'publishedAt': ['2021-04-20', '2021-05-31']})
     print("----------------test4 parameter:partition_by ----------------")
     for partition_key, partition in response.json()['articles'].items():
         print( partition_key, ": ")
@@ -48,4 +48,3 @@ def test_endpoint():
             print("publishedAt: ", article['publishedAt'])
             
 
-test_endpoint()

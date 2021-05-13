@@ -94,7 +94,8 @@ def get_articles():
 
 
 def partition_ordered(articles, partition_by):
-
+    if not articles.all():
+        return {}
     partition_key = getattr(articles[0], partition_by)
     partitions = {}
     subpartition = []
