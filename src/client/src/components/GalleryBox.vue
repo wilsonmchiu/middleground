@@ -25,6 +25,7 @@ export default {
   methods: {
     goArticle() {
       this.$router.push({ path: `/${this.outlet}/${this.id}` }) 
+      window.scrollTo(0,0);
     },
   },
 };
