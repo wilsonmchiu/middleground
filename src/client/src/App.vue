@@ -36,9 +36,7 @@ export default {
           }
         })
         .then((response) => {
-          console.log("in App methods", response);
           console.log("in App methods", response.data.articles)
-          console.log("in App methods", response.data.articles[0])
           store.setArticles(response.data.articles)
         })
         .catch((error) => {

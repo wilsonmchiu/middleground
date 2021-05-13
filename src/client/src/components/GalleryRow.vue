@@ -64,7 +64,6 @@
         return 1;
       },
       computedArticles: function(){
-        console.log("in Gallery Row computed:", store.state.articles)
         if (store.state.articles) {
           return store.state.articles
         } else {
