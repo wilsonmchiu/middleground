@@ -8,16 +8,16 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" sm = "12" md="8" lg="8">
-        <v-card-text v-if="computedArticles">
-          <h1>{{computedArticles[currentOutlet][currentArticleID].title}}</h1>
+        <v-card-text v-if="computedArticle">
+          <h1>{{computedArticle.title}}</h1>
           <br>
-          <v-list-item-subtitle>By {{computedArticles[currentOutlet][currentArticleID].author}}</v-list-item-subtitle>      
-          <v-list-item-subtitle>{{computedArticles[currentOutlet][currentArticleID].publishedAt}}</v-list-item-subtitle>
+          <v-list-item-subtitle>By {{computedArticle.author}}</v-list-item-subtitle>      
+          <v-list-item-subtitle>{{computedArticle.publishedAt}}</v-list-item-subtitle>
         </v-card-text>
         
         <v-img 
           :aspect-ratio="5/1"
-          :src="computedArticles[currentOutlet][currentArticleID].urlToImage">
+          :src="computedArticle.urlToImage">
         </v-img>
         <v-card-text>
           {{tempContent}}
@@ -32,13 +32,7 @@
           src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/overview/javascript-charts-graphs-index-data-label.png"></v-img>
         <h4 class="mb-3 mt-3">Related</h4>
 
-        <!-- TODO -->
-        <!-- <div v-for="(value,index) in relatedCards" :key="value.id">
-          <template v-if="index < 10 & value.id != currentArticleID">
-            <p>hi</p>
-          </template>
-        </div> -->
-        <div v-for="card in relatedCards" :key="card.id" class="mb-5">
+        <div v-for="(card,index) in relatedCards" :key="index" class="mb-5">
           <v-skeleton-loader
             class="mx-auto"
             type="list-item-avatar-three-line"
@@ -48,15 +42,15 @@
             <v-card class="card" tile flat>
               <v-row no-gutters>
                 <v-col class="mx-auto" cols="3" sm="3" md="5" lg="5">
-                  <!-- <v-responsive max-height="100%"> -->
+                   <v-responsive max-height="100%"> 
                   <v-img
                     class="align-center"
-                    :src="card.image"
+                    :src="card.urlToImage"
                   >
                   </v-img>
-                  <!-- </v-responsive> -->
+                   </v-responsive> 
                 </v-col>
-                <v-col>
+                 <v-col>
                   <div class="ml-2">
                     <v-card-title
                       class="pl-2 pt-0 subtitle-1 font-weight-bold"
@@ -70,14 +64,14 @@
                       style="line-height: 1"
                     >
                       {{card.author}}<br />
-                      {{card.timestamp}}
+                      {{card.publishedAt}}
                     </v-card-subtitle>
                   </div>
-                </v-col>
+                </v-col> 
               </v-row>
             </v-card>
           </v-skeleton-loader>
-        </div>
+        </div> 
       </v-col>
     </v-row>
   </v-container>
@@ -93,52 +87,27 @@
       }
     },
     computed: {
-      currentArticleID() {
-        return this.$route.params.id;
+      currentArticleId: function(){
+        return this.$route.params.id
       },
-      currentOutlet() {
-        return this.$route.params.outlet;
-      },
-      computedArticles: function(){
+      computedArticle: function(){
         console.log("in Article computed:", store.state.articles)
-        if (store.state.articles) {
-          return store.state.articles
+        if (store.state.articles && Object.keys(store.state.articles).length > 0) {
+          return store.state.articles[this.$route.params.outlet][this.$route.params.id]
         } else {
-          return "loading..."
+          return {title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading..."}
         }
-      }
+      },
+      relatedCards: function(){
+        console.log("in Article computed:", store.state.articles)
+        if (store.state.articles && Object.keys(store.state.articles).length > 0) {
+          let outlet = store.state.articles[this.$route.params.outlet]
+          outlet.splice(this.$route.params.id,1)
+          return outlet.slice(0,10)
+        } else {
+          return [{title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading..."}]
+        }
+      },
     },
-    created(){
-      this.relatedCards = [
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 1",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp",
-        "id": 1
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 2",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp",
-        "id": 2
-        },
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 3",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp",
-        "id": 3
-        },        
-        {
-        "title": "Local Green Man Rides Donkey Through London pt 4",
-        "author": "John Doe",
-        "timestamp": "1:32 PM PST, Sun June 13, 2001",
-        "image": "https://i.insider.com/5c5dd439dde867479d106cc2?width=1000&format=jpeg&auto=webp",
-        "id": 4
-        }
-      ]
-    }
   }
 </script>

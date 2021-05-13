@@ -24,7 +24,6 @@ export default {
   props: ["title", "urlToImage", "id", "outlet"],
   methods: {
     goArticle() {
-      // this.$router.push("/article/" + (this.id-1))
       this.$router.push({ path: `/${this.outlet}/${this.id}` }) 
     },
   },

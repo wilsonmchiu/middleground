@@ -4,18 +4,18 @@
       @click="goArticle">
         <v-col lg="8" md="8" sm="8" class="pa-0">
           <v-parallax
-          :src="computedArticles[randomOutlet][0].urlToImage"
+          :src="article.urlToImage"
           height=500
           >
           </v-parallax>
         </v-col>
         <v-col lg="4" md="4" sm="4">
             <h1 class="banner-text">
-               {{ computedArticles[randomOutlet][0].title }}
+               {{ article.title }}
             </h1>
             <br/>
             <p class="banner-text">
-               {{ computedArticles[randomOutlet][0].description }}
+               {{ article.description }}
             </p>
         </v-col>
       </v-row>
@@ -36,35 +36,12 @@
 </style>
 
 <script>
-import {store} from "../store.js";
-
   export default {
     name: 'HomeBanner',
-    data: () => ({
-    }),
-    computed: {
-      randomOutlet: function() {
-        if (store.state.articles) {
-          let random = Object.keys(store.state.articles)[Math.floor(Math.random() * Object.keys(store.state.articles).length)]
-          console.log("random outlet", random)
-          return random
-        } else {
-          return "loading..."
-        }
-      },
-      computedArticles: function(){
-        console.log("in Home Banner computed:", store.state.articles)
-        if (store.state.articles) {
-          return store.state.articles
-        } else {
-          return "loading..."
-        }
-      }
-    },
+    props: ['article', 'path'],
     methods: {
-      // TODO
       goArticle() {
-        this.$router.push({ path: `/article/${this.computedArticles.id-1}` }) 
+          this.$router.push({ path: this.path }) 
       },
     },
   }
