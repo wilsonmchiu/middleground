@@ -3,17 +3,17 @@
       <v-container class="px-0">
        <h1 style=font-size:200%;font-family:Courier New>{{ header }}</h1>
       <v-carousel hide-delimiters height="auto" width="auto"> 
-        <template v-for="(item, index) in computedArticles[header]"> 
+        <template v-for="(item, index) in articles"> 
           <v-carousel-item v-if="(index + 1) % columns === 1 || columns === 1" 
                            :key="index"
           > 
             <v-row class="flex-nowrap" style="height:100%"> 
               <template v-for="(n,i) in columns"> 
-                <template v-if="(+index + i) < computedArticles[header].length"> 
+                <template v-if="(+index + i) < articles.length"> 
                   <v-col :key="i" class="pr-0"> 
-                    <gallery-box v-if="(+index + i) < computedArticles[header].length"
-                    :title="computedArticles[header][+index + i].title" :urlToImage="computedArticles[header][+index + i].urlToImage" :url="computedArticles[header][+index + i].url"
-                    :id="+index + i" :outlet="header" :articleID="computedArticles[header][+index + i].id">
+                    <gallery-box v-if="(+index + i) < articles.length"
+                    :title="articles[+index + i].title" :urlToImage="articles[+index + i].urlToImage" :url="articles[+index + i].url"
+                    :id="+index + i" :outlet="header" :articleID="articles[+index + i].id">
                       <v-row class="fill-height"
                              align="center"
                              justify="center"
@@ -33,10 +33,10 @@
 
 <script>
  import GalleryBox from "./GalleryBox.vue"
-  import {store} from "../store.js";
+//import {store} from "../store.js";
 
   export default {
-    props: ["header"],
+    props: ["header", "articles"],
     components: {
       'gallery-box': GalleryBox
     },
@@ -63,13 +63,13 @@
 
         return 1;
       },
-      computedArticles: function(){
-        if (store.state.articles) {
-          return store.state.articles
-        } else {
-          return "loading..."
-        }
-      }
+      // computedArticles: function(){
+      //   if (store.state.articles) {
+      //     return store.state.articles
+      //   } else {
+      //     return "loading..."
+      //   }
+      // }
     },
   };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <home-banner :article="bannerProps.article" :path="bannerProps.path"/>
-    <gallery-row v-for="(item, index) in computedArticles" :key="index" :header="index"></gallery-row>
+    <gallery-row v-for="(item, index) in computedArticles" :key="index" :header="index" :articles="item"></gallery-row>
   </v-container>
 </template>
 
