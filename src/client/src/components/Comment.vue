@@ -16,6 +16,7 @@
       <v-btn
         text
         small
+        class="justify-start"
         :ripple="false"
         @click="showReplyForm = !showReplyForm"
         >Reply
@@ -29,6 +30,7 @@
       <v-btn
         text
         small
+        class="justify-start"
         :ripple="false"
         @click="showReplies = !showReplies"
         >Show {{replies.length}} Replies

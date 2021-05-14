@@ -5,31 +5,30 @@
 </style>
 
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row>
       <v-col cols="12" sm = "12" md="8" lg="8">
-        <v-row>
-          <v-card-text>
-            <h1>{{articleData.title}}</h1>
-            <br>
-            <subtitle-1>By {{articleData.author}}</subtitle-1><br>
-            <subtitle-1>{{articleData.timestamp}}</subtitle-1>
-          </v-card-text>
-          
-          <v-img 
-            :aspect-ratio="5/1"
-            :src="articleData.image">
-          </v-img>
-          <v-card-text>
-            {{articleData.body}}
-          </v-card-text>
-        </v-row>
-        <v-row>
-          <v-card-text>
-            <h1>Middle Ground </h1>
-            <subtitle-1>{{comments.length}} comments</subtitle-1>
-          </v-card-text>
-        </v-row>
+        <v-card-text>
+          <h1>{{articleData.title}}</h1>
+          <br>
+          <subtitle-1>By {{articleData.author}}</subtitle-1><br>
+          <subtitle-1>{{articleData.timestamp}}</subtitle-1>
+        </v-card-text>
+        <v-img 
+          :aspect-ratio="2/1"
+          :src="articleData.image"/>
+        <v-card-text>
+          {{articleData.body}}
+        </v-card-text>
+        <v-card-text>
+          <h1>Middle Ground </h1>
+          <subtitle-1>{{comments.length}} comments</subtitle-1>
+        </v-card-text>
+        <v-text-field
+          :counter="160"
+          label="Write Comment Here"
+        ></v-text-field>
+
         <v-row class="justify-space-between">
           <v-col >
             <div v-for="comment in comments" :key="comment">
