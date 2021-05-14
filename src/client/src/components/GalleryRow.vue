@@ -33,7 +33,6 @@
 
 <script>
  import GalleryBox from "./GalleryBox.vue"
-//import {store} from "../store.js";
 
   export default {
     props: ["header", "articles"],
@@ -63,13 +62,6 @@
 
         return 1;
       },
-      // computedArticles: function(){
-      //   if (store.state.articles) {
-      //     return store.state.articles
-      //   } else {
-      //     return "loading..."
-      //   }
-      // }
     },
   };
 </script>
