@@ -11,4 +11,5 @@ lib/
 pyvenv.cfg
 var/
 src/server/mgflask/env
-mgflask.db
+src/server/mgflask/mgflask.db
+

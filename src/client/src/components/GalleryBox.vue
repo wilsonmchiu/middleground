@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pa-0">
   <v-hover v-slot:default="{ hover }">
     <v-sheet
       class="mx-auto"
@@ -8,7 +8,7 @@
       :elevation="hover ? 24 : 0"
     >
       <v-img
-        :src="imgLink"
+        :src="urlToImage"
         :aspect-ratio="6/5"
       >
       </v-img>
@@ -21,10 +21,11 @@
 
 <script>
 export default {
-  props: ["title", "imgLink", "url"],
+  props: ["title", "urlToImage", "id", "outlet"],
   methods: {
     goArticle() {
-      this.$router.push(this.url)
+      this.$router.push({ path: `/${this.outlet}/${this.id}` }) 
+      window.scrollTo(0,0);
     },
   },
 };
