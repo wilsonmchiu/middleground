@@ -1,12 +1,6 @@
 <template>
 <v-card class="transparent" flat>
   <v-list-item three-line >
-    <v-list-item-avatar>
-      <v-img 
-        :src="avatar">
-      </v-img>
-    </v-list-item-avatar>
-
     <v-list-item-content>
       <v-list-item-title>{{author}}</v-list-item-title>
       <v-list-item-subtitle>
@@ -20,7 +14,7 @@
 
 <script>
   export default {
-    props: ["author", "contents", "avatar"]
+    props: ["author", "contents"]
   }
 </script>
 

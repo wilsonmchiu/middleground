@@ -25,15 +25,20 @@
           <h1>Middle Ground </h1>
           <subtitle-1>{{comments.length}} comments</subtitle-1>
         </v-card-text>
+
         <v-text-field
+          v-model="commentForm"
+          :placeholder="commentForm"
           :counter="160"
+          :maxlength=160
           label="Write Comment Here"
+          @keydown.enter="postComment"
         ></v-text-field>
 
         <v-row class="justify-space-between">
           <v-col >
             <div v-for="comment in comments" :key="comment">
-              <comment :author="comment.author" :contents="comment.contents" :avatar="comment.avatar"></comment>
+              <comment :author="comment.author" :contents="comment.contents"></comment>
             </div>
           </v-col>
         </v-row>
@@ -91,11 +96,10 @@
 </template>
 
 <script>
-  // import axios from 'axios';
+  import axios from 'axios';
   import Comment from "../components/Comment.vue"
   import {store} from "../store.js";
-
-
+  
   export default {
     name: 'Article',
     components: {
@@ -103,26 +107,27 @@
     },
     data() {
       return {
+        isAuthenticated : this.$session.exists(),
+        commentForm: "",
         comments: [],
         tempContent: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, \n\nconsectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered \n\n\n\n the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical \n\nLatin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of \n\nclassical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.",
          currentArticleId: this.$route.params.id,
          currentArticleOutlet: this.$route.params.outlet,
-      }
+         apiRoot: process.env.VUE_APP_API_ROOT,
+      };
     },
     created(){
-        this.comments = [
-          {
-          "author": "Adam Smith",
-          "contents": "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest. All money is a matter of belief",
-          "avatar": "https://i.cbc.ca/1.5303387.1583953990!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/adam-smith-the-muir-portrait-circa-1800.jpg"
-          },
-          {
-          "author": "George Washington",
-          "contents": "It is better to offer no excuse than a bad one. It is better to be alone than in bad company. If freedom of speech is taken away, then dumb and silent we may be led, like sheep to the slaughter.",
-          "avatar": "https://www.history.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_620/MTcwNDY1NDEzNzMyNDQzOTMy/wshington_timeline.jpg"
-          }
-        ]
-      },
+      this.comments = [
+        {
+        "author": "Adam Smith",
+        "contents": "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest. All money is a matter of belief",
+        },
+        {
+        "author": "George Washington",
+        "contents": "It is better to offer no excuse than a bad one. It is better to be alone than in bad company. If freedom of speech is taken away, then dumb and silent we may be led, like sheep to the slaughter.",
+        }
+      ]
+    },
     computed: {
       currentArticle: function(){
         if (store.state.articles && Object.keys(store.state.articles).length > 0) {
@@ -140,5 +145,36 @@
         }
       },
     },
-  }
+    methods: {
+      validate() {
+        if (this.commentForm === "") {
+          // do nothing
+        }
+      },
+      postComment(evt) {
+        evt.preventDefault();
+        const path = `http://${this.apiRoot}/comments/post_comment`;
+        const payload = {
+          isLoggedIn: this.isAuthenticated,
+          userComment: this.commentForm,
+        };
+        console.log(payload);
+        this.validate();
+        axios
+          .post(path, payload)
+          .then((response) => {
+            console.log(response);
+            if (response.data["insert_status"] === "fail") {
+              this.$router.push("/login");
+            } else {
+              // refresh
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        this.commentForm = "";
+      },
+    },
+  };
 </script>
