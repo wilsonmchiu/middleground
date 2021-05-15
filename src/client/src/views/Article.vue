@@ -23,22 +23,24 @@
         </v-card-text>
         <v-card-text>
           <h1>Middle Ground </h1>
-          <subtitle-1>{{comments.length}} comments</subtitle-1>
+          <subtitle-1>{{currentArticle.comments.length}} comments</subtitle-1>
         </v-card-text>
 
+        <form action = "/user/checkout" method="POST">
+        </form>
         <v-text-field
           v-model="commentForm"
           :placeholder="commentForm"
           :counter="160"
           :maxlength=160
           label="Write Comment Here"
-          @keydown.enter="postComment"
+          @keydown.enter="postComment(currentArticle.id)"
         ></v-text-field>
 
         <v-row class="justify-space-between">
           <v-col >
-            <div v-for="comment in comments" :key="comment">
-              <comment :author="comment.author" :contents="comment.contents"></comment>
+            <div v-for="comment in currentArticle.comments" :key="comment">
+              <comment :author="comment.username" :contents="comment.content"></comment>
             </div>
           </v-col>
         </v-row>
@@ -99,6 +101,9 @@
   import axios from 'axios';
   import Comment from "../components/Comment.vue"
   import {store} from "../store.js";
+
+  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+  axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
   
   export default {
     name: 'Article',
@@ -108,32 +113,20 @@
     data() {
       return {
         isAuthenticated : this.$session.exists(),
+        currentUser: this.$session.get('username'),
         commentForm: "",
-        comments: [],
         tempContent: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, \n\nconsectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered \n\n\n\n the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical \n\nLatin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of \n\nclassical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.",
          currentArticleId: this.$route.params.id,
          currentArticleOutlet: this.$route.params.outlet,
          apiRoot: process.env.VUE_APP_API_ROOT,
       };
     },
-    created(){
-      this.comments = [
-        {
-        "author": "Adam Smith",
-        "contents": "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest. All money is a matter of belief",
-        },
-        {
-        "author": "George Washington",
-        "contents": "It is better to offer no excuse than a bad one. It is better to be alone than in bad company. If freedom of speech is taken away, then dumb and silent we may be led, like sheep to the slaughter.",
-        }
-      ]
-    },
     computed: {
       currentArticle: function(){
         if (store.state.articles && Object.keys(store.state.articles).length > 0) {
           return store.state.articles[this.currentArticleOutlet][this.currentArticleId]
         } else {
-          return {title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading..."}
+          return {id:"loading...", title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading...", comments:"loading..."}
         }
       },
       relatedCards: function(){
@@ -141,38 +134,33 @@
           let outlet = store.state.articles[this.currentArticleOutlet].filter((_, index)=> index!=this.currentArticleId)
           return outlet.slice(0,10)
         } else {
-          return [{title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading..."}]
+          return [{id:"loading...", title:"loading...", author:"loading...", publishedAt:"loading...", urlToImage:"loading..."}]
         }
       },
     },
     methods: {
-      validate() {
-        if (this.commentForm === "") {
-          // do nothing
-        }
-      },
-      postComment(evt) {
-        evt.preventDefault();
+      postComment(uniqueArticleId) {
         const path = `http://${this.apiRoot}/comments/post_comment`;
         const payload = {
-          isLoggedIn: this.isAuthenticated,
+          username: this.currentUser,
+          articleID: uniqueArticleId,
           userComment: this.commentForm,
         };
         console.log(payload);
-        this.validate();
-        axios
+        if (this.isAuthenticated === false) {
+          this.$router.push("/login");
+        }
+        else if (this.commentForm != "") {
+          axios
           .post(path, payload)
           .then((response) => {
             console.log(response);
-            if (response.data["insert_status"] === "fail") {
-              this.$router.push("/login");
-            } else {
-              // refresh
-            }
+            window.location.reload();
           })
           .catch((error) => {
             console.log(error);
           });
+        }
         this.commentForm = "";
       },
     },

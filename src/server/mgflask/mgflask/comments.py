@@ -9,7 +9,8 @@ import uuid
 from uuid import uuid4
 
 from mgflask.db import db_session
-from mgflask.models import User
+from mgflask.models import Article, Comment, User
+from datetime import datetime
 
 bp = Blueprint('comments', __name__, url_prefix='/comments')
 
@@ -25,21 +26,19 @@ def post_comment():
 
     try:
         post_data = request.get_json()
+        username = post_data['username']
+        articleID = post_data['articleID']
         userComment = post_data['userComment']
-        loggedIn = post_data['isLoggedIn']
-        password = "password"
-        if not loggedIn:
-            response_object['insert_status'] = "fail"
-            response_object['msg'] = 'login required.'
-            error = True
     except Exception as e:
         response_object['msg'] = "Unsuccessful. Check Exceptions."
         response_object['exception'] = str(e)
         error = True
 
     if not error:
-        newComment = User(username=userComment,
-                       password=generate_password_hash(password))
+        article = db_session.query(Article).filter_by(id=articleID).one()
+        user = db_session.query(User).filter_by(username=username).one()
+        newComment = Comment(username=username, user=user, content=userComment, article=article, 
+            article_id=articleID, date=datetime.now())
         db_session.add(newComment)
         db_session.commit()
 
