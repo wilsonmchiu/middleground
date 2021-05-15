@@ -31,12 +31,11 @@
         class="justify-start"
         :ripple="false"
         @click="showReplies = !showReplies"
-        >Show the Replies
+        >Show {{replies.length}} Replies
       </v-btn>
       <div v-show="showReplies" v-for="reply in replies" :key="reply">
-        <reply :author="reply.author" :contents="reply.contents"></reply>
+        <reply :author="reply.username" :contents="reply.content"></reply>
       </div>
-
 
     </v-list-item-content>
   <!-- </v-card> -->
@@ -69,6 +68,9 @@
       };
     },
     methods: {
+      replyCount(replies) {
+        console.log(replies);
+      },
       postReply(commentID) {
         const path = `http://${this.apiRoot}/replies/post_reply`;
         const payload = {
@@ -94,6 +96,9 @@
         this.replyForm = "";
       },
     },
+    // beforeMount(){
+    //   this.getReplies()
+    // },
   }
 </script>
 
