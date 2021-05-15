@@ -4,10 +4,6 @@ from flask import (
     jsonify
 )
 
-from werkzeug.security import check_password_hash, generate_password_hash
-import uuid
-from uuid import uuid4
-
 from mgflask.db import db_session
 from mgflask.models import Comment, Reply, User
 from datetime import datetime

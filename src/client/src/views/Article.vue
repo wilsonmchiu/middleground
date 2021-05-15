@@ -26,8 +26,6 @@
           <subtitle-1>{{currentArticle.comments.length}} comments</subtitle-1>
         </v-card-text>
 
-        <form action = "/user/checkout" method="POST">
-        </form>
         <v-text-field
           v-model="commentForm"
           :placeholder="commentForm"
@@ -101,9 +99,6 @@
   import axios from 'axios';
   import Comment from "../components/Comment.vue"
   import {store} from "../store.js";
-
-  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-  axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
   
   export default {
     name: 'Article',

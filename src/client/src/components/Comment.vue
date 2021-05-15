@@ -47,9 +47,6 @@
 <script>
   import axios from 'axios';
   import Reply from "../components/Reply.vue"
-
-  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-  axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
   
   export default {
     name: 'Comment',
