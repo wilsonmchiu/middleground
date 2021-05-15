@@ -40,7 +40,7 @@
         <v-row class="justify-space-between">
           <v-col >
             <div v-for="comment in currentArticle.comments" :key="comment">
-              <comment :author="comment.username" :contents="comment.content"></comment>
+              <comment :id="comment.id" :author="comment.username" :contents="comment.content" :replies="comment.replies"></comment>
             </div>
           </v-col>
         </v-row>

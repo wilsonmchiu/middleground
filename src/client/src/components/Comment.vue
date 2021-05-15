@@ -16,10 +16,13 @@
         >Reply
       </v-btn>
       <v-text-field
+        v-model="replyForm"
+        :placeholder="replyForm"
         v-show="showReplyForm"
         :counter="160"
         :maxlength=160
         label="Write Comment Here"
+        @keydown.enter="postReply(id)"
       ></v-text-field>
 
       <v-btn
@@ -28,7 +31,7 @@
         class="justify-start"
         :ripple="false"
         @click="showReplies = !showReplies"
-        >Show {{replies.length}} Replies
+        >Show the Replies
       </v-btn>
       <div v-show="showReplies" v-for="reply in replies" :key="reply">
         <reply :author="reply.author" :contents="reply.contents"></reply>
@@ -39,38 +42,58 @@
   <!-- </v-card> -->
   </v-list-item>
 </v-card>
-  
 </template>
 
 
-
 <script>
+  import axios from 'axios';
   import Reply from "../components/Reply.vue"
+
+  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+  axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+  
   export default {
     name: 'Comment',
     components: {
       'reply': Reply
     },
-    props: ["author", "contents"],
+    props: ["id", "author", "contents", "replies"],
     data: function(){
-                return{
-                    showReplyForm: false,
-                    showReplies: false,
-                    replies: []
-                };
-            },
-    created(){
-      this.replies = [
-        {
-        "author": "Adam Smith",
-        "contents": "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest. All money is a matter of belief",
-        },
-        {
-        "author": "George Washington",
-        "contents": "It is better to offer no excuse than a bad one. It is better to be alone than in bad company. If freedom of speech is taken away, then dumb and silent we may be led, like sheep to the slaughter.",
+      return{
+        isAuthenticated : this.$session.exists(),
+        currentUser: this.$session.get('username'),
+        showReplyForm: false,
+        showReplies: false,
+        replyForm: "",
+        apiRoot: process.env.VUE_APP_API_ROOT,
+      };
+    },
+    methods: {
+      postReply(commentID) {
+        const path = `http://${this.apiRoot}/replies/post_reply`;
+        const payload = {
+          username: this.currentUser,
+          commentID: commentID,
+          userReply: this.replyForm,
+        };
+        console.log(payload);
+        if (this.isAuthenticated === false) {
+          this.$router.push("/login");
         }
-      ]
-    }
+        else if (this.replyForm != "") {
+          axios
+          .post(path, payload)
+          .then((response) => {
+            console.log(response);
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }
+        this.replyForm = "";
+      },
+    },
   }
 </script>
 
