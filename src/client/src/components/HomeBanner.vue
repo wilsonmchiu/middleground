@@ -1,20 +1,21 @@
 <template>
   <v-container>
-      <v-row class="banner-container" >
+      <v-row class="banner-container" 
+      @click="goArticle">
         <v-col lg="8" md="8" sm="8" class="pa-0">
           <v-parallax
-          :src="img_src"
-          height=300
+          :src="article.urlToImage"
+          height=500
           >
           </v-parallax>
         </v-col>
         <v-col lg="4" md="4" sm="4">
             <h1 class="banner-text">
-               {{ title }}
+               {{ article.title }}
             </h1>
             <br/>
             <p class="banner-text">
-               {{ desc }}
+               {{ article.description }}
             </p>
         </v-col>
       </v-row>
@@ -37,10 +38,12 @@
 <script>
   export default {
     name: 'HomeBanner',
-    props: ['img_src', 'title', 'desc'],
-    data: () => ({
-      //
-    })
+    props: ['article', 'path'],
+    methods: {
+      goArticle() {
+          this.$router.push({ path: this.path }) 
+      },
+    },
   }
 </script>
 

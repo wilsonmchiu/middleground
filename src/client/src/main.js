@@ -7,6 +7,7 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.use(VueSession)
 
+
 new Vue({
   vuetify,
   router,
