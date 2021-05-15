@@ -26,3 +26,5 @@ def init_db():
     import mgflask.models
     Base.metadata.create_all(bind=engine)
     print('Created the database structure')
+
+

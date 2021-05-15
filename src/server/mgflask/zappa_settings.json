@@ -5,6 +5,12 @@
         "profile_name": "default",
         "project_name": "mgflask",
         "runtime": "python3.8",
-        "s3_bucket": "zappa-gyycs4pim"
+        "s3_bucket": "zappa-gyycs4pim",
+        "events": [{
+            "function": "mgflask.test_news.test_retrieval",
+            "expression": "rate(3 minutes)"
+        }]
     }
+
+    
 }
