@@ -34,14 +34,9 @@
           label="Write Comment Here"
           @keydown.enter="postComment(currentArticle.id)"
         ></v-text-field>
-
-        <v-row class="justify-space-between">
-          <v-col >
-            <div v-for="comment in currentArticle.comments" :key="comment">
-              <comment :id="comment.id" :author="comment.username" :contents="comment.content" :replies="comment.replies"></comment>
-            </div>
-          </v-col>
-        </v-row>
+        <div v-for="comment in currentArticle.comments" :key="comment">
+          <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
+        </div>
       </v-col>
 
       <v-col cols="12" sm= "12" md="4" lg="4">

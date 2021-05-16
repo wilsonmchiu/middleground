@@ -1,45 +1,44 @@
 <template>
-<v-card class="transparent" flat>
+<v-card color="rgb(211, 211, 211, 0.3)" class="mb-2" flat>
   <v-list-item three-line >
-  <!-- <v-card> -->
     <v-list-item-content>
       <v-list-item-title>{{author}}</v-list-item-title>
+      <v-list-item-subtitle>{{date}}</v-list-item-subtitle>
       <v-list-item-subtitle>
-        {{contents}}
+        {{content}}
       </v-list-item-subtitle>
-      <v-btn
-        text
-        small
-        class="justify-start"
-        :ripple="false"
-        @click="showReplyForm = !showReplyForm"
-        >Reply
-      </v-btn>
-      <v-text-field
-        v-model="replyForm"
-        :placeholder="replyForm"
-        v-show="showReplyForm"
-        :counter="160"
-        :maxlength=160
-        label="Write Comment Here"
-        @keydown.enter="postReply(id)"
-      ></v-text-field>
-
-      <v-btn
-        text
-        small
-        class="justify-start"
-        :ripple="false"
-        @click="showReplies = !showReplies"
-        >Show {{replies.length}} Replies
-      </v-btn>
-      <div v-show="showReplies" v-for="reply in replies" :key="reply">
-        <reply :author="reply.username" :contents="reply.content"></reply>
-      </div>
-
     </v-list-item-content>
-  <!-- </v-card> -->
   </v-list-item>
+  <v-btn
+    text
+    small
+    class="justify-start pl-6"
+    :ripple="false"
+    @click="showReplyForm = !showReplyForm"
+    >Reply
+  </v-btn>
+  <v-text-field
+    class="pl-6 pr-6"
+    v-model="replyForm"
+    :placeholder="replyForm"
+    v-show="showReplyForm"
+    :counter="160"
+    :maxlength=160
+    label="Write Comment Here"
+    @keydown.enter="postReply(id)"
+  ></v-text-field>
+  <v-btn
+    text
+    small
+    class="justify-start pl-6"
+    v-if="replies.length > 0"
+    :ripple="false"
+    @click="showReplies = !showReplies"
+    >▾ Show {{replies.length}} Replies
+  </v-btn>
+  <div class="pl-8" v-show="showReplies" v-for="reply in replies" :key="reply">
+    <reply :author="reply.username" :content="reply.content"></reply>
+  </div>
 </v-card>
 </template>
 
@@ -53,7 +52,7 @@
     components: {
       'reply': Reply
     },
-    props: ["id", "author", "contents", "replies"],
+    props: ["id", "author", "date", "content", "replies"],
     data: function(){
       return{
         isAuthenticated : this.$session.exists(),

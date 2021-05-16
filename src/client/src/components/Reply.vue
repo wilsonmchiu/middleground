@@ -3,8 +3,9 @@
   <v-list-item three-line >
     <v-list-item-content>
       <v-list-item-title>{{author}}</v-list-item-title>
+      <v-list-item-subtitle>1/12/2921 This is dummy date</v-list-item-subtitle>
       <v-list-item-subtitle>
-        {{contents}}
+        {{content}}
       </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
@@ -14,7 +15,7 @@
 
 <script>
   export default {
-    props: ["author", "contents"]
+    props: ["author", "date", "content"]
   }
 </script>
 
