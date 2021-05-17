@@ -48,8 +48,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    
-    #app.cli.add_command(db.init_db_command)
 
 
     #Creates new instance of db

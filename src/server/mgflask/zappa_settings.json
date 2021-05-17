@@ -9,7 +9,7 @@
         "events": [
             {
             "function": "mgflask.test_news.test_retrieval",
-            "expression": "rate(3 minutes)"
+            "expression": "rate(7 days)"
             }
         ]
     }
