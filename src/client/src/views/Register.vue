@@ -50,7 +50,7 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      const path = `http://${this.apiRoot}/auth/register`;
+      const path = `${this.apiRoot}/auth/register`;
       const payload = {
         username: this.username,
         password: this.password,
