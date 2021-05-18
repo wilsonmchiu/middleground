@@ -24,6 +24,7 @@
     v-if = "deleteEditAllowed"
     text
     small
+    color="red darken-4"
     class="justify-start px-6 mt-n6"
     :ripple="false"
     @click="deleteComment(id)"
@@ -33,6 +34,7 @@
     v-if = "deleteEditAllowed"
     text
     small
+    color="blue darken-4"
     class="justify-start px-6 mt-n6"
     :ripple="false"
     @click="showEditForm = !showEditForm"
@@ -68,7 +70,7 @@
     >▾ Show {{replies.length}} Replies
   </v-btn>
   <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply">
-    <reply :author="reply.username" :date="reply.date" :content="reply.content"></reply>
+    <reply :author="reply.username" :date="reply.date" :content="reply.content" :id="reply.id"></reply>
   </div>
 </v-card>
 </template>
@@ -100,7 +102,7 @@
         console.log(replies);
       },
       postReply(commentID) {
-        const path = `http://${this.apiRoot}/replies/post_reply`;
+        const path = `http://${this.apiRoot}/replies/post`;
         const payload = {
           username: this.currentUser,
           commentID: commentID,

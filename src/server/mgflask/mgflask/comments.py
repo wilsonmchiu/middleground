@@ -26,14 +26,18 @@ def post_comment():
         username = post_data['username']
         articleID = post_data['articleID']
         userComment = post_data['userComment']
+        article = db_session.query(Article).filter_by(id=articleID).one()
+        if not article:
+            raise ValueError(f"article id {articleID} does not exist in the database")
+        user = db_session.query(User).filter_by(username=username).one()
+        if not user:
+            raise ValueError(f"username {username} does not exist in the database")
     except Exception as e:
         response_object['msg'] = "Unsuccessful. Check Exceptions."
         response_object['exception'] = str(e)
         error = True
 
     if not error:
-        article = db_session.query(Article).filter_by(id=articleID).one()
-        user = db_session.query(User).filter_by(username=username).one()
         newComment = Comment(username=username, user=user, content=userComment, article=article, 
             article_id=articleID, date=datetime.now())
         db_session.add(newComment)
@@ -61,7 +65,6 @@ def delete_comment():
         error = True
 
     if not error:
-        print("deleting comment", commentID)
         db_session.delete(comment)
         db_session.commit()
 
@@ -75,7 +78,6 @@ def edit_comment():
     }
 
     error = False
-    print("in edit")
     try:
         data = request.get_json()
         commentID = data['commentID']
@@ -89,7 +91,6 @@ def edit_comment():
         error = True
 
     if not error:
-        print("updating comment", commentID, "content: ",content)
         comment.content = content
         comment.date= datetime.now()
         db_session.commit()
