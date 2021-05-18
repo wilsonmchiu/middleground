@@ -1,6 +1,6 @@
 <template>
 <v-card color="rgb(211, 211, 211, 0.3)" class="mb-2" flat>
-  <v-list-item three-line >
+  <v-list-item three-line v-if="!showEditForm">
     <v-list-item-content>
       <v-list-item-title>{{author}}</v-list-item-title>
       <v-list-item-subtitle>{{date}}</v-list-item-subtitle>
@@ -10,12 +10,31 @@
     </v-list-item-content>
   </v-list-item>
   <v-btn
+    v-if="!showEditForm"
     text
     small
     class="justify-start pl-6"
     :ripple="false"
     @click="showReplyForm = !showReplyForm"
     >Reply
+  </v-btn>
+  <v-btn
+    v-if = "currentUser==author && !showEditForm"
+    text
+    small
+    class="justify-start pl-6"
+    :ripple="false"
+    @click="deleteComment(id)"
+    >Delete
+  </v-btn>
+  <v-btn
+    v-if = "currentUser==author && !showEditForm"
+    text
+    small
+    class="justify-start pl-6"
+    :ripple="false"
+    @click="showEditForm = !showEditForm"
+    >Edit
   </v-btn>
   <v-text-field
     class="pl-6 pr-6"
@@ -26,6 +45,15 @@
     :maxlength=160
     label="Write Comment Here"
     @keydown.enter="postReply(id)"
+  ></v-text-field>
+  <v-text-field
+    class="pl-6 pr-6"
+    v-model="content"
+    v-show="showEditForm"
+    :counter="160"
+    :maxlength=160
+    :label="'Edit your comment from ' + date"
+    @keydown.enter="editComment(id)"
   ></v-text-field>
   <v-btn
     text
@@ -58,6 +86,7 @@
         isAuthenticated : this.$session.exists(),
         currentUser: this.$session.get('username'),
         showReplyForm: false,
+        showEditForm: false,
         showReplies: false,
         replyForm: "",
         apiRoot: process.env.VUE_APP_API_ROOT,
@@ -91,10 +120,51 @@
         }
         this.replyForm = "";
       },
+      deleteComment(commentID) {
+        const path = `http://${this.apiRoot}/comments/delete`;
+        const payload = {
+          commentID: commentID
+        };
+        console.log(payload);
+        if (this.isAuthenticated === false) {
+          this.$router.push("/login");
+        }
+        axios
+        .put(path, payload)
+        .then((response) => {
+          console.log(response);
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
     },
+    editComment(commentID) {
+        const path = `http://${this.apiRoot}/comments/edit`;
+        const payload = {
+          commentID: commentID,
+          content: this.content
+        };
+        console.log(payload);
+        if (this.isAuthenticated === false) {
+          this.$router.push("/login");
+        }
+        axios
+        .put(path, payload)
+        .then((response) => {
+          console.log(response);
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
+    },
+  }
     // beforeMount(){
     //   this.getReplies()
     // },
-  }
+}
 </script>
 

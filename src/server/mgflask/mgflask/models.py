@@ -93,7 +93,7 @@ class Comment(Base):
     right_bias = Column(Integer, default=0)
     left_bias = Column(Integer, default=0)
     content = Column(Text, nullable=False)
-    replies = relationship('Reply', back_populates="comment")
+    replies = relationship('Reply', back_populates="comment", cascade="all, delete-orphan")
     comment_ratings = relationship('CommentRating', back_populates="comment")
 
     @property
