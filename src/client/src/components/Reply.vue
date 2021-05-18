@@ -34,7 +34,7 @@
   </v-btn>
 
   <v-text-field
-    class="pl-6 pr-6"
+    class="pl-4 pr-6 pt-6"
     v-model="content"
     v-show="showEditForm"
     :counter="160"
@@ -42,6 +42,16 @@
     :label="'Edit your reply from ' + date"
     @keydown.enter="editReply(id)"
   ></v-text-field>
+  <v-btn
+    v-show="showEditForm"
+    text
+    small
+    color="blue darken-4"
+    class="justify-start px-6 ml-4 mt-n6"
+    :ripple="false"
+    @click="showEditForm = !showEditForm"
+    >Cancel
+  </v-btn>
 </v-card>
   
 </template>
