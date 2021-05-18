@@ -1,5 +1,5 @@
 <template>
-<v-card color="rgb(211, 211, 211, 0.3)" class="mb-2" flat>
+<v-card color="rgb(211, 211, 211, 0)" class="my-n4" flat>
   <v-list-item three-line >
     <v-list-item-content>
       <v-list-item-title>{{author}}</v-list-item-title>
@@ -9,16 +9,18 @@
       </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
+
   <v-btn
     text
     small
-    class="justify-start pl-6"
+    color="blue darken-2"
+    class="justify-start px-6 ml-4 mt-n6"
     :ripple="false"
     @click="showReplyForm = !showReplyForm"
     >Reply
   </v-btn>
   <v-text-field
-    class="pl-6 pr-6"
+    class="px-6"
     v-model="replyForm"
     :placeholder="replyForm"
     v-show="showReplyForm"
@@ -27,17 +29,38 @@
     label="Write Comment Here"
     @keydown.enter="postReply(id)"
   ></v-text-field>
+
   <v-btn
     text
     small
-    class="justify-start pl-6"
+    v-if="currentUser == author"
+    color="blue darken-2"
+    class="justify-start px-6 mt-n6"
+    :ripple="false"
+    >Edit
+  </v-btn>
+  <v-btn
+    text
+    small
+    v-if="currentUser == author"
+    color="red darken-4"
+    class="justify-start px-6 mt-n6"
+    :ripple="false"
+    >Delete
+  </v-btn>
+
+  <v-btn
+    text
+    small
+    color="blue darken-2"
+    class="justify-start px-6 mt-n6"
     v-if="replies.length > 0"
     :ripple="false"
     @click="showReplies = !showReplies"
     >▾ Show {{replies.length}} Replies
   </v-btn>
-  <div class="pl-8" v-show="showReplies" v-for="reply in replies" :key="reply">
-    <reply :author="reply.username" :content="reply.content"></reply>
+  <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply">
+    <reply :author="reply.username" :date="reply.date" :content="reply.content"></reply>
   </div>
 </v-card>
 </template>
