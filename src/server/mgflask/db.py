@@ -30,10 +30,10 @@ LIVE_SQLALCHEMY_DATABASE_URI = (
 )
 
 # Use this for local deployment. make sure to use Google Cloud Proxy
-engine = create_engine(LOCAL_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
+# engine = create_engine(LOCAL_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
 
 # Use this for deployments
-# engine = create_engine(LIVE_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
+engine = create_engine(LIVE_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
 
 # Use this for local testing. make sure to uncomment lines below 
 # engine = create_engine('sqlite:////tmp/mgflask.db', convert_unicode=True)
