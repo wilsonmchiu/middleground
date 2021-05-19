@@ -31,9 +31,9 @@ class Article(Base):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
     publishedAt = Column(DateTime)
-    author = Column(String(60))
+    author = Column(Text)
     source = Column(String(24), nullable=False)
-    title = Column(String(60), nullable=False)
+    title = Column(Text, nullable=False)
     right_bias = Column(Integer, default=0)
     left_bias = Column(Integer, default=0)
     content = Column(Text, nullable=False)
