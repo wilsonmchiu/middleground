@@ -7,8 +7,8 @@ from datetime import datetime
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    username = Column(String(24), unique=True)
-    password = Column(String(24), nullable=False)
+    username = Column(String(64), unique=True, nullable=False)
+    password = Column(Text, nullable=False)
 
     def __init__(self, username=None, password=None):
         self.username = username

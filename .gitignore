@@ -12,4 +12,5 @@ pyvenv.cfg
 var/
 src/server/mgflask/env
 src/server/mgflask/mgflask.db
+creds.json
 
