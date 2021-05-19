@@ -1,15 +1,23 @@
 from flask import (
     Blueprint,
     request,
-    jsonify
+    jsonify,
+    current_app
 )
 
 from werkzeug.security import check_password_hash, generate_password_hash
 import uuid
 from uuid import uuid4
 
+
 from mgflask.db import db_session
 from mgflask.models import User
+from functools import wraps
+
+import jwt
+import datetime
+
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -65,7 +73,8 @@ def register():
 
     if not error:
         newUser = User(username=username,
-                       password=generate_password_hash(password))
+                       password=generate_password_hash(password),
+                       public_id=str(uuid.uuid4()))
         db_session.add(newUser)
         db_session.commit()
 
@@ -100,6 +109,9 @@ def login():
     if not error:
         response_object['msg'] = "Login Successful"
         response_object['auth'] = "success"
-        response_object['token'] = uuid.uuid4()
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow(
+        ) + datetime.timedelta(minutes=30)}, current_app.config['SECRET_KEY'])
+        response_object['token'] = token
+        return jsonify(response_object), 201
 
-    return jsonify(response_object)
+    return jsonify(response_object), 401

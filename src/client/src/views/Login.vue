@@ -15,6 +15,7 @@
 //import Vue from 'vue';
 import axios from "axios";
 import Alert from "../components/Alert.vue";
+import {store} from "../store.js";
 
 export default {
   components: {
@@ -49,17 +50,18 @@ export default {
       axios
         .post(`http://${this.apiRoot}/auth/login`, payload)
         .then((response) => {
-          console.log(response);
           if (response.data["auth"] === "success") {
             this.$session.start();
             this.$session.set("jwt", response.data["token"]);
             this.$session.set("username", this.username);
-            this.$emit('justLoggedIn', true)
+            this.$emit('justLoggedIn', true);
             this.$router.push("/");
+            store.login(this.username);
           } else {
             this.showError = true;
             console.log(response.data["msg"]);
             this.alertMessage = response.data["msg"];
+            this.showError = true;
           }
         })
         .catch((error) => {

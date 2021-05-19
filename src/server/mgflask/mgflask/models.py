@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from mgflask.db import Base
-from datetime import datetime
+
 
 
 class User(Base):
