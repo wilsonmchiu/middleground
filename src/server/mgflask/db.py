@@ -29,14 +29,14 @@ LIVE_SQLALCHEMY_DATABASE_URI = (
     con=CLOUDSQL_CONNECTION_NAME,
 )
 
-# Use this for local deployment. make sure to use Google Cloud Proxy
+# Use this for to access the Google Cloud SQL db. make sure to use Google Cloud Proxy
 # engine = create_engine(LOCAL_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
 
 # Use this for deployments
 engine = create_engine(LIVE_SQLALCHEMY_DATABASE_URI, convert_unicode=True)
 
 # Use this for local testing. make sure to uncomment lines below 
-# engine = create_engine('sqlite:////tmp/mgflask.db', convert_unicode=True)
+# engine = create_engine('sqlite:///mgflask.db', convert_unicode=True)
 # # enables foreign key constraints for SQLite
 # def _fk_pragma_on_connect(dbapi_con, con_record):
 #     dbapi_con.execute('pragma foreign_keys=ON')
