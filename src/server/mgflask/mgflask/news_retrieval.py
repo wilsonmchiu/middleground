@@ -1,6 +1,7 @@
 from newsapi import NewsApiClient 
 from mgflask.db import db_session
 from mgflask.models import Article
+from sqlalchemy import and_
 from datetime import datetime
 
 API_KEYS = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
@@ -58,9 +59,13 @@ def get_everything(**args):
 
 def insert_articles(newsapi_articles):
   count=0;
-
+  duplicate_count=0
   for article in newsapi_articles:
     if not article['content']: #throw away articles with no content
+      continue
+    if db_session.query(Article.id).filter(and_(Article.url==article['url'], Article.description==article['description'])).all():   
+      #check for duplicates by matching the descriptions and url. Could be changed to check with other fields as well
+      duplicate_count+=1
       continue
     if article['source']['id']:    #source id could be None 
       article['source'] = article['source']['id']          
@@ -73,6 +78,7 @@ def insert_articles(newsapi_articles):
     count+=1
 
   db_session.commit()
+  print(str(duplicate_count), " duplicate articles detected")
   print(str(count), " articles inserted into database")
 
 def get_api_key(args): 
