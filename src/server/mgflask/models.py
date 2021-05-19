@@ -7,7 +7,7 @@ from datetime import datetime
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    username = Column(String(64), unique=True, nullable=False)
+    username = Column(String(60), unique=True, nullable=False)
     password = Column(Text, nullable=False)
 
     def __init__(self, username=None, password=None):
@@ -160,7 +160,7 @@ class ArticleRating(Base):
     __tablename__ = 'article_rating'
     item_id = Column(Integer, ForeignKey('article.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
@@ -190,7 +190,7 @@ class CommentRating(Base):
     __tablename__ = 'comment_rating'
     item_id = Column(Integer, ForeignKey('comment.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
@@ -220,7 +220,7 @@ class ReplyRating(Base):
     __tablename__ = 'reply_rating'
     item_id = Column(Integer, ForeignKey('reply.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
