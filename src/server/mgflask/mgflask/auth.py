@@ -74,7 +74,7 @@ def register():
     if not error:
         newUser = User(username=username,
                        password=generate_password_hash(password),
-                       public_id=str(uuid.uuid4()))
+                       )
         db_session.add(newUser)
         db_session.commit()
 
