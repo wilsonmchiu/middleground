@@ -73,10 +73,11 @@ def get_articles():
                     filters.append(col.between(param[0], param[1]))
                 else:
                     filters.append(col.between(
-                        param[0], func.date(param[0], '+1 day')))
+                        param[0], func.ADDDATE(param[0], 1)))
+                    
             else:
                 filters.append(col.between(
-                    param, func.date(param, '+1 day')))
+                        param, func.ADDDATE(param, 1)))
 
     articles = db_session.query(Article).filter(and_(*filters))
 

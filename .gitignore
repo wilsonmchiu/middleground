@@ -13,4 +13,5 @@ var/
 src/server/mgflask/env
 mgflask.db
 src/server/mgflask/mgflask.db
+creds.json
 
