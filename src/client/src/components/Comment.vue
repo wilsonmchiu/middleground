@@ -1,45 +1,76 @@
-<template>
-<v-card color="rgb(211, 211, 211, 0)" class="my-n4" flat>
-  <v-list-item three-line v-if="!showEditForm">
-    <v-list-item-content>
-      <v-list-item-title>{{author}}</v-list-item-title>
-      <v-list-item-subtitle>{{date}}</v-list-item-subtitle>
-      <v-list-item-subtitle>
-        {{content}}
-      </v-list-item-subtitle>
-    </v-list-item-content>
-  </v-list-item>
+<style>
+  .author {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000; 
+    font-weight: 500;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline;
+    font-size:20px;
+  }
+  .date {
+    font-family: Arial, Helvetica, sans-serif;
+    color:#909090;
+    padding-top: 0px;
+    padding-bottom: 0px;  
+    display: inline;
+    font-size: 12px;
+  }
+  .content {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #505050;
+    padding-top: 0px;
+    padding-bottom: 0px;  
+    display:inline;    
+    font-size:15px;
+  }
+</style>
 
+<template>
+<v-card color="rgb(211, 211, 211, 0)" class="my-n0" flat>
+  <div v-if="!showEditForm">
+      <p class="author">{{author}} </p>
+      <p class="date">{{date}}</p><br/>
+      <p class="content">{{content}}</p><br/>
+  </div>
+
+<!-- Reply Button -->
   <v-btn
-    v-if="!showEditForm"
+    v-if="!showEditForm & !showReplyForm"
     text
     small
     color="blue darken-2"
-    class="justify-start px-6 ml-4 mt-n6"
+    class="justify-start px-6 ml-0 mt-n1"
     :ripple="false"
     @click="showReplyForm = !showReplyForm"
     >Reply
   </v-btn>
+
+<!-- Delete Button -->
   <v-btn
     v-if = "deleteEditAllowed"
     text
     small
     color="red darken-4"
-    class="justify-start px-6 mt-n6"
+    class="justify-start px-6 mt-n1"
     :ripple="false"
     @click="deleteComment(id)"
     >Delete
   </v-btn>
+
+<!-- Edit Button -->
   <v-btn
     v-if = "deleteEditAllowed"
     text
     small
     color="blue darken-4"
-    class="justify-start px-6 mt-n6"
+    class="justify-start px-6 mt-n1"
     :ripple="false"
     @click="showEditForm = !showEditForm"
     >Edit
   </v-btn>
+
+<!-- Reply Field -->
   <v-text-field
     class="px-6"
     v-model="replyForm"
@@ -47,11 +78,37 @@
     v-show="showReplyForm"
     :counter="160"
     :maxlength=160
-    label="Write Comment Here"
+    label="Write Reply Here"
     @keydown.enter="postReply(id)"
   ></v-text-field>
+
+<!-- Post Reply Button -->
+  <v-btn
+    v-show="showReplyForm"
+    text
+    small
+    color="blue darken-4"
+    class="justify-start px-6 ml-4 mt-n6"
+    :ripple="false"
+    @click="postReply(id); showReplyForm = false"
+    >Post Reply
+  </v-btn>
+
+<!-- Cancel Reply Button -->
+  <v-btn
+    v-show="showReplyForm"
+    text
+    small
+    color="red darken-4"
+    class="justify-start px-6 ml-4 mt-n6"
+    :ripple="false"
+    @click="showReplyForm = false"
+    >Cancel
+  </v-btn>
+
+<!-- Edit Comment Field -->
   <v-text-field
-    class="pl-4 pr-6 pt-6"
+    class="pl-4 pr-6 pt-2"
     v-model="content"
     v-show="showEditForm"
     :counter="160"
@@ -59,26 +116,44 @@
     :label="'Edit your comment from ' + date"
     @keydown.enter="editComment(id)"
   ></v-text-field>
+
+<!-- Save Edit Button -->
   <v-btn
     v-show="showEditForm"
     text
     small
     color="blue darken-4"
-    class="justify-start px-6 ml-4 mt-n6"
+    class="justify-start px-6 ml-4 mt-n1"
+    :ripple="false"
+    @click="editComment(id); showEditForm = !showEditForm"
+    >Save
+  </v-btn>
+
+<!-- Cancel Edit Button -->
+  <v-btn
+    v-show="showEditForm"
+    text
+    small
+    color="blue darken-4"
+    class="justify-start px-6 ml-4 mt-n1"
     :ripple="false"
     @click="showEditForm = !showEditForm"
     >Cancel
   </v-btn>
+
+<br v-if="showReplyForm"/>
+<!-- Show Replies Button -->
   <v-btn
     text
     small
     color="blue darken-2"
-    class="justify-start px-6 mt-n6"
+    class="justify-start px-6 mt-n1"
     v-if="replies.length > 0"
     :ripple="false"
     @click="showReplies = !showReplies"
     >▾ Show {{replies.length}} Replies
   </v-btn>
+
   <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply">
     <reply :author="reply.username" :date="reply.date" :content="reply.content" :id="reply.id"></reply>
   </div>

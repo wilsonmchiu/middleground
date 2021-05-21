@@ -1,22 +1,17 @@
 <template>
-<v-card class="transparent my-n4" flat>
-  <v-list-item three-line v-if="!showEditForm">
-    <v-list-item-content>
-      <v-list-item-title>{{author}}</v-list-item-title>
-      <v-list-item-subtitle>{{date}}</v-list-item-subtitle>
-      <v-list-item-subtitle>
-        {{content}}
-      </v-list-item-subtitle>
-    </v-list-item-content>
-  </v-list-item>
-
+<v-card class="transparent my-n0" flat>
+  <div v-if="!showEditForm">
+    <p class="author">{{author}} </p>
+    <p class="date">{{date}}</p><br/>
+    <p class="content">{{content}}</p><br/>
+  </div>
 
   <v-btn
     text
     small
     v-if="deleteEditAllowed"
     color="red darken-4"
-    class="justify-start px-6 ml-4 mt-n6"
+    class="justify-start px-6 ml-4 mt-n1"
     :ripple="false"
     @click="deleteReply(id)"
     >Delete
@@ -27,7 +22,7 @@
     small
     v-if="deleteEditAllowed"
     color="blue darken-4"
-    class="justify-start px-6 ml-4 mt-n6"
+    class="justify-start px-6 ml-4 mt-n1"
     :ripple="false"
     @click="showEditForm = !showEditForm"
     >Edit
@@ -42,12 +37,24 @@
     :label="'Edit your reply from ' + date"
     @keydown.enter="editReply(id)"
   ></v-text-field>
+  
+  <!-- Save Edit Button -->
   <v-btn
     v-show="showEditForm"
     text
     small
     color="blue darken-4"
-    class="justify-start px-6 ml-4 mt-n6"
+    class="justify-start px-6 ml-4 mt-n1"
+    :ripple="false"
+    @click="editReply(id); showEditForm = !showEditForm"
+    >Save
+  </v-btn>
+  <v-btn
+    v-show="showEditForm"
+    text
+    small
+    color="blue darken-4"
+    class="justify-start px-6 ml-4 mt-n1"
     :ripple="false"
     @click="showEditForm = !showEditForm"
     >Cancel
