@@ -50,12 +50,13 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      const path = `${this.apiRoot}/auth/register`;
+      const path = `http://${this.apiRoot}/auth/register`;
       const payload = {
         username: this.username,
         password: this.password,
       };
       console.log(payload);
+      console.log(path)
       this.validate();
       axios
         .post(path, payload)
