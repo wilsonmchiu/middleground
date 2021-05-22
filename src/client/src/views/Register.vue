@@ -64,14 +64,13 @@ export default {
           console.log(response);
           if (response.data["insert_status"] === "success") {
             this.$router.push("/login");
-          } else {
-            this.alertMessage = response.data["msg"];
-            this.showError = true;
-            this.initForm();
-          }
+          } 
         })
         .catch((error) => {
           console.log(error);
+            this.alertMessage = error.response.data["msg"];
+            this.showError = true;
+            this.initForm();
         });
       this.initForm();
     },

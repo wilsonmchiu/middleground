@@ -57,14 +57,11 @@ export default {
             this.$emit('justLoggedIn', true);
             this.$router.push("/");
             store.login(this.username);
-          } else {
-            this.showError = true;
-            console.log(response.data["msg"]);
-            this.alertMessage = response.data["msg"];
-            this.showError = true;
-          }
+          } 
         })
         .catch((error) => {
+          this.alertMessage = error.response.data["msg"];
+          this.showError = true;
           console.log(error);
         });
     },

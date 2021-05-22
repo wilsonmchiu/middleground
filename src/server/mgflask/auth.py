@@ -77,8 +77,9 @@ def register():
                        )
         db_session.add(newUser)
         db_session.commit()
+        return jsonify(response_object), 201
 
-    return jsonify(response_object)
+    return jsonify(response_object), 401
 
 
 @bp.route('/login', methods=['POST'])
