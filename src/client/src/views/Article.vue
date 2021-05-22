@@ -154,7 +154,7 @@
     },
     methods: {
       postComment(uniqueArticleId) {
-        const path = `http://${this.apiRoot}/comments/post`;
+        const path = `${this.apiRoot}/comments/post`;
         const payload = {
           username: this.currentUser,
           articleID: uniqueArticleId,

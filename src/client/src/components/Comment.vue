@@ -187,7 +187,7 @@
         console.log(replies);
       },
       postReply(commentID) {
-        const path = `http://${this.apiRoot}/replies/post`;
+        const path = `${this.apiRoot}/replies/post`;
         const payload = {
           username: this.currentUser,
           commentID: commentID,
@@ -211,7 +211,7 @@
         this.replyForm = "";
       },
       deleteComment(commentID) {
-        const path = `http://${this.apiRoot}/comments/delete`;
+        const path = `${this.apiRoot}/comments/delete`;
         const payload = {
           commentID: commentID
         };
@@ -231,7 +231,7 @@
         
     },
     editComment(commentID) {
-        const path = `http://${this.apiRoot}/comments/edit`;
+        const path = `${this.apiRoot}/comments/edit`;
         const payload = {
           commentID: commentID,
           content: this.content

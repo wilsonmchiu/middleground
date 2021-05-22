@@ -76,7 +76,7 @@ import axios from 'axios';
     },
     methods:{
       deleteReply(replyID) {
-        const path = `http://${this.apiRoot}/replies/delete`;
+        const path = `${this.apiRoot}/replies/delete`;
         const payload = {
           replyID: replyID
         };
@@ -96,7 +96,7 @@ import axios from 'axios';
         
     },
     editReply(replyID) {
-        const path = `http://${this.apiRoot}/replies/edit`;
+        const path = `${this.apiRoot}/replies/edit`;
         const payload = {
           replyID: replyID,
           content: this.content
