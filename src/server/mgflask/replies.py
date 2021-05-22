@@ -77,7 +77,7 @@ def edit_comment():
     }
 
     error = False
-    print("in edit")
+
     try:
         data = request.get_json()
         replyID = data['replyID']
