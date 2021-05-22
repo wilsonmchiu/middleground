@@ -5,7 +5,7 @@ from mgflask.models import User, Article, Comment, Reply, ArticleRating, Comment
 bp = Blueprint('db', __name__, url_prefix='/test_db')
 
 
-@bp.route('/', methods=('GET', 'POST'))
+@bp.route('/', methods=(['GET', 'POST']))
 def test_db():
     user1 = User(username='user1', password='pass1')
     article1 = Article(author='ARTICLE 1', source='t source',

@@ -32,7 +32,7 @@ export default {
       
       let newDate = new Date();
       await axios
-        .get(`http://${this.apiRoot}/news`, {
+        .get(`${this.apiRoot}/news`, {
           params: {
             partition_by: 'source', 
             limit_articles: 50, 

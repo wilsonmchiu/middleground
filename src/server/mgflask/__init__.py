@@ -51,7 +51,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
+    #Creates new instance of db
     db.init_db()
+
 
     # REGISTER IN FACTORY
     # --------------------
@@ -62,3 +65,7 @@ def create_app(test_config=None):
     app.register_blueprint(replies.bp)
 
     return app
+
+
+app = create_app()
+

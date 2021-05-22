@@ -47,7 +47,7 @@ export default {
     async login(payload) {
       console.log(payload);
       axios
-        .post(`http://${this.apiRoot}/auth/login`, payload)
+        .post(`${this.apiRoot}/auth/login`, payload)
         .then((response) => {
           console.log(response);
           if (response.data["auth"] === "success") {

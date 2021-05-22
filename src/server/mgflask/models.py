@@ -7,8 +7,8 @@ from datetime import datetime
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    username = Column(String(24), unique=True)
-    password = Column(String(24), nullable=False)
+    username = Column(String(60), unique=True, nullable=False)
+    password = Column(Text, nullable=False)
 
     def __init__(self, username=None, password=None):
         self.username = username
@@ -31,9 +31,9 @@ class Article(Base):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
     publishedAt = Column(DateTime)
-    author = Column(String(60))
+    author = Column(Text)
     source = Column(String(24), nullable=False)
-    title = Column(String(60), nullable=False)
+    title = Column(Text, nullable=False)
     right_bias = Column(Integer, default=0)
     left_bias = Column(Integer, default=0)
     content = Column(Text, nullable=False)
@@ -174,7 +174,7 @@ class ArticleRating(Base):
     __tablename__ = 'article_rating'
     item_id = Column(Integer, ForeignKey('article.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
@@ -204,7 +204,7 @@ class CommentRating(Base):
     __tablename__ = 'comment_rating'
     item_id = Column(Integer, ForeignKey('comment.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
@@ -234,7 +234,7 @@ class ReplyRating(Base):
     __tablename__ = 'reply_rating'
     item_id = Column(Integer, ForeignKey('reply.id'),
                      primary_key=True, nullable=False)
-    username = Column(String(24), ForeignKey('user.username'),
+    username = Column(String(60), ForeignKey('user.username'),
                       nullable=False, primary_key=True)
     user = relationship('User')
     rated = Column(Boolean, default=False)
