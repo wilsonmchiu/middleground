@@ -14,6 +14,7 @@ export default {
   name: "Home",
   computed:{
     computedArticles: function(){
+      console.log("computedArticles", store.state.articles)
       if (store.state.articles) {
         return store.state.articles
       } else {
