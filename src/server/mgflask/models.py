@@ -93,7 +93,7 @@ class Comment(Base):
     right_bias = Column(Integer, default=0)
     left_bias = Column(Integer, default=0)
     content = Column(Text, nullable=False)
-    replies = relationship('Reply', back_populates="comment")
+    replies = relationship('Reply', back_populates="comment", cascade="all, delete-orphan")
     comment_ratings = relationship('CommentRating', back_populates="comment")
 
     @property
@@ -123,6 +123,7 @@ class Comment(Base):
             'right_bias': self.right_bias,
             'left_bias': self.left_bias,
             'content': self.content,
+            'replies': [reply.serialize_response for reply in self.replies],
             'comment_ratings': [rating.serialize_response for rating in self.comment_ratings],
         }
 
@@ -130,7 +131,7 @@ class Reply(Base):
     __tablename__ = 'reply'
     id = Column(Integer, primary_key=True)
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=False)
-    comment = relationship('Comment')
+    comment = relationship('Comment', back_populates="replies")
     date = Column(DateTime)
     user = relationship("User")
     username = Column(String(60), ForeignKey('user.username'))
@@ -153,6 +154,19 @@ class Reply(Base):
             'left_bias': self.left_bias,
             'content': self.content,
             'reply_ratings': str(self.reply_ratings)
+        }
+
+    @property
+    def serialize_response(self):
+        """Return object data as response to the client"""
+        return {
+            'id': self.id,
+            'date': self.date.strftime('%Y-%m-%d %H:%M:%S') if self.date else None,
+            'username': self.username,
+            'right_bias': self.right_bias,
+            'left_bias': self.left_bias,
+            'content': self.content,
+            'reply_ratings': [rating.serialize_response for rating in self.reply_ratings],
         }
 
 

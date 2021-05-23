@@ -2,6 +2,8 @@
 from . import db
 from . import news
 from . import test_db
+from . import comments
+from . import replies
 import os
 
 from flask import Flask
@@ -59,6 +61,8 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(news.bp)
     app.register_blueprint(test_db.bp)
+    app.register_blueprint(comments.bp)
+    app.register_blueprint(replies.bp)
 
     return app
 
