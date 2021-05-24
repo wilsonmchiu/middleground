@@ -25,25 +25,33 @@ class TestNews(unittest.TestCase):
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
     
-    def test_2_single_paramself(self):        
+    def test_2_single_param(self):        
         response = requests.get(baseUrl, params={'source': "cnn", 'title': "vaccine", 'publishedAt': '2021-05-21', 'limit_articles': 5})
         print("----------------test2 single parameters----------------")
         for article in response.json()['articles']:
             print("source: ", article['source'])
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
+    
+    def test_3_singletonlist_param(self):        
+        response = requests.get(baseUrl, params={'source': ["cnn"], 'title': ["vaccine"], 'publishedAt': ['2021-05-21'], 'limit_articles': 5})
+        print("----------------test3 singleton list parameters----------------")
+        for article in response.json()['articles']:
+            print("source: ", article['source'])
+            print("title: ", article['title'])
+            print("publishedAt: ", article['publishedAt'])
 
-    def test_3_no_paramself(self):
+    def test_4_no_paramself(self):
         response = requests.get(baseUrl)
-        print("----------------test3 no parameters ----------------")
+        print("----------------test4 no parameters ----------------")
         for article in response.json()['articles'][:5]:
             print("source: ", article['source'])
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
 
-    def test_4_partition_by(self):
+    def test_5_partition_by(self):
         response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 10, 'publishedAt': ['2021-04-20', '2021-05-31']})
-        print("----------------test4 parameter:partition_by ----------------")
+        print("----------------test5 partition_by ----------------")
         for partition_key, partition in response.json()['articles'].items():
             print( partition_key, ": ")
             for article in partition:

@@ -65,24 +65,12 @@ def get_articles():
                 filters.append(col.ilike("%"+param+"%"))
         elif col.key in RANGE_COLUMNS and param:
             if isinstance(param, list):
-                if len(param) >= 2:
-                    filters.append(col.between(param[0], param[1]))
-                else:
-                    filters.append(col == param[0])
+                filters.append(col.between(param[0], param[1]))
             else:
                 filters.append(col == param)
         elif col.key in DATE_COLUMNS and param:
             if isinstance(param, list):
-                if len(param) >= 2:
-                    filters.append(col.between(param[0], param[1]))
-                else:
-                    if (os.environ.get('FLASK_ENV') is None):
-                        filters.append(col.between(
-                            param[0], func.date(param[0], '+1 day')))
-                    else:
-                        filters.append(col.between(
-                            param[0], func.ADDDATE(param[0], 1)))
-                    
+                filters.append(col.between(param[0], param[1])) 
             else:
                 if (os.environ.get('FLASK_ENV') is None):
                     filters.append(col.between(
