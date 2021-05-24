@@ -3,24 +3,22 @@ import requests
 import os
 import subprocess
 import time
+import signal
+import psutil
 
 
-######################## initialize variables ################################################
 
 host = "http://127.0.0.1:5000"
 endpoint = "news"
 baseUrl = host + "/"+endpoint
 app_name = 'mgflask'
-server_proc = None
 
-
-################################# Unit Test Class ############################################################
 
 class TestNews(unittest.TestCase):
 
     def test_1_list_params(self):
         response = requests.get(baseUrl, params={'source': ["cnn", 'bbc-news'], 'title': [
-                            "opinion", "covid"], 'publishedAt': ['2021-04-25', '2021-05-03'], 'limit_articles': 5})
+                            "opinion", "covid"], 'publishedAt': ['2021-04-25', '2021-05-23'], 'limit_articles': 5})
         print("----------------test1 list parameters----------------")
         for article in response.json()['articles']:
             print("source: ", article['source'])
@@ -28,7 +26,7 @@ class TestNews(unittest.TestCase):
             print("publishedAt: ", article['publishedAt'])
     
     def test_2_single_paramself(self):        
-        response = requests.get(baseUrl, params={'source': "cnn", 'title': "opinion", 'publishedAt': '2021-04-25', 'limit_articles': 5})
+        response = requests.get(baseUrl, params={'source': "cnn", 'title': "vaccine", 'publishedAt': '2021-05-21', 'limit_articles': 5})
         print("----------------test2 single parameters----------------")
         for article in response.json()['articles']:
             print("source: ", article['source'])
@@ -44,7 +42,7 @@ class TestNews(unittest.TestCase):
             print("publishedAt: ", article['publishedAt'])
 
     def test_4_partition_by(self):
-        response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 50, 'publishedAt': ['2021-04-20', '2021-05-31']})
+        response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 10, 'publishedAt': ['2021-04-20', '2021-05-31']})
         print("----------------test4 parameter:partition_by ----------------")
         for partition_key, partition in response.json()['articles'].items():
             print( partition_key, ": ")
@@ -53,16 +51,20 @@ class TestNews(unittest.TestCase):
                 print("title: ", article['title'])
                 print("publishedAt: ", article['publishedAt'])
 
-'''
     @classmethod
     def setUpClass(cls):
-        server_proc = subprocess.Popen("export FLASK_APP="+app_name+ " && flask run", shell = True, cwd="..")
+        global server_proc
+        server_proc=subprocess.Popen("export FLASK_APP="+app_name+ " && flask run", shell = True, cwd="..")
         time.sleep(3)
 
     @classmethod
     def tearDownClass(cls):
-       server_proc.kill()
-       '''
+       if server_proc is None:
+            pass
+       else:
+            for child in psutil.Process(server_proc.pid).children(recursive=True):
+                child.kill()
+            server_proc.kill()
 
 if __name__ == '__main__':
     unittest.main()

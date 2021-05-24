@@ -9,6 +9,7 @@ from mgflask.db import db_session
 from mgflask.models import Article
 from sqlalchemy import and_, or_
 from sqlalchemy.sql import func
+import os
 
 bp = Blueprint('news', __name__, url_prefix='/news')
 
@@ -39,6 +40,7 @@ PARTITION_BY_PARAM = 'partition_by'
 @bp.route('/', methods=['GET'])
 def get_articles():
     params = request.args
+    print("params:", params)
     filters = []
     statusCode = 200
 
@@ -47,7 +49,9 @@ def get_articles():
         return jsonify({"articles": [article.serialize_response for article in articles], "statusCode": statusCode})
 
     for col in Article.__table__.columns:
-        param = params.get(col.key)
+        param = params.getlist(col.key)
+        if len(param)==1:
+            param = param[0]
         if col.key in EXACT_COLUMNS and param:
             if isinstance(param, list):
                 filters.append(col.in_(param))
@@ -72,12 +76,21 @@ def get_articles():
                 if len(param) >= 2:
                     filters.append(col.between(param[0], param[1]))
                 else:
-                    filters.append(col.between(
-                        param[0], func.ADDDATE(param[0], 1)))
+                    if (os.environ.get('FLASK_ENV') is None):
+                        filters.append(col.between(
+                            param[0], func.date(param[0], '+1 day')))
+                    else:
+                        filters.append(col.between(
+                            param[0], func.ADDDATE(param[0], 1)))
                     
             else:
-                filters.append(col.between(
+                if (os.environ.get('FLASK_ENV') is None):
+                    filters.append(col.between(
+                        param, func.date(param, '+1 day')))
+                else:
+                    filters.append(col.between(
                         param, func.ADDDATE(param, 1)))
+
 
     articles = db_session.query(Article).filter(and_(*filters))
 

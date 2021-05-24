@@ -36,6 +36,7 @@ LIVE_SQLALCHEMY_DATABASE_URI = (
     con=CLOUDSQL_CONNECTION_NAME,
 )
 
+print("FLASK_ENV=",os.environ.get('FLASK_ENV'))
 if (os.environ.get('FLASK_ENV') is None):
     engine = create_engine('sqlite:///mgflask.db', convert_unicode=True)
     event.listen(engine, 'connect', _fk_pragma_on_connect)
