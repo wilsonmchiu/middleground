@@ -8,7 +8,7 @@
 
     <alert v-if="showError" :msg="alertMessage"> </alert>
     <v-text-field v-model="username" label="username" required> </v-text-field>
-    <v-text-field v-model="password" label="password" required></v-text-field>
+    <v-text-field v-model="password" label="password" required type="password"></v-text-field>
 
     <v-btn color="success" class="mr-4" @click="onSubmit"> Register </v-btn>
   </v-container>
@@ -24,7 +24,7 @@ axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
 
 export default {
   components: {
-    alert: Alert,
+    "alert": Alert,
   },
   data() {
     return {
@@ -56,6 +56,7 @@ export default {
         password: this.password,
       };
       console.log(payload);
+      console.log(path)
       this.validate();
       axios
         .post(path, payload)
@@ -63,14 +64,13 @@ export default {
           console.log(response);
           if (response.data["insert_status"] === "success") {
             this.$router.push("/login");
-          } else {
-            this.alertMessage = response.data["msg"];
-            this.showError = true;
-            this.initForm();
-          }
+          } 
         })
         .catch((error) => {
           console.log(error);
+            this.alertMessage = error.response.data["msg"];
+            this.showError = true;
+            this.initForm();
         });
       this.initForm();
     },
