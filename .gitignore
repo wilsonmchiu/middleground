@@ -16,3 +16,5 @@ src/server/mgflask/mgflask.db
 creds.json
 middleground-314106-b99091a90bd9.json
 cloud_sql_proxy.exe
+src/server/mgflask/db.pyc
+src/server/mgflask/__init__.pyc
