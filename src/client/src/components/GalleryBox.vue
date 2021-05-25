@@ -21,10 +21,10 @@
 
 <script>
 export default {
-  props: ["title", "urlToImage", "id", "outlet"],
+  props: ["title", "urlToImage", "outlet", "articleID"],
   methods: {
     goArticle() {
-      this.$router.push({ path: `/${this.outlet}/${this.id}` }) 
+      this.$router.push({ path: `/${this.outlet}/${this.articleID}` }) 
       window.scrollTo(0,0);
     },
   },
