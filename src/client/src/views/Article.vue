@@ -56,7 +56,7 @@
           >Cancel
         </v-btn>
 
-        <div v-for="comment in currentArticle.comments" :key="comment">
+        <div v-for="comment in currentArticle.comments" :key="comment.id">
           <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
         <br/><br/><br/><br/><br/><br/><br/>
