@@ -7,7 +7,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm = "12" md="8" lg="8">
+      <v-col cols="12" sm = "12" md="8" lg="8" style="padding-bottom: 200px">
         <v-card-text>
           <h1>{{currentArticle.title}}</h1>
           <br>
@@ -19,6 +19,12 @@
           :src="currentArticle.urlToImage">
         </v-img>
         <v-card-text>
+          {{currentArticle.content}}
+          <br/>
+          -------------------------------------------------------
+          <br/>
+          Please purchase the full news API to read the rest of the article! Here's a lorem ipsum to fill space that would be there normally: 
+          <br/><br/>
           {{tempContent}}
         </v-card-text>
         <v-card-text>
@@ -60,7 +66,6 @@
         <div v-for="comment in comments" :key="comment.id">
           <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
-        <br/><br/><br/><br/><br/><br/><br/>
       </v-col>
 
       <v-col cols="12" sm= "12" md="4" lg="4">
