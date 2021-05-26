@@ -14,27 +14,39 @@ baseUrl = host + "/"+endpoint
 app_name = 'mgflask'
 
 
+def parse_time(time_str):
+    return datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%S')     
+
 class TestNews(unittest.TestCase):
 
     def test_1_list_params(self):
-        response = requests.get(baseUrl, params={'source': ["cnn", 'bbc-news'], 'title': [
-                            "opinion", "covid"], 'publishedAt': ['2021-04-25', '2021-05-23'], 'limit_articles': 5})
+        test_params = {'source': ["cnn", 'bbc-news'], 'title': [
+                            "opinion", "covid"], 'publishedAt': ['2021-04-25', '2021-05-23'], 'limit_articles': 5}
+        response = requests.get(baseUrl, params=test_params)
         print("----------------test1 list parameters----------------")
+        assertEqual(response.status_code, 200)
+        asserLess(len(response.json()['articles']), test_params['limit_articles'])
         for article in response.json()['articles']:
+            assertIn(article['source'], test_params['source'])
+            assertIn(article['title'], test_params['title'])
+            assertLessEqual(parse_time(article['publishedAt']), parse_time(test_params['publishedAt'][1]))
+            assertLessEqual(parse_time(article['publishedAt'][0]), parse_time(test_params['publishedAt']))
             print("source: ", article['source'])
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
     
     def test_2_single_param(self):        
-        response = requests.get(baseUrl, params={'source': "cnn", 'title': "vaccine", 'publishedAt': '2021-05-21', 'limit_articles': 5})
+        test_params = {'source': "cnn", 'title': "vaccine", 'publishedAt': '2021-05-21', 'limit_articles': 5}
+        response = requests.get(baseUrl, params=test_params)
         print("----------------test2 single parameters----------------")
         for article in response.json()['articles']:
             print("source: ", article['source'])
             print("title: ", article['title'])
             print("publishedAt: ", article['publishedAt'])
     
-    def test_3_singletonlist_param(self):        
-        response = requests.get(baseUrl, params={'source': ["cnn"], 'title': ["vaccine"], 'publishedAt': ['2021-05-21'], 'limit_articles': 5})
+    def test_3_singletonlist_param(self): 
+        test_params = {'source': ["cnn"], 'title': ["vaccine"], 'publishedAt': ['2021-05-21'], 'limit_articles': 5}
+        response = requests.get(baseUrl, params=test_params)
         print("----------------test3 singleton list parameters----------------")
         for article in response.json()['articles']:
             print("source: ", article['source'])
@@ -50,7 +62,8 @@ class TestNews(unittest.TestCase):
             print("publishedAt: ", article['publishedAt'])
 
     def test_5_partition_by(self):
-        response = requests.get(baseUrl, params={'partition_by': 'source', 'limit_articles': 10, 'publishedAt': ['2021-04-20', '2021-05-31']})
+        test_params = {'partition_by': 'source', 'limit_articles': 10, 'publishedAt': ['2021-04-20', '2021-05-31']}
+        response = requests.get(baseUrl, params=test_params)
         print("----------------test5 partition_by ----------------")
         for partition_key, partition in response.json()['articles'].items():
             print( partition_key, ": ")
