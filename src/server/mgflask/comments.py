@@ -10,8 +10,32 @@ from datetime import datetime
 
 bp = Blueprint('comments', __name__, url_prefix='/comments')
 
+@bp.route('/get', methods=['GET'])
+def get_comments():
+    response_object = {
+        "insert_status": "success",
+        "msg": "comment successful",
+    }
 
+    error = False
+    params = request.args
+    comments = []
+    try:
+        articleID = params.get('articleID')
+        article = db_session.query(Article).filter_by(id=articleID).one()
+        if not article:
+            raise ValueError(f"article id {articleID} does not exist in the database")
+    except Exception as e:
+        response_object['msg'] = "Unsuccessful. Check Exceptions."
+        response_object['exception'] = str(e)
+        error = True
 
+    if not error:
+        comments = [comment.serialize_response for comment in article.comments]
+        
+    return jsonify({"status": response_object, "comments": comments})
+
+        
 @bp.route('/post', methods=['POST'])
 def post_comment():
     response_object = {
@@ -20,6 +44,7 @@ def post_comment():
     }
 
     error = False
+    comments = []
 
     try:
         post_data = request.get_json()
@@ -42,8 +67,9 @@ def post_comment():
             article_id=articleID, date=datetime.now())
         db_session.add(newComment)
         db_session.commit()
-
-    return jsonify(response_object)
+        comments = [comment.serialize_response for comment in article.comments]
+    
+    return jsonify({"status": response_object, "comments": comments})
 
 @bp.route('/delete', methods=['PUT'])
 def delete_comment():
