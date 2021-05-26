@@ -7,7 +7,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm = "12" md="8" lg="8">
+      <v-col cols="12" sm = "12" md="8" lg="8" style="padding-bottom: 200px">
         <v-card-text>
           <h1>{{currentArticle.title}}</h1>
           <br>
@@ -65,7 +65,6 @@
         <div v-for="comment in currentArticle.comments" :key="comment.id">
           <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
-        <br/><br/><br/><br/><br/><br/><br/>
       </v-col>
 
       <v-col cols="12" sm= "12" md="4" lg="4">
