@@ -29,8 +29,9 @@
           {{tempContent}}
         </v-card-text>
         <v-card-text>
-          <span style="font-size:30px">Middle Ground </span>
-          <span style="font-size:15px">{{currentArticle.comments.length}} comments</span>
+          <h1 style="display:inline;padding-right:20px">Middle Ground </h1>
+          <h3 style="display:inline;">{{comments.length}} comments</h3>
+          <v-divider style="margin-top:10px"></v-divider>
         </v-card-text>
 
         <v-text-field
@@ -63,7 +64,7 @@
           >Cancel
         </v-btn>
 
-        <div v-for="comment in currentArticle.comments" :key="comment.id">
+        <div v-for="comment in comments" :key="comment.id">
           <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
       </v-col>
@@ -139,7 +140,7 @@
         currentArticleId: this.$route.params.id,
         currentArticleOutlet: this.$route.params.outlet,
         apiRoot: process.env.VUE_APP_API_ROOT,
-        componentKey: 0,
+        comments: []
       };
     },
     computed: {
@@ -159,7 +160,26 @@
         }
       },
     },
+    created(){
+      this.getComments();
+    },
     methods: {
+      getComments() {
+        const path = `${this.apiRoot}/comments/get`;
+        axios
+          .get(path, {
+            params: {
+              articleID: this.currentArticleId,
+            }
+          })
+          .then((response) => {
+            console.log('Getting comments: ', response.data.comments)
+            this.comments = response.data.comments;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
       postComment(uniqueArticleId) {
         const path = `${this.apiRoot}/comments/post`;
         const payload = {
@@ -175,8 +195,8 @@
           axios
           .post(path, payload)
           .then((response) => {
-            console.log(response);
-            window.location.reload();
+            console.log("Posting comment: ", response.data);
+            this.comments = response.data.comments;
           })
           .catch((error) => {
             console.log(error);
@@ -186,11 +206,7 @@
       },
       goArticle(articleID) {
         this.$router.push({ path: `/${this.currentArticleOutlet}/${articleID}` }) 
-        this.forceRerender();
         window.scrollTo(0,0);
-      },
-      forceRerender() {
-        this.componentKey += 1;  
       },
     },
   };

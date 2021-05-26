@@ -46,7 +46,6 @@ export default {
       return true;
     },
     async login(payload) {
-      console.log(payload);
       axios
         .post(`${this.apiRoot}/auth/login`, payload)
         .then((response) => {
@@ -62,7 +61,6 @@ export default {
         .catch((error) => {
           this.alertMessage = error.response.data["msg"];
           this.showError = true;
-          console.log(error);
         });
     },
     onSubmit(evt) {
