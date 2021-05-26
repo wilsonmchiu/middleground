@@ -1,8 +1,20 @@
 import unittest
-
+from flask import current_app
+from mgflask.db import Base
 from mgflask.models import User
-from mgflask.db import db_session
+from mgflask.auth import register,login
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
+test_engine = create_engine('sqlite:///test.db')
+test_db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=test_engine))
+
+Base.query = test_db_session.query_property()
+Base.metadata.create_all(bind=test_engine)
+
+print('Created the test database structure')
 
 class TestUser(unittest.TestCase):
 
@@ -16,16 +28,31 @@ class TestUser(unittest.TestCase):
 
     def setUp(self):
         print('setUp')
-        self.user_1 = User(username="Barry Allen", password="password123")
-        self.user_2 = User("Clark Kent ", "Superman!@#")
+        self.post_data1 = {
+            "username": "Barry Allen",
+            "password": "flash123"
+        }
+        self.post_data2 = {
+            "username": "Clark Kent",
+            "password": "Superman!2@#"
+        }
 
-    def test_register(self):
-        test_user = User(username="John Doe",
-                         password="test123")
-        db_session.add(test_user)
-        db_session.commit()
-        same_user = User.query.filter_by(username="John Doe").first()
-        self.assertEqual(test_user.username, same_user.username)
+    def testRegisterEmptyDB(self):
+        """
+        Tests registering a user and upon retrieval should have the same username
+        """
+        return
+
+
+    def testRegisterSameUserDB(self):
+        """
+        Tests that a user register on a username that already exists 
+        properly throws an error
+        """
+        return
+        
+
+
 
 
 
