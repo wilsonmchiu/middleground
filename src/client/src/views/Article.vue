@@ -22,8 +22,8 @@
           {{tempContent}}
         </v-card-text>
         <v-card-text>
-          <h1>Middle Ground </h1>
-          <subtitle-1>{{currentArticle.comments.length}} comments</subtitle-1>
+          <span style="font-size:30px">Middle Ground </span>
+          <span style="font-size:15px">{{currentArticle.comments.length}} comments</span>
         </v-card-text>
 
         <v-text-field
