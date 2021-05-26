@@ -6,6 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import event
 import json
 import os
+import mgflask
 
 
 def _fk_pragma_on_connect(dbapi_con, con_record):
@@ -38,7 +39,7 @@ LIVE_SQLALCHEMY_DATABASE_URI = (
 
 print("FLASK_ENV=",os.environ.get('FLASK_ENV'))
 if (os.environ.get('FLASK_ENV') is None):
-    engine = create_engine('sqlite:///mgflask.db', convert_unicode=True)
+    engine = create_engine('sqlite:///test.db', convert_unicode=True)
     event.listen(engine, 'connect', _fk_pragma_on_connect)
 elif (os.environ.get('FLASK_ENV') == "development"):
     # Use this for to access the Google Cloud SQL db. make sure to use Google Cloud Proxy
