@@ -19,6 +19,12 @@
           :src="currentArticle.urlToImage">
         </v-img>
         <v-card-text>
+          {{currentArticle.content}}
+          <br/>
+          -------------------------------------------------------
+          <br/>
+          Please purchase the full news API to read the rest of the article! Here's a lorem ipsum to fill space that would be there normally: 
+          <br/><br/>
           {{tempContent}}
         </v-card-text>
         <v-card-text>
