@@ -25,7 +25,8 @@ export default {
       if (store.state.articles && Object.keys(store.state.articles).length > 0) {
         let randomOutlet = Object.keys(store.state.articles)[Math.floor(Math.random() * Object.keys(store.state.articles).length)]
         let randomIndex = Math.floor(Math.random() * store.state.articles[randomOutlet].length)
-        return {article: store.state.articles[randomOutlet][randomIndex], path: `/${randomOutlet}/${randomIndex}`}
+        let articleID = store.state.articles[randomOutlet][randomIndex].id
+        return {article: store.state.articles[randomOutlet][randomIndex], path: `/${randomOutlet}/${articleID}`}
       } else {
         return {article: {title:"loading...", description:"loading...", urlToImage:"loading..."}, path: ""}
       }

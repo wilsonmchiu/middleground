@@ -23,7 +23,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item-group v-model="model">
+        <v-list-item-group >
           <v-list-item>
             <v-icon class="mr-2" small>mdi-pencil</v-icon>
             <v-list-item-title>Settings</v-list-item-title>
@@ -55,16 +55,25 @@
 </template>
 
 <script>
+import {store} from "../store.js";
 export default {
 
   data() {
     return {
-      isAuthenticated : this.$session.exists(),
-      username: this.$session.get('username'),
       logo: require('../assets/static/logo.png')
     };
   },
-
+  computed:{
+      isAuthenticated : function(){ 
+        if(!store.state.isAuthenticated && this.$session.exists())
+          store.login(this.$session.get('username'))
+       return store.state.isAuthenticated
+      },
+      username: function(){
+        
+        return store.state.username
+      },
+  },
   methods:{
     base() {
       this.$router.push("/")
@@ -80,7 +89,7 @@ export default {
     },
     logout(){
       this.$session.destroy();
-      this.isAuthenticated = false;
+      store.logout()
     }
   }
 };

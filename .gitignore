@@ -11,6 +11,7 @@ lib/
 pyvenv.cfg
 var/
 src/server/mgflask/env
+mgflask.db
 src/server/mgflask/mgflask.db
 creds.json
 middleground-314106-b99091a90bd9.json
