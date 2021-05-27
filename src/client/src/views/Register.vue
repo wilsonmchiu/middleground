@@ -1,16 +1,32 @@
+<style>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+.login-background{
+  background: linear-gradient(to right, rgba(0,0,255,.2) 0%, rgba(0,0,255,.2) 40%, rgba(255,0,0,.2) 60%, rgba(255,0,0,.2) 100%);
+}
+</style>
+
 <template>
-  <v-container>
-      <form action = "/user/checkout" method="POST">
-      </form>
-    <v-card-text>
-      <h1>Register</h1>
-    </v-card-text>
-
-    <alert v-if="showError" :msg="alertMessage"> </alert>
-    <v-text-field v-model="username" label="username" required> </v-text-field>
-    <v-text-field v-model="password" label="password" required type="password"></v-text-field>
-
-    <v-btn color="success" class="mr-4" @click="onSubmit"> Register </v-btn>
+  <v-container fluid class="fill-height login-background">
+    <v-row>
+      <v-col cols="12" xs="12" sm="6" md="4" lg="3" class="ma-auto">
+        <img :src="logo" class="center">
+        <v-card class="pa-1" style="background-color:black">
+          <v-card class="px-6 pt-10 pb-16">
+            <form action = "/user/checkout" method="POST"></form>
+            <h3 class="text-center mb-4">Register</h3>
+            <alert v-if="showError" :msg="alertMessage"> </alert>
+            <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
+            <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
+            <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
+          </v-card>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -34,6 +50,7 @@ export default {
       alertMessage: "",
       showError: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
+      logo: require('../assets/static/logo.png')
     };
   },
   methods: {

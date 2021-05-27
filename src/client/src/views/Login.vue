@@ -21,10 +21,8 @@
             <alert v-if="showError" :msg="alertMessage"> </alert>
             <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
             <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
-
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
           </v-card>
-
         </v-card>
       </v-col>
     </v-row>
