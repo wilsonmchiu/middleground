@@ -16,18 +16,18 @@
           gradient="to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.90)"
         >
           <v-fade-transition>
-          <v-overlay
-            v-if="hover"
-            absolute
-            opacity=.9
-          >
-            <p>{{description}}</p>
-          </v-overlay>
-        </v-fade-transition>
+            <v-overlay
+              v-if="hover"
+              absolute
+              color="black"
+              opacity=.9
+            >
+              <p style="text-align: center;">{{description}}</p>
+            </v-overlay>
+          </v-fade-transition>
           <h6 class="pr-4" style="color:white;font-size:100%;position:absolute;
           bottom:8px;left:16px;">{{title}}</h6>
         </v-img>
-
       </v-sheet>
     </a>
   </v-hover>
