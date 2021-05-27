@@ -20,7 +20,7 @@
               v-if="hover"
               absolute
               color="black"
-              opacity=.9
+              opacity=.6
             >
               <p style="text-align: center;">{{description}}</p>
             </v-overlay>
