@@ -2,8 +2,10 @@
   <v-app-bar color="white" app dark>
 
     <div @click="base" class="d-flex align-center">
-      <v-img class="shrink mr-2" contain :src="logo" 
-      transition="scale-transition" width="200"/>
+      <a>
+        <v-img class="shrink mr-2" contain :src="logo" 
+        transition="scale-transition" width="200"/>
+      </a>
     </div>
 
     <v-spacer></v-spacer>

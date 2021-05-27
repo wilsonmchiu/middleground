@@ -3,7 +3,7 @@
   <v-hover v-slot:default="{ hover }">
     <a>
       <v-sheet
-        class="rounded-xl"
+        class="mx-auto rounded-xl"
         max-width="900px"
         @click="goArticle"
         :elevation="hover ? 24 : 0"

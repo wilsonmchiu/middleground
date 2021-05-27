@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <a>
       <v-row class="banner-container" 
       @click="goArticle">
         <v-col lg="8" md="8" sm="8" class="pa-0">
@@ -19,6 +20,7 @@
             </p>
         </v-col>
       </v-row>
+    </a>
   </v-container>
 </template>
 
