@@ -15,7 +15,7 @@
         <v-btn v-if="isAuthenticated" class="mr-2 pl-6 pr-6"
         color="black" v-bind="attrs" v-on="on" text>
           <v-icon class="mr-2">mdi-account</v-icon>
-          <h2 class="text-capitalize">{{ username }}</h2>
+          <h2 class="text-none">{{ username }}</h2>
         </v-btn>
       </template>
       <v-list>

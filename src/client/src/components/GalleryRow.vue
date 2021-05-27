@@ -1,7 +1,7 @@
 <!-- GalleryRow.vue -->
 <template>
       <v-container class="px-0">
-       <h1 style=font-size:200%;font-family:palatino linotype>{{ header }}</h1>
+       <h1 class="text-capitalize" style=font-size:200%;font-family:palatino linotype>{{ header }}</h1>
       <v-carousel hide-delimiters height="auto" width="auto"> 
         <template v-for="(item, index) in articles"> 
           <v-carousel-item v-if="(index + 1) % columns === 1 || columns === 1" 
