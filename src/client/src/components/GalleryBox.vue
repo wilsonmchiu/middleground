@@ -15,6 +15,15 @@
           max-height="400px"
           gradient="to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.90)"
         >
+          <v-fade-transition>
+          <v-overlay
+            v-if="hover"
+            absolute
+            opacity=.9
+          >
+            <p>{{description}}</p>
+          </v-overlay>
+        </v-fade-transition>
           <h6 class="pr-4" style="color:white;font-size:100%;position:absolute;
           bottom:8px;left:16px;">{{title}}</h6>
         </v-img>
@@ -27,7 +36,10 @@
 
 <script>
 export default {
-  props: ["title", "urlToImage", "outlet", "articleID"],
+  props: ["title", "urlToImage", "outlet", "description", "articleID"],
+   data: () => ({
+      overlay: false,
+    }),
   methods: {
     goArticle() {
       this.$router.push({ path: `/${this.outlet}/${this.articleID}` }) 

@@ -13,7 +13,7 @@
                   <v-col :key="i"> 
                     <gallery-box v-if="(+index + i) < articles.length"
                     :title="articles[+index + i].title" :urlToImage="articles[+index + i].urlToImage" :url="articles[+index + i].url"
-                    :outlet="header" :articleID="articles[+index + i].id">
+                    :outlet="header" :articleID="articles[+index + i].id"  :description="articles[+index+i].description">
                       <v-row class="fill-height"
                              align="center"
                              justify="center"
