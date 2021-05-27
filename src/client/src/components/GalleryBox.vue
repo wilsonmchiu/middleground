@@ -1,21 +1,27 @@
 <template>
   <v-container class="pa-0">
   <v-hover v-slot:default="{ hover }">
-    <v-sheet
-      class="mx-auto"
-      height="100%"
-      @click="goArticle"
-      :elevation="hover ? 24 : 0"
-    >
-      <v-img
-        :src="urlToImage"
-        :aspect-ratio="6/5"
+    <a>
+      <v-sheet
+        class="rounded-xl"
+        max-width="900px"
+        @click="goArticle"
+        :elevation="hover ? 24 : 0"
       >
-      </v-img>
-    </v-sheet>
-    
+        <v-img
+        class="rounded-xl"
+          :src="urlToImage"
+          :aspect-ratio="6/5"
+          max-height="400px"
+          gradient="to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.90)"
+        >
+          <h6 class="pr-4" style="color:white;font-size:100%;position:absolute;
+          bottom:8px;left:16px;">{{title}}</h6>
+        </v-img>
+
+      </v-sheet>
+    </a>
   </v-hover>
-  <h6 style=color:black;font-size:100%;font-family:Courier>{{title}}</h6>
   </v-container>
 </template>
 

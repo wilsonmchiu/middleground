@@ -5,12 +5,6 @@
       <v-img class="shrink mr-2" contain :src="logo" 
       transition="scale-transition" width="200"/>
     </div>
-    <v-btn @click="home" class="ml-4" color="black" text>
-      <h2 class="text-capitalize">Home</h2>
-    </v-btn>
-    <v-btn color="black" text>
-      <h2 class="text-capitalize">About</h2>
-    </v-btn>
 
     <v-spacer></v-spacer>
 

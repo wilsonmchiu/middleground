@@ -70,11 +70,6 @@
       </v-col>
 
       <v-col cols="12" sm= "12" md="4" lg="4">
-        <hr class="grey--text" />
-        <h4 class="mb-3 mt-3">What People Think</h4>
-        <v-img 
-          :aspect-ratio="5/1"
-          src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/overview/javascript-charts-graphs-index-data-label.png"></v-img>
         <h4 class="mb-3 mt-3">Related</h4>
 
         <div v-for="(card,index) in relatedCards" :key="index" class="mb-5">
