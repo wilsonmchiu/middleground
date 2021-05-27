@@ -7,8 +7,6 @@ from mgflask.auth import (
     get_user,
 )
 
-print('Created the test database structure')
-
 host = "http://127.0.0.1:5000"
 endpoint = "auth"
 BASE_URL = host + "/"+endpoint
@@ -17,19 +15,13 @@ LOGIN_URL = BASE_URL + "/login"
 
 
 
-class TestUser(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        print('setupClass')
+class Test(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
         Base.metadata.drop_all(bind=engine)
-        print('teardownClass')
 
     def setUp(self):
-        print('setUp')
         self.post_data1 = {
             "username": "Barry Allen",
             "password": "flash123"
@@ -38,8 +30,12 @@ class TestUser(unittest.TestCase):
             "username": "Clark Kent",
             "password": "Superman!2@#"
         }
+        Base.metadata.create_all(bind=engine)
     
-    def testRegisterEmptyDB(self):
+    def tearDown(self):
+        Base.metadata.drop_all(bind=engine)
+    
+    def test_register_user(self):
         """
         Tests registering a user and upon 
         retrieval should have the same username
@@ -51,7 +47,7 @@ class TestUser(unittest.TestCase):
         self.assertIsNotNone(user_expected)
         self.assertEqual("Barry Allen", user_expected.username)
         
-    def testRegisterSameUser(self):
+    def test_register_already_registered_user(self):
         """
         Tests registering a user that is already registered
         """
@@ -65,7 +61,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(register_2.json()["msg"],
                             "User already registered")
     
-    def testRegisterNoUsername(self):
+    def test_register_no_username(self):
         """
         Tests registering a user with 
         improper parameter of no username
@@ -75,7 +71,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(corrupt_post.status_code, 401)
         self.assertEqual(corrupt_post.json()["msg"], "Username is required")
 
-    def testRegisterNoPassword(self):
+    def test_register_no_password(self):
         """
         Tests registering a user with the improper parameters 
         of an empy password
@@ -85,13 +81,44 @@ class TestUser(unittest.TestCase):
         self.assertEqual(corrupt_post.status_code, 401)
         self.assertEqual(corrupt_post.json()["msg"], "Password is required.")
     
-    def testNoUserLogin(self):
+    def test_login_no_user(self):
+        """
+        Tests login input on user not in the database
+        """
         post_data = requests.post(LOGIN_URL, json=self.post_data1)
         self.assertEqual(post_data.status_code, 401)
         self.assertEqual(post_data.json()["msg"], "Incorrect username.")
 
+    def test_login_valid(self):
+        "Tests valid login user if user is registered"
+        register_1 = requests.post(REGISTER_URL, json = self.post_data1)
+        self.assertEqual(register_1.status_code, 201)
+    
+        post_data = requests.post(LOGIN_URL, json=self.post_data1)
+        self.assertEqual(post_data.status_code, 201)
+        self.assertEqual(post_data.json()["msg"], "Login Successful")
 
+    def test_user_not_registered(self):
+        "Tests valid login user if other user is registered"
+        register_1 = requests.post(REGISTER_URL, json = self.post_data1)
+        self.assertEqual(register_1.status_code, 201)
 
+        post_data = requests.post(LOGIN_URL, json=self.post_data2)
+        self.assertEqual(post_data.status_code, 401)
+        self.assertEqual(post_data.json()["msg"], "Incorrect username.")
+
+    def test_wrong_password(self):
+        "Tests valid login user if user is registered"
+        register_1 = requests.post(REGISTER_URL, json = self.post_data1)
+        self.assertEqual(register_1.status_code, 201)
+
+        self.post_data1["password"] = "not_barry214"
+
+        post_data = requests.post(LOGIN_URL, json=self.post_data1)
+        self.assertEqual(post_data.status_code, 401)
+        self.assertEqual(post_data.json()["msg"], "Incorrect password.")
+
+    
+        
 if __name__ == '__main__':
     unittest.main()
-

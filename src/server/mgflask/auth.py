@@ -18,7 +18,6 @@ import jwt
 import datetime
 
 
-
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
@@ -109,7 +108,6 @@ def login():
 
     if not error:
         response_object['msg'] = "Login Successful"
-        response_object['auth'] = "success"
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow(
         ) + datetime.timedelta(minutes=30)}, current_app.config['SECRET_KEY'])
         response_object['token'] = token
