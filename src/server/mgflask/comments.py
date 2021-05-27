@@ -44,7 +44,7 @@ def post_comment():
     }
 
     error = False
-    comments = []
+    newComment = []
 
     try:
         post_data = request.get_json()
@@ -63,13 +63,13 @@ def post_comment():
         error = True
 
     if not error:
-        newComment = Comment(username=username, user=user, content=userComment, article=article, 
+        comment = Comment(username=username, user=user, content=userComment, article=article, 
             article_id=articleID, date=datetime.now())
-        db_session.add(newComment)
+        db_session.add(comment)
         db_session.commit()
-        comments = [comment.serialize_response for comment in article.comments]
+        newComment = comment.serialize_response
     
-    return jsonify({"status": response_object, "comments": comments})
+    return jsonify({"status": response_object, "newComment": newComment})
 
 @bp.route('/delete', methods=['PUT'])
 def delete_comment():

@@ -20,9 +20,7 @@
         </v-img>
         <v-card-text>
           {{currentArticle.content}}
-          <br/>
-          -------------------------------------------------------
-          <br/>
+          <v-divider style="margin-top:10px"></v-divider>
           Please purchase the full news API to read the rest of the article! Here's a lorem ipsum to fill space that would be there normally: 
           <br/><br/>
           {{tempContent}}
@@ -64,7 +62,7 @@
         </v-btn>
 
         <div v-for="comment in comments" :key="comment.id">
-          <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
+          <comment @deleteComment="deleteComment" :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
       </v-col>
 
@@ -163,6 +161,9 @@
       this.getComments();
     },
     methods: {
+      deleteComment(id) {
+        this.comments = this.comments.filter(item => item.id != id);
+      },
       getComments() {
         const path = `${this.apiRoot}/comments/get`;
         axios
@@ -194,8 +195,7 @@
           axios
           .post(path, payload)
           .then((response) => {
-            console.log("Posting comment: ", response.data);
-            this.comments = response.data.comments;
+            this.comments.push(response.data.newComment);
           })
           .catch((error) => {
             console.log(error);

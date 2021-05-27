@@ -3,7 +3,7 @@
   <div v-if="!showEditForm">
     <p class="author">{{author}} </p>
     <p class="date">{{date}}</p><br/>
-    <p class="content">{{content}}</p><br/>
+    <p class="content">{{newContent}}</p><br/>
   </div>
 
   <v-btn
@@ -30,7 +30,7 @@
 
   <v-text-field
     class="pl-4 pr-6 pt-6"
-    v-model="content"
+    v-model="newContent"
     v-show="showEditForm"
     :counter="160"
     :maxlength=160
@@ -67,11 +67,13 @@
 import axios from 'axios';
   export default {
     props: ["author", "date", "content", "id"],
+    emits: ['deleteReply'],
     data: function(){
       return{
         currentUser: this.$session.get('username'),
         showEditForm: false,
         apiRoot: process.env.VUE_APP_API_ROOT,
+        newContent: this.content
       };
     },
     methods:{
@@ -88,18 +90,17 @@ import axios from 'axios';
         .put(path, payload)
         .then((response) => {
           console.log(response);
-          window.location.reload();
+          this.$emit('deleteReply', replyID)
         })
         .catch((error) => {
           console.log(error);
         });
-        
     },
     editReply(replyID) {
         const path = `${this.apiRoot}/replies/edit`;
         const payload = {
           replyID: replyID,
-          content: this.content
+          content: this.newContent
         };
         console.log(payload);
         if (this.isAuthenticated === false) {
@@ -109,7 +110,6 @@ import axios from 'axios';
         .put(path, payload)
         .then((response) => {
           console.log(response);
-          window.location.reload();
         })
         .catch((error) => {
           console.log(error);

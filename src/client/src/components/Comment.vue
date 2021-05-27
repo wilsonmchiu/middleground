@@ -156,7 +156,7 @@
     </v-btn>
 
     <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply.id">
-      <reply :author="reply.username" :date="reply.date" :content="reply.content" :id="reply.id"></reply>
+      <reply @deleteReply="deleteReply" :author="reply.username" :date="reply.date" :content="reply.content" :id="reply.id"></reply>
     </div>
   </v-card>
 </template>
@@ -171,7 +171,8 @@
     components: {
       'reply': Reply
     },
-    props: ["id", "author", "date", "content", "replies"],
+    props: ["id", "author", "date", "content"],
+    emits: ['deleteComment'],
     data: function(){
       return{
         isAuthenticated : this.$session.exists(),
@@ -181,12 +182,31 @@
         showReplies: false,
         replyForm: "",
         apiRoot: process.env.VUE_APP_API_ROOT,
-        newContent: this.content
+        newContent: this.content,
+        replies: []
       };
     },
+    created() {
+      this.getReplies();
+    },
     methods: {
-      replyCount(replies) {
-        console.log(replies);
+      deleteReply(replyID) {
+        this.replies = this.replies.filter(item => item.id != replyID);
+      },
+      getReplies() {
+        const path = `${this.apiRoot}/replies/get`;
+        axios
+          .get(path, {
+            params: {
+              commentID: this.id,
+            }
+          })
+          .then((response) => {
+            this.replies = response.data.replies;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       },
       postReply(commentID) {
         const path = `${this.apiRoot}/replies/post`;
@@ -203,8 +223,7 @@
           axios
           .post(path, payload)
           .then((response) => {
-            console.log(response);
-            window.location.reload();
+            this.replies.push(response.data.newReply)
           })
           .catch((error) => {
             console.log(error);
@@ -225,39 +244,37 @@
         .put(path, payload)
         .then((response) => {
           console.log(response);
-          window.location.reload();
+          this.$emit('deleteComment', commentID)
         })
         .catch((error) => {
           console.log(error);
         });
-        
+      },
+      editComment(commentID) {
+          const path = `${this.apiRoot}/comments/edit`;
+          const payload = {
+            commentID: commentID,
+            content: this.newContent
+          };
+          console.log(payload);
+          if (this.isAuthenticated === false) {
+            this.$router.push("/login");
+          }
+          axios
+          .put(path, payload)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
     },
-    editComment(commentID) {
-        const path = `${this.apiRoot}/comments/edit`;
-        const payload = {
-          commentID: commentID,
-          content: this.newContent
-        };
-        console.log(payload);
-        if (this.isAuthenticated === false) {
-          this.$router.push("/login");
-        }
-        axios
-        .put(path, payload)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-        
-    },
-  },
-  computed:{
-      deleteEditAllowed: function(){
-          return this.currentUser==this.author && !this.showEditForm && !this.showReplyForm
-      } 
+    computed:{
+        deleteEditAllowed: function(){
+            return this.currentUser==this.author && !this.showEditForm && !this.showReplyForm
+        } 
+    }
   }
-}
 </script>
 
