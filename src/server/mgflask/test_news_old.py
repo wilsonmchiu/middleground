@@ -1,6 +1,5 @@
 import requests
 from mgflask import news_retrieval
-import unittest
 
 # call test_trieval() to put articles into the database
 # call test_endpoint() to get articles from database (make sure the server is running)
