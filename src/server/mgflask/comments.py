@@ -26,10 +26,10 @@ def post_comment():
         username = post_data['username']
         articleID = post_data['articleID']
         userComment = post_data['userComment']
-        article = db_session.query(Article).filter_by(id=articleID).one()
+        article = db_session.query(Article).filter_by(id=articleID).one_or_none()
         if not article:
             raise ValueError(f"article id {articleID} does not exist in the database")
-        user = db_session.query(User).filter_by(username=username).one()
+        user = db_session.query(User).filter_by(username=username).one_or_none()
         if not user:
             raise ValueError(f"username {username} does not exist in the database")
     except Exception as e:
@@ -56,7 +56,7 @@ def delete_comment():
     try:
         data = request.get_json()
         commentID = data['commentID']
-        comment = db_session.query(Comment).filter_by(id=commentID).one()
+        comment = db_session.query(Comment).filter_by(id=commentID).one_or_none()
         if not comment:
             raise ValueError(f"comment id {commentID} does not exist in the database")
     except Exception as e:
@@ -82,7 +82,7 @@ def edit_comment():
         data = request.get_json()
         commentID = data['commentID']
         content = data['content']
-        comment = db_session.query(Comment).filter_by(id=commentID).one()
+        comment = db_session.query(Comment).filter_by(id=commentID).one_or_none()
         if not comment:
             raise ValueError(f"comment id {commentID} does not exist in the database")
     except Exception as e:
