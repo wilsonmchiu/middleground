@@ -33,8 +33,8 @@
           <h3 style="display:inline;">{{comments.length}} comments</h3>
           <v-divider style="margin-top:10px"></v-divider>
         </v-card-text>
-
         <v-text-field
+          prepend-icon="mdi-account"
           v-model="commentForm"
           :placeholder="commentForm"
           :counter="160"
@@ -135,7 +135,8 @@
         currentArticleId: this.$route.params.id,
         currentArticleOutlet: this.$route.params.outlet,
         apiRoot: process.env.VUE_APP_API_ROOT,
-        comments: []
+        comments: [],
+        avatar: "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png"
       };
     },
     computed: {

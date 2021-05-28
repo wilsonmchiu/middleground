@@ -6,7 +6,7 @@
     padding-top: 0px;
     padding-bottom: 0px;
     display: inline;
-    font-size:20px;
+    font-size:16px;
   }
   .date {
     font-family: Arial, Helvetica, sans-serif;
@@ -29,9 +29,12 @@
 <template>
   <v-card color="rgb(211, 211, 211, 0)" class="my-n0" flat>
     <div v-if="!showEditForm">
-        <p class="author">{{author}} </p>
-        <p class="date">{{date}}</p><br/>
-        <p class="content">{{newContent}}</p><br/>
+      <v-list-item-avatar>
+        <v-img :src="avatar"> </v-img>
+      </v-list-item-avatar>
+      <p class="author mr-2">{{author}}</p>
+      <p class="date">{{date}}</p><br/>
+      <p class="content ml-4">{{newContent}}</p><br/>
     </div>
 
     <!-- Reply Button -->
@@ -181,7 +184,8 @@
         showReplies: false,
         replyForm: "",
         apiRoot: process.env.VUE_APP_API_ROOT,
-        newContent: this.content
+        newContent: this.content,
+        avatar: "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png"
       };
     },
     methods: {
