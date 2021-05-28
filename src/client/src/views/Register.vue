@@ -55,22 +55,18 @@ export default {
         username: this.username,
         password: this.password,
       };
-      console.log(payload);
-      console.log(path)
       this.validate();
       axios
         .post(path, payload)
         .then((response) => {
-          console.log(response);
           if (response.data["insert_status"] === "success") {
             this.$router.push("/login");
           } 
         })
         .catch((error) => {
-          console.log(error);
-            this.alertMessage = error.response.data["msg"];
-            this.showError = true;
-            this.initForm();
+          this.alertMessage = error.response.data["msg"];
+          this.showError = true;
+          this.initForm();
         });
       this.initForm();
     },
