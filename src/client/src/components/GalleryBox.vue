@@ -25,7 +25,7 @@
               <p style="text-align: center;">{{description}}</p>
             </v-overlay>
           </v-fade-transition>
-          <h6 class="pr-4" style="color:white;font-size:100%;position:absolute;
+          <h6 v-if="!hover" class="pr-4" style="color:white;font-size:100%;position:absolute;
           bottom:8px;left:16px;">{{title}}</h6>
         </v-img>
       </v-sheet>
