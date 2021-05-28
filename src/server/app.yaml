@@ -3,7 +3,7 @@ runtime: python37
 entrypoint: gunicorn -b :$PORT mgflask.__init__:app
 
 beta_settings:
-  cloud_sql_instances: middleground-314106:us-central1:final-instance-id
+  cloud_sql_instances: middleground-315122:us-central1:final-instance-id
 
 env_variables:
   FLASK_ENV: 'production'
