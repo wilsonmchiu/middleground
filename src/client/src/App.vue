@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <navBar></navBar>
+    <navBar v-if="!['login', 'register'].includes($route.name)"></navBar>
     <v-main>
       <router-view :key="$route.fullPath"></router-view>
     </v-main>
