@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import json
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(0, os.path.join(sys.path[0], '../..'))
+print(sys.path)
 from mgflask import news_retrieval, app
 from mgflask.db import Base, engine
 from flask import Flask
@@ -120,8 +121,8 @@ class TestNews(unittest.TestCase):
         
     @classmethod
     def tearDownClass(cls):
-       
-       Base.metadata.drop_all(bind=engine)
+       if engine.url=="sqlite:///test.db":  #avoid deleting production data
+           Base.metadata.drop_all(bind=engine)
        
 
 if __name__ == '__main__':
