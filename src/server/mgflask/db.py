@@ -13,8 +13,8 @@ def _fk_pragma_on_connect(dbapi_con, con_record):
     # enables foreign key constraints for SQLite
     dbapi_con.execute('pragma foreign_keys=ON')
 
-
-parent_dir = os.path.dirname(os.path.dirname(mgflask.__file__)) #this makes sure creds.json can always be found
+#parent_dir makes sure creds.json can always be found
+parent_dir = os.path.dirname(os.path.dirname(mgflask.__file__)) 
 with open(parent_dir+'/creds.json') as data_file:  
     data = json.load(data_file)
 CLOUDSQL_USER = data['GCSQL']['username']
