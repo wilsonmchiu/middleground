@@ -14,7 +14,7 @@
   <v-container fluid class="fill-height login-background">
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="4" lg="3" class="ma-auto">
-        <img :src="logo" class="center">
+        <img :src="croppedLogo" class="center">
         <v-card class="pa-1" style="background-color:black">
           <v-card class="px-6 pt-10 pb-16">
             <h3 class="text-center mb-4">Log In</h3>
@@ -48,7 +48,7 @@ export default {
       showError: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
       token: "",
-      logo: require('../assets/static/logo.png')
+      croppedLogo: require('../assets/static/croppedLogo.png')
     };
   },
   methods: {
