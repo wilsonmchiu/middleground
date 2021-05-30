@@ -20,9 +20,12 @@
             <form action = "/user/checkout" method="POST"></form>
             <h3 class="text-center mb-4">Register</h3>
             <alert v-if="showError" :msg="alertMessage"> </alert>
+            <alert v-if="comingSoonAlert" msg="Social media buttons coming soon"> </alert>
             <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
             <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
-            <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
+            <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Register </v-btn>
+            <v-img :src="google_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
+            <v-img :src="facebook_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
           </v-card>
         </v-card>
       </v-col>
@@ -49,8 +52,11 @@ export default {
       response: "",
       alertMessage: "",
       showError: false,
+      comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
-      logo: require('../assets/static/logo.png')
+      logo: require('../assets/static/logo.png'),
+      google_button: require('../assets/google_button.png'),
+      facebook_button: require('../assets/facebook_button.png')
     };
   },
   methods: {
@@ -66,6 +72,7 @@ export default {
       }
     },
     onSubmit(evt) {
+      this.comingSoonAlert=false;
       evt.preventDefault();
       const path = `${this.apiRoot}/auth/register`;
       const payload = {
