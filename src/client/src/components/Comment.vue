@@ -148,13 +148,13 @@
     small
     color="blue darken-2"
     class="justify-start px-6 mt-n1"
-    v-if="replies.length > 0"
+    v-if="replies != undefined && replies.length > 0"
     :ripple="false"
     @click="showReplies = !showReplies"
     >▾ Show {{replies.length}} Replies
   </v-btn>
 
-  <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply">
+  <div class="pl-6" v-show="showReplies" v-for="reply in replies" :key="reply.id">
     <reply :author="reply.username" :date="reply.date" :content="reply.content" :id="reply.id"></reply>
   </div>
 </v-card>

@@ -19,11 +19,17 @@
           :src="currentArticle.urlToImage">
         </v-img>
         <v-card-text>
+          {{currentArticle.content}}
+          <br/>
+          -------------------------------------------------------
+          <br/>
+          Please purchase the full news API to read the rest of the article! Here's a lorem ipsum to fill space that would be there normally: 
+          <br/><br/>
           {{tempContent}}
         </v-card-text>
         <v-card-text>
-          <h1>Middle Ground </h1>
-          <subtitle-1>{{currentArticle.comments.length}} comments</subtitle-1>
+          <span style="font-size:30px">Middle Ground </span>
+          <span style="font-size:15px">{{currentArticle.comments.length}} comments</span>
         </v-card-text>
 
         <v-text-field
@@ -56,7 +62,7 @@
           >Cancel
         </v-btn>
 
-        <div v-for="comment in currentArticle.comments" :key="comment">
+        <div v-for="comment in currentArticle.comments" :key="comment.id">
           <comment :id="comment.id" :author="comment.username" :date="comment.date" :content="comment.content" :replies="comment.replies"></comment>
         </div>
         <br/><br/><br/><br/><br/><br/><br/>

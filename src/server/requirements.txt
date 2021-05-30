@@ -34,7 +34,7 @@ pip-tools==6.1.0
 placebo==0.9.0
 protobuf==3.17.0
 pycparser==2.20
-PyJWT==1.7.1
+PyJWT==2.1.0
 PyMySQL==1.0.2
 pyOpenSSL==19.0.0
 python-dateutil==2.8.1
