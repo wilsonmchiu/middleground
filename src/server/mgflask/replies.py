@@ -10,6 +10,30 @@ from datetime import datetime
 
 bp = Blueprint('replies', __name__, url_prefix='/replies')
 
+@bp.route('/get', methods=['GET'])
+def get_replies():
+    response_object = {
+        "insert_status": "success",
+        "msg": "comment successful",
+    }
+
+    error = False
+    params = request.args
+    replies = []
+    try:
+        commentID = params.get('commentID')
+        comment = db_session.query(Comment).filter_by(id=commentID).one()
+        if not comment:
+            raise ValueError(f"comment id {commentID} does not exist in the database")
+    except Exception as e:
+        response_object['msg'] = "Unsuccessful. Check Exceptions."
+        response_object['exception'] = str(e)
+        error = True
+
+    if not error:
+        replies = [reply.serialize_response for reply in comment.replies]
+        
+    return jsonify({"status": response_object, "replies": replies})
 
 @bp.route('/post', methods=['POST'])
 def post_reply():
@@ -19,6 +43,7 @@ def post_reply():
     }
 
     error = False
+    newReply = []
 
     try:
         post_data = request.get_json()
@@ -37,12 +62,13 @@ def post_reply():
         error = True
 
     if not error:
-        newReply = Reply(username=username, user=user, content=userReply, comment=comment, 
+        reply = Reply(username=username, user=user, content=userReply, comment=comment, 
             comment_id=commentID, date=datetime.now())
-        db_session.add(newReply)
+        db_session.add(reply)
         db_session.commit()
+        newReply = reply.serialize_response
 
-    return jsonify(response_object)
+    return jsonify({"status": response_object, "newReply": newReply})
 
 @bp.route('/delete', methods=['PUT'])
 def delete_comment():
