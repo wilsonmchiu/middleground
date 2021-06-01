@@ -4,4 +4,4 @@
 3. Windows: source env/Scripts/activate
 3. Linux: source env/bin/activate
 4. pip install -r requirements.txt
-5. python -m unittest mgflask/test_comments.py
+5. python -m unittest mgflask/test/test_comments.py
