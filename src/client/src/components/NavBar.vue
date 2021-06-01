@@ -14,24 +14,15 @@
 
     <v-container class="pa-2" align-end justify-end>
       <v-col>
-        <v-toolbar
-          class=".rounded-xl"
-          dense
-          floating
-          rounded
-          outlined="true"
-          light
-        >
+        <v-app-bar light flat color="transparent" style="max-width: 500px; margin: auto;">
           <v-text-field
+            prepend-inner-icon="mdi-magnify"
+            dense
             hide-details
-            color="black"
-            placeholder="Search"
-            light
-          ></v-text-field>
-          <v-btn icon>
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-        </v-toolbar>
+            placeholder="Search articles, videos, podcasts"
+          >
+          </v-text-field>
+        </v-app-bar>
       </v-col>
     </v-container>
     <v-spacer></v-spacer>
