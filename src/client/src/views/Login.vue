@@ -1,13 +1,49 @@
-<template>
-  <v-container>
-    <v-card-text>
-      <h1>Login</h1>
-    </v-card-text>
-    <alert v-if="showError" :msg="alertMessage"> </alert>
-    <v-text-field v-model="username" label="username" required> </v-text-field>
-    <v-text-field v-model="password" label="password" type="password" required></v-text-field>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+.login-background{
+  background: linear-gradient(to right, rgba(0,0,255,.2) 0%, rgba(0,0,255,.2) 40%, rgba(255,0,0,.2) 60%, rgba(255,0,0,.2) 100%);
+}
+.guest {
+  position: absolute; 
+  bottom:0; 
+  right:0;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  text-decoration-line: underline;
+  font-family: Poppins;
+}
+a {
+  text-decoration-line: underline;
+  font-family: Poppins;
+}
+</style>
 
-    <v-btn color="success" class="mr-4" @click="onSubmit"> Login </v-btn>
+<template>
+  <v-container fluid class="fill-height login-background">
+    <v-row>
+      <v-col cols="12" xs="12" sm="6" md="4" lg="3" class="ma-auto">
+        <img :src="croppedLogo" class="center">
+        <v-card class="pa-1" style="background-color:black">
+          <v-card class="px-6 pt-10 pb-16">
+            <h3 class="text-center mb-4">Log In</h3>
+            <alert v-if="showError" :msg="alertMessage"> </alert>
+            <alert v-if="comingSoonAlert" msg="Social media buttons coming soon"> </alert>
+            <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
+            <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
+            <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
+            <v-img :src="login_google_FB_button" class="mt-6" style="width:100%" @click="comingSoonAlert=true; showError=false"></v-img>
+            <v-row justify="center" class="mt-4"><a href="/register" style="color:black">Need to Register?</a></v-row>
+          </v-card>
+        </v-card>
+        <a href="/" class="guest" style="color:black">continue as guest</a>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -28,8 +64,11 @@ export default {
       response: "",
       alertMessage: "",
       showError: false,
+      comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
       token: "",
+      login_google_FB_button: require('../assets/login_google_FB_button.png'),
+      croppedLogo: require('../assets/static/croppedLogo.png')
     };
   },
   methods: {
@@ -64,6 +103,7 @@ export default {
         });
     },
     onSubmit(evt) {
+      this.comingSoonAlert=false;
       evt.preventDefault();
       const payload = {
         username: this.username,
