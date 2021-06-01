@@ -70,7 +70,6 @@ export default {
       showError: false,
       comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
-      logo: require('../assets/static/logo.png'),
       register_google_FB_button: require('../assets/register_google_FB_button.png'),
       croppedLogo: require('../assets/static/croppedLogo.png')
     };

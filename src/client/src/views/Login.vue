@@ -67,7 +67,6 @@ export default {
       comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
       token: "",
-      logo: require('../assets/static/logo.png'),
       login_google_FB_button: require('../assets/login_google_FB_button.png'),
       croppedLogo: require('../assets/static/croppedLogo.png')
     };
