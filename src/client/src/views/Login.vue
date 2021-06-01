@@ -28,9 +28,12 @@
           <v-card class="px-6 pt-10 pb-16">
             <h3 class="text-center mb-4">Log In</h3>
             <alert v-if="showError" :msg="alertMessage"> </alert>
+            <alert v-if="comingSoonAlert" msg="Social media buttons coming soon"> </alert>
             <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
             <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
+            <v-img :src="google_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
+            <v-img :src="facebook_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
           </v-card>
         </v-card>
         <a href="/" class="guest" style="color:black">continue as guest</a>
@@ -56,8 +59,12 @@ export default {
       response: "",
       alertMessage: "",
       showError: false,
+      comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
       token: "",
+      logo: require('../assets/static/logo.png'),
+      google_button: require('../assets/google_button.png'),
+      facebook_button: require('../assets/facebook_button.png'),
       croppedLogo: require('../assets/static/croppedLogo.png')
     };
   },
@@ -93,6 +100,7 @@ export default {
         });
     },
     onSubmit(evt) {
+      this.comingSoonAlert=false;
       evt.preventDefault();
       const payload = {
         username: this.username,
