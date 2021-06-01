@@ -1,4 +1,5 @@
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .center {
   display: block;
   margin-left: auto;
@@ -7,6 +8,19 @@
 }
 .login-background{
   background: linear-gradient(to right, rgba(0,0,255,.2) 0%, rgba(0,0,255,.2) 40%, rgba(255,0,0,.2) 60%, rgba(255,0,0,.2) 100%);
+}
+.guest {
+  position: absolute; 
+  bottom:0; 
+  right:0;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  text-decoration-line: underline;
+  font-family: Poppins;
+  color:#000000;
+}
+.v-application a {
+  color: black;
 }
 </style>
 
@@ -25,6 +39,7 @@
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
           </v-card>
         </v-card>
+        <a class="guest">continue as guest</a>
       </v-col>
     </v-row>
   </v-container>
