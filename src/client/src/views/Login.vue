@@ -8,6 +8,15 @@
 .login-background{
   background: linear-gradient(to right, rgba(0,0,255,.2) 0%, rgba(0,0,255,.2) 40%, rgba(255,0,0,.2) 60%, rgba(255,0,0,.2) 100%);
 }
+.guest {
+  position: absolute; 
+  bottom:0; 
+  right:0;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  text-decoration-line: underline;
+  font-family: Poppins;
+}
 </style>
 
 <template>
@@ -24,6 +33,7 @@
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Login </v-btn>
           </v-card>
         </v-card>
+        <a href="/" class="guest" style="color:black">continue as guest</a>
       </v-col>
     </v-row>
   </v-container>
