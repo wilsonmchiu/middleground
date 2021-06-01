@@ -27,7 +27,7 @@ def post_reply():
         userReply = post_data['userReply']
         comment = db_session.query(Comment).filter_by(id=commentID).one_or_none()
         if not comment:
-            raise ValueError(f"commentID {commentID} does not exist in the database")
+            raise ValueError(f"replyID {commentID} does not exist in the database")
         user = db_session.query(User).filter_by(username=username).one_or_none()
         if not user:
             raise ValueError(f"username {username} does not exist in the database")
@@ -84,7 +84,7 @@ def edit_comment():
         content = data['content']
         reply = db_session.query(Reply).filter_by(id=replyID).one_or_none()
         if not reply:
-            raise ValueError(f"reply {reply} does not exist in the database")
+            raise ValueError(f"replyID {replyID} does not exist in the database")
     except Exception as e:
         response_object['msg'] = "Unsuccessful. Check Exceptions."
         response_object['exception'] = str(e)
