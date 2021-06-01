@@ -18,6 +18,15 @@
   text-decoration-line: underline;
   font-family: Poppins;
 }
+.link {
+  position: absolute; 
+  bottom:0; 
+  right:0;
+  padding-right: 30px;
+  padding-bottom: 40px;
+  text-decoration-line: underline;
+  font-family: Poppins;
+}
 
 </style>
 
@@ -37,6 +46,7 @@
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Register </v-btn>
             <v-img :src="google_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
             <v-img :src="facebook_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
+            <a href="/login" class="link" style="color:black">Already Registered?</a>
           </v-card>
         </v-card>
         <a href="/" class="guest" style="color:black">continue as guest</a>
