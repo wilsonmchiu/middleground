@@ -18,12 +18,7 @@
   text-decoration-line: underline;
   font-family: Poppins;
 }
-.link {
-  position: absolute; 
-  bottom:0; 
-  right:0;
-  padding-right: 30px;
-  padding-bottom: 40px;
+a {
   text-decoration-line: underline;
   font-family: Poppins;
 }
@@ -44,9 +39,8 @@
             <v-text-field solo dense v-model="username" label="Enter Username" required> </v-text-field>
             <v-text-field solo dense v-model="password" label="Password" type="password" required></v-text-field>
             <v-btn tile block color="rgba(0, 0, 0, 0.67)" class="mt-6 mr-4 white--text" @click="onSubmit"> Register </v-btn>
-            <v-img :src="google_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
-            <v-img :src="facebook_button" class="mt-2" @click="comingSoonAlert=true; showError=false"></v-img>
-            <a href="/login" class="link" style="color:black">Already Registered?</a>
+            <v-img :src="register_google_FB_button" class="mt-6" style="width:100%" @click="comingSoonAlert=true; showError=false"></v-img>
+            <v-row justify="center" class="mt-4"><a href="/login" style="color:black">Already Registered?</a></v-row>
           </v-card>
         </v-card>
         <a href="/" class="guest" style="color:black">continue as guest</a>
@@ -77,8 +71,7 @@ export default {
       comingSoonAlert: false,
       apiRoot: process.env.VUE_APP_API_ROOT,
       logo: require('../assets/static/logo.png'),
-      google_button: require('../assets/google_button.png'),
-      facebook_button: require('../assets/facebook_button.png'),
+      register_google_FB_button: require('../assets/register_google_FB_button.png'),
       croppedLogo: require('../assets/static/croppedLogo.png')
     };
   },
