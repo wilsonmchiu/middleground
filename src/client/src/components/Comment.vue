@@ -90,7 +90,7 @@
       :counter="160"
       :maxlength="160"
       label="Write Reply Here"
-      @keydown.enter="postReply(id)"
+      @keydown.enter="postReply(id); showReplyForm = false;"
     ></v-text-field>
 
     <!-- Post Reply Button -->
