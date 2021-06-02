@@ -6,7 +6,7 @@
     </v-list-item-avatar>
     <p class="author mr-2">{{author}}</p>
     <p class="date">{{date}}</p><br/>
-    <p class="content ml-4">{{content}}</p><br/>
+    <p class="content ml-4">{{newContent}}</p><br/>
   </div>
 
   <v-btn
