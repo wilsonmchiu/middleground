@@ -213,6 +213,7 @@ export default {
       newContent: this.content,
       avatar:
         "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png",
+      replies: []
     };
   },
   created() {

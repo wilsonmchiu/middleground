@@ -76,7 +76,8 @@ import axios from 'axios';
         currentUser: this.$session.get('username'),
         showEditForm: false,
         apiRoot: process.env.VUE_APP_API_ROOT,
-        avatar: "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png"
+        avatar: "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png",
+        newContent: this.content
       };
     },
     methods:{
