@@ -58,7 +58,7 @@ def get_everything(**args):
 
 
 def insert_articles(newsapi_articles):
-  count=0;
+  count=0
   duplicate_count=0
   for article in newsapi_articles:
     if not article['content']: #throw away articles with no content

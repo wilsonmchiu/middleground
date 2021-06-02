@@ -88,8 +88,8 @@
                   >
                   </v-img>
                 </v-col>
-                 <v-col>
-                  <div class="ml-2">
+                 <v-col class="ml-2">
+                  <div >
                     <v-card-title
                       class="pl-2 pt-0 subtitle-1 font-weight-bold"
                       style="line-height: 1"
