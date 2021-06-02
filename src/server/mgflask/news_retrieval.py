@@ -65,7 +65,7 @@ def populate_db():
   """
   get_headlines( q="US", qintitle="US", page_size=80, language='en', page=1,
    sources = "bbc-news, fox-news, the-wall-street-journal, national-review, the-huffington-post, the-hill, cnn")
-  get_everything(q="US", qintitle="US", page_size=80, language='en',page=1, sources="cnn, bbc-news", from_param="2021-05-01", to="2021-05-20")
+  get_everything(q="US", qintitle="US", page_size=80, language='en',page=1, sources="cnn, bbc-news", from_param="2021-05-05", to="2021-05-20")
 
 def insert_articles(newsapi_articles):
   count=0
