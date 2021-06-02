@@ -128,7 +128,7 @@
       :counter="160"
       :maxlength="160"
       :label="'Edit your comment from ' + date"
-      @keydown.enter="editComment(id)"
+      @keydown.enter="editComment(id); showEditForm = !showEditForm;"
     ></v-text-field>
 
     <!-- Save Edit Button -->
