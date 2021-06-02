@@ -28,15 +28,17 @@ export default {
     async getArticles() {
       Date.prototype.today = function () { 
           return this.getFullYear() + "-" + (((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + "-" + ((this.getDate() < 10)?"0":"") + this.getDate();
+      },
+      Date.prototype.oneMonthBefore = function () { 
+          return this.getFullYear() + "-" + (((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + "-" + ((this.getDate() < 10)?"0":"") + this.getDate();
       }
-      
       let newDate = new Date();
       await axios
         .get(`${this.apiRoot}/news`, {
           params: {
             partition_by: 'source', 
-            limit_articles: 50, 
-            publishedAt: newDate.today()
+            limit_articles: 200, 
+            publishedAt: [newDate.oneMonthBefore(), newDate.today()]
           }
         })
         .then((response) => {
