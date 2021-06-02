@@ -12,7 +12,7 @@ Run `python3`
 
 The client fetches articles from the current day.
 
-Running `test_news.test_retrieval()` only ensures that the database has the up-to-date articles for one day. If the client fails to display any article, try running `test_news.test_retrieval()` again to update the database.
+Running `news_retrieval.populate_db()`only ensures that the database has the up-to-date articles for one day. If the client fails to display any article, try running `news_retrieval.populate_db()` again to update the database.
 
 -------
 
