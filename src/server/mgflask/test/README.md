@@ -19,3 +19,9 @@ Equivalence Classes
 - list parameters containing single values
 - no parameter
 - partition parameter (divides the result into subarrays by the specified column value)
+
+### JESSY ARMSTRONG, USER AUTHENTICATION
+Functional Testing Done: Register and Login
+Equivalence Classes
+- Register User: Valid/Invalid Register Fields, Non-Registered and Registered DB State
+- Login User: Valid/Invalid Login Fields, Non-registered Login and Registered Login
