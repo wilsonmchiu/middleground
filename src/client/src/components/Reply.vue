@@ -27,7 +27,7 @@
     color="blue darken-4"
     class="justify-start px-6 ml-4 mt-n1"
     :ripple="false"
-    @click="showEditForm = !showEditForm"
+    @click="editReply(id); showEditForm = !showEditForm"
     >Edit
   </v-btn>
 
@@ -38,7 +38,7 @@
     :counter="160"
     :maxlength=160
     :label="'Edit your reply from ' + date"
-    @keydown.enter="editReply(id)"
+    @keydown.enter="editReply(id); showEditForm = !showEditForm"
   ></v-text-field>
   
   <!-- Save Edit Button -->
