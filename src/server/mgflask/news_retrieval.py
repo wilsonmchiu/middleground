@@ -2,7 +2,8 @@ from newsapi import NewsApiClient
 from mgflask.db import db_session
 from mgflask.models import Article
 from sqlalchemy import and_
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 API_KEYS = ['983d4d9ce3dc4f3badda1a1171eb548d', 'b5ad966ba07741858c365a83ed18a0bb']
 KEY_INDEX_PARAM = "api_key_index"
@@ -56,6 +57,9 @@ def get_everything(**args):
     
     insert_articles(newsapi_res['articles'])
 
+def strftime(date):
+  return datetime.strftime(date, '%Y-%m-%d') 
+
 def populate_db():
   """
   Used to populate database in whichever db
@@ -63,12 +67,13 @@ def populate_db():
   REFERENCE: This acts the same as test_retrieval() 
   from previous commit iterations
   """
-  get_headlines( q="US", qintitle="US", page_size=80, language='en', page=1,
-   sources = "bbc-news, fox-news, the-wall-street-journal, national-review, the-huffington-post, the-hill, cnn")
-  get_everything(q="US", qintitle="US", page_size=80, language='en',page=1, sources="cnn, bbc-news", from_param="2021-05-05", to="2021-05-20")
+  today = strftime(datetime.today())
+  oneMonthBefore = strftime(datetime.today() - relativedelta(months=1) + timedelta(days=1))
+  get_headlines( q="US", qintitle="US", page_size=80, language='en', page=1)
+  get_everything(q="US", qintitle="US", page_size=80, language='en',page=1, sources="cnn, bbc-news", from_param=oneMonthBefore, to=today)
 
 def insert_articles(newsapi_articles):
-  count=0;
+  count=0
   duplicate_count=0
   for article in newsapi_articles:
     if not article['content']: #throw away articles with no content
