@@ -30,7 +30,7 @@ export default {
           return this.getFullYear() + "-" + (((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + "-" + ((this.getDate() < 10)?"0":"") + this.getDate();
       },
       Date.prototype.oneMonthBefore = function () { 
-          return this.getFullYear() + "-" + (((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + "-" + ((this.getDate() < 10)?"0":"") + this.getDate();
+          return this.getFullYear() + "-" + (((this.getMonth()) < 10)?"0":"") + (this.getMonth()) + "-" + ((this.getDate() < 10)?"0":"") + this.getDate();
       }
       let newDate = new Date();
       await axios
