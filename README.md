@@ -2,15 +2,17 @@
 
 TO RUN: fire up the server and client. Open up a new terminal, go back to the same location (open up venv in middleground/src/server/mgflask)
 
-Run `python3` and `from mgflask import test_news`
+Run `python3` 
 
-Insert articles into db: `test_news.test_retrieval()`
+1) import new_retrieval into python REPL
+`from mgflask import news_retrieval`
 
-Test endpoints: `test_news.test_endpoint()`
+2) Insert articles into db: 
+`news_retrieval.populate_db()`
 
 The client fetches articles from the current day.
 
-Running `test_news.test_retrieval()` only ensures that the database has the up-to-date articles for one day. If the client fails to display any article, try running `test_news.test_retrieval()` again to update the database.
+Running `news_retrieval.populate_db()`only ensures that the database has the up-to-date articles for one day. If the client fails to display any article, try running `news_retrieval.populate_db()` again to update the database.
 
 -------
 

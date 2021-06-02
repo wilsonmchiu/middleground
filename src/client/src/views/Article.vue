@@ -41,7 +41,7 @@
           :maxlength=160
           label="Write Comment Here"
           @click="showCommentButtons = true"
-          @keydown.enter="postComment(currentArticle.id)"
+          @keydown.enter="postComment(currentArticle.id); showCommentButtons = false"
         ></v-text-field>
         <v-btn
           v-show="showCommentButtons"
