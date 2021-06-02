@@ -40,6 +40,7 @@ PARTITION_BY_PARAM = 'partition_by'
 @bp.route('/', methods=['GET'])
 def get_articles():
     params = request.args
+    print("params:", params)
     filters = []
     statusCode = 200
 
@@ -48,7 +49,9 @@ def get_articles():
         return jsonify({"articles": [article.serialize_response for article in articles], "statusCode": statusCode})
 
     for col in Article.__table__.columns:
-        param = params.get(col.key)
+        param = params.getlist(col.key)
+        if len(param)==1:
+            param = param[0]
         if col.key in EXACT_COLUMNS and param:
             if isinstance(param, list):
                 filters.append(col.in_(param))
@@ -62,24 +65,12 @@ def get_articles():
                 filters.append(col.ilike("%"+param+"%"))
         elif col.key in RANGE_COLUMNS and param:
             if isinstance(param, list):
-                if len(param) >= 2:
-                    filters.append(col.between(param[0], param[1]))
-                else:
-                    filters.append(col == param[0])
+                filters.append(col.between(param[0], param[1]))
             else:
                 filters.append(col == param)
         elif col.key in DATE_COLUMNS and param:
             if isinstance(param, list):
-                if len(param) >= 2:
-                    filters.append(col.between(param[0], param[1]))
-                else:
-                    if (os.environ.get('FLASK_ENV') is None):
-                        filters.append(col.between(
-                            param[0], func.date(param[0], '+1 day')))
-                    else:
-                        filters.append(col.between(
-                            param[0], func.ADDDATE(param[0], 1)))
-                    
+                filters.append(col.between(param[0], param[1])) 
             else:
                 if (os.environ.get('FLASK_ENV') is None):
                     filters.append(col.between(

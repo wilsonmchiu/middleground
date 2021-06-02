@@ -6,4 +6,4 @@ beta_settings:
   cloud_sql_instances: middleground-315122:us-central1:final-instance-id
 
 env_variables:
-  FLASK_ENV: 'production'
+  #FLASK_ENV: 'production'
