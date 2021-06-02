@@ -115,5 +115,11 @@ export default {
         this.initForm();
     },
   },
+  created(){
+    //reroute if user is already logged in
+    if(this.$session.exists()){
+      this.$router.push("/");
+    }
+  }
 };
 </script>

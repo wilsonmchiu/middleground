@@ -33,8 +33,8 @@
           <h3 style="display:inline;">{{comments.length}} comments</h3>
           <v-divider style="margin-top:10px"></v-divider>
         </v-card-text>
-
         <v-text-field
+          prepend-icon="mdi-account"
           v-model="commentForm"
           :placeholder="commentForm"
           :counter="160"
@@ -70,11 +70,6 @@
       </v-col>
 
       <v-col cols="12" sm= "12" md="4" lg="4">
-        <hr class="grey--text" />
-        <h4 class="mb-3 mt-3">What People Think</h4>
-        <v-img 
-          :aspect-ratio="5/1"
-          src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/overview/javascript-charts-graphs-index-data-label.png"></v-img>
         <h4 class="mb-3 mt-3">Related</h4>
 
         <div v-for="(card,index) in relatedCards" :key="index" class="mb-5">
@@ -140,7 +135,8 @@
         currentArticleId: this.$route.params.id,
         currentArticleOutlet: this.$route.params.outlet,
         apiRoot: process.env.VUE_APP_API_ROOT,
-        comments: []
+        comments: [],
+        avatar: "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png"
       };
     },
     computed: {

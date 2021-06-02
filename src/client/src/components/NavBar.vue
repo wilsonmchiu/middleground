@@ -1,29 +1,47 @@
 <template>
   <v-app-bar color="white" app dark>
-
     <div @click="base" class="d-flex align-center">
-      <v-img class="shrink mr-2" contain :src="logo" 
-      transition="scale-transition" width="200"/>
+      <a>
+        <v-img
+          class="shrink mr-2"
+          contain
+          :src="logo"
+          transition="scale-transition"
+          width="200"
+        />
+      </a>
     </div>
-    <v-btn @click="home" class="ml-4" color="black" text>
-      <h2 class="text-capitalize">Home</h2>
-    </v-btn>
-    <v-btn color="black" text>
-      <h2 class="text-capitalize">About</h2>
-    </v-btn>
 
+    <v-container class="pa-2" align-end justify-end>
+      <v-col>
+        <v-app-bar light flat color="transparent" style="max-width: 500px; margin: auto;">
+          <v-text-field
+            prepend-inner-icon="mdi-magnify"
+            dense
+            hide-details
+            placeholder="Search articles, videos, podcasts"
+          >
+          </v-text-field>
+        </v-app-bar>
+      </v-col>
+    </v-container>
     <v-spacer></v-spacer>
-
     <v-menu offset-y v-if="isAuthenticated">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="isAuthenticated" class="mr-2 pl-6 pr-6"
-        color="black" v-bind="attrs" v-on="on" text>
+        <v-btn
+          v-if="isAuthenticated"
+          class="mr-2 pl-6 pr-6"
+          color="black"
+          v-bind="attrs"
+          v-on="on"
+          text
+        >
           <v-icon class="mr-2">mdi-account</v-icon>
-          <h2 class="text-capitalize">{{ username }}</h2>
+          <h2 class="text-none">{{ username }}</h2>
         </v-btn>
       </template>
       <v-list>
-        <v-list-item-group >
+        <v-list-item-group>
           <v-list-item>
             <v-icon class="mr-2" small>mdi-pencil</v-icon>
             <v-list-item-title>Settings</v-list-item-title>
@@ -50,47 +68,44 @@
     <v-btn @click="login" v-if="!isAuthenticated" class="mr-2">
       <span>Login</span>
     </v-btn>
-
   </v-app-bar>
 </template>
 
 <script>
-import {store} from "../store.js";
+import { store } from "../store.js";
 export default {
-
   data() {
     return {
-      logo: require('../assets/static/logo.png')
+      logo: require("../assets/static/logo.png"),
     };
   },
-  computed:{
-      isAuthenticated : function(){ 
-        if(!store.state.isAuthenticated && this.$session.exists())
-          store.login(this.$session.get('username'))
-       return store.state.isAuthenticated
-      },
-      username: function(){
-        
-        return store.state.username
-      },
+  computed: {
+    isAuthenticated: function () {
+      if (!store.state.isAuthenticated && this.$session.exists())
+        store.login(this.$session.get("username"));
+      return store.state.isAuthenticated;
+    },
+    username: function () {
+      return store.state.username;
+    },
   },
-  methods:{
+  methods: {
     base() {
-      this.$router.push("/")
+      this.$router.push("/");
     },
     home() {
-      this.$router.push("/home")
+      this.$router.push("/home");
     },
     register() {
-      this.$router.push("/register")
+      this.$router.push("/register");
     },
-    login(){
+    login() {
       this.$router.push(`/login`);
     },
-    logout(){
+    logout() {
       this.$session.destroy();
-      store.logout()
-    }
-  }
+      store.logout();
+    },
+  },
 };
 </script>
